@@ -1,21 +1,23 @@
 package com.equipment.school_equipment.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
+
+import static jakarta.persistence.GenerationType.*;
 
 @Entity
 @NoArgsConstructor
 @Getter
 public class Equipment {
     @Id
-    private double id;      // 장비 아이디
-    @Column
+    @Column(name = "equipment_id")
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;      // 장비 아이디
+
     private String name;    // 장비 이름
-    @Column
     private int count;      // 장비 수량
 
     public Equipment(String name, int count) {
