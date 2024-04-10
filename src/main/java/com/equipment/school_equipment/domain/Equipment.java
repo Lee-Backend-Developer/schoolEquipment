@@ -1,15 +1,14 @@
-package com.equipment.school_equipment.entity;
+package com.equipment.school_equipment.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
 
 import static jakarta.persistence.GenerationType.*;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Equipment {
     @Id
