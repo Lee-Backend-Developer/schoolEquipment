@@ -1,12 +1,13 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.repository.EquipmentRepository;
+
+import com.equipment.school_equipment.repository.ClassTimeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RentalService {
+public class ClassTimeService {
+    private final ClassTimeRepository classTimeRepository;
 
-    private final EquipmentRepository equipmentRepository;
 }

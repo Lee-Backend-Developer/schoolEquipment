@@ -23,4 +23,9 @@ public class Equipment {
         this.name = name;
         this.count = count;
     }
+
+    //비즈니스 로직
+    public void setCount(int count) {
+        this.count = this.count - count;
+    }
 }

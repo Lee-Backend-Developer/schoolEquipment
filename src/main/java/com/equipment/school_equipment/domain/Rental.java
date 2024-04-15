@@ -26,5 +26,5 @@ public class Rental {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Equipment> equipment = new ArrayList<>();
 
-    private boolean rentalChk = true;
+    private boolean rentalChk = true; //렌탈 여부
 }
