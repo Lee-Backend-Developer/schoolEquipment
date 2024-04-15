@@ -26,6 +26,6 @@ public class Equipment {
 
     //비즈니스 로직
     public void setCount(int count) {
-        this.count = this.count - count;
+        this.count = count;
     }
 }
