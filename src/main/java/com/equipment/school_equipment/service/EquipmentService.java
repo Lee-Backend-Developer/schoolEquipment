@@ -3,6 +3,7 @@ package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.repository.EquipmentRepository;
+import com.equipment.school_equipment.request.equipment.EquipmentCount;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,17 @@ public class EquipmentService {
     }
 
     @Transactional
-    public void countUpdate(String equipmentName, int count) {
-        Equipment findEquipmentName = equipmentRepository.findByName(equipmentName);
-        findEquipmentName.setCount(count);
+    public void countMinus(EquipmentCount request) {
+        Equipment findEquipmentName = equipmentRepository.findByName(request.name());
+        int resultCount = findEquipmentName.getCount() - request.count();
+        findEquipmentName.setCount(resultCount);
+    }
+
+    @Transactional
+    public void countPlus(EquipmentCount request) {
+        Equipment findEquipmentName = equipmentRepository.findByName(request.name());
+        int resultCount = findEquipmentName.getCount() + request.count();
+        findEquipmentName.setCount(resultCount);
+
     }
 }
