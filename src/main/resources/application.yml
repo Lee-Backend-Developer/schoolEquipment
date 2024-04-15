@@ -8,13 +8,23 @@ spring:
       enabled: true
       path: /h2-console
 
+
   jpa:
     generate-ddl: true
     hibernate:
       ddl-auto: create
+    properties:
+      hibernate: # query log
+#        show_sql: true
+#        format_sql: true
+#        use_sql_comments: true
 
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:school
     username: sa
     password:
+logging:
+  level:
+    org.hibernate.sql: trace
+    org.hibernate.type.descriptor.sql: trace
