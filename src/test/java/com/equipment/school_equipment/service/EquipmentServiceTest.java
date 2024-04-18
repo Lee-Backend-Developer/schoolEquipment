@@ -71,4 +71,17 @@ class EquipmentServiceTest {
         Equipment findEquipment = equipmentRepository.findByName("pmw-200");
         assertThat(findEquipment.getCount()).isEqualTo(11);
     }
+
+    @DisplayName("장비가 삭제가 되어야한다")
+    @Test
+    void delete_o(){
+        //given
+        Equipment equipment = new Equipment("pmw-200", 10);
+        equipmentRepository.save(equipment);
+
+        //when
+        equipmentService.delete(equipment.getId());
+        //then
+        assertThat(equipmentRepository.findById(equipment.getId())).isEmpty();
+    }
 }

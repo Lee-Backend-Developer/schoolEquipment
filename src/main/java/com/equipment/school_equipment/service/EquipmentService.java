@@ -35,4 +35,9 @@ public class EquipmentService {
         findEquipmentName.setCount(resultCount);
 
     }
+
+    @Transactional
+    public void delete(Long id) {
+        equipmentRepository.deleteById(id);
+    }
 }
