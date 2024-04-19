@@ -2,6 +2,7 @@ package com.equipment.school_equipment.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +30,7 @@ public class ClassTime {
     private boolean nineTime;   //9교시 (17:00 ~ 17:50)
     private boolean tenTime;    //10교시(18:00 ~ 18:50)
 
+    @Builder
     public ClassTime(String className, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
         this.className = className;
         this.oneTime = oneTime;
