@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -37,6 +39,7 @@ class ClassTimeServiceTest {
         ClassTime saveClassTime = classTimeService.save(request);
 
         //then
-        Assertions.assertThat(classTimeRepository.findById(saveClassTime.getId()).isEmpty());
+        ClassTime findClassTime = classTimeRepository.findById(saveClassTime.getId()).get();
+        Assertions.assertThat(findClassTime).isNotNull();
     }
 }
