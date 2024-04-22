@@ -31,4 +31,9 @@ public class ClassTimeService {
         findClassName.setUpdate(request.newClassname(), request.oneTime(), request.twoTime(), request.threeTime(), request.fourTime(), request.fiveTime(), request.sixTime(), request.sevenTime(), request.eightTime(), request.nineTime(), request.tenTime());
         return findClassName;
     }
+
+    @Transactional
+    public void delete(Long id) {
+        classTimeRepository.deleteById(id);
+    }
 }

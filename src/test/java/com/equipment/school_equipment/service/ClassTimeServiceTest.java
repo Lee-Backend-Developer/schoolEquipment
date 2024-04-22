@@ -60,4 +60,18 @@ class ClassTimeServiceTest {
         ClassTime findClassTime = classTimeRepository.findById(oldClassTime.getId()).get();
         Assertions.assertThat(findClassTime.getClassName()).isEqualTo(newClassName);
     }
+
+    @DisplayName("수업 이름을 검색하여 아이디를 가지고 삭제가 되어야한다")
+    @Test
+    void classTimeDelete_O() {
+        //given
+        ClassTime saveClassTime = ClassTime.builder().className("영상실습").twoTime(true).threeTime(true).fourTime(true).build();
+        classTimeRepository.save(saveClassTime);
+
+        //when
+        classTimeService.delete(saveClassTime.getId());
+
+        //then
+        Assertions.assertThat(classTimeRepository.findById(saveClassTime.getId())).isEmpty();
+    }
 }
