@@ -28,15 +28,10 @@ public class RentalServiceTest {
     @Autowired
     private RentalService rentalService;
 
-    // 장비
-    private Equipment equipment;
-    // 시간
-    private ClassTime classTime;
-
     @BeforeEach
     void setUp() {
-        equipment = equipmentRepository.save(new Equipment("pmw", 10));
-        classTime = classTimeRepository.save(ClassTime.builder().className("영상촬영실습").twoTime(true).threeTime(true).fourTime(true).build());
+        equipmentRepository.save(new Equipment("pmw", 10));
+        classTimeRepository.save(ClassTime.builder().className("영상촬영실습").twoTime(true).threeTime(true).fourTime(true).build());
     }
 
     @AfterEach
@@ -50,12 +45,16 @@ public class RentalServiceTest {
     @Test
     void equipmentRental() {
         //given
-        RentalCreate request = new RentalCreate(classTime, equipment);
+
+        RentalCreate request = new RentalCreate("영상촬영실습", "pmw", 2);
 
         //when
         rentalService.rentalCreate(request);
 
         //then
+        //수량확인
+        Equipment findEquipment = equipmentRepository.findByName("pmw");
+        assertThat(findEquipment.getCount()).isEqualTo(8);
         assertThat(equipmentRepository.count()).isEqualTo(1);
     }
 }

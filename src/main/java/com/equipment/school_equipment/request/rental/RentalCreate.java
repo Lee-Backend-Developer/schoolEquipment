@@ -6,5 +6,5 @@ import lombok.Builder;
 
 @Builder
 public record RentalCreate(
-        ClassTime classTime, Equipment equipment
+        String className, String equipmentName, int equipmentCount
 ) {}
