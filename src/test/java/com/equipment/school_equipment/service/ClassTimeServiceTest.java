@@ -3,6 +3,7 @@ package com.equipment.school_equipment.service;
 import com.equipment.school_equipment.domain.ClassTime;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
+import com.equipment.school_equipment.request.classTime.ClassTimeUpdate;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ class ClassTimeServiceTest {
 
     @DisplayName("수업등록")
     @Test
-    void classTimeCreate_O(){
+    void classTimeCreate_O() {
         //given
         ClassTimeCreate request = ClassTimeCreate
                 .builder()
@@ -41,5 +42,22 @@ class ClassTimeServiceTest {
         //then
         ClassTime findClassTime = classTimeRepository.findById(saveClassTime.getId()).get();
         Assertions.assertThat(findClassTime).isNotNull();
+    }
+
+    @DisplayName("영상실습수업이 영상이론 수업으로 변경이 되어야 한다")
+    @Test
+    void classTimeUpdate_O() {
+        //given
+        ClassTime oldClassTime = ClassTime.builder().className("영상실습").twoTime(true).threeTime(true).fourTime(true).build();
+        classTimeRepository.save(oldClassTime);
+
+        //when
+        String newClassName = "영상이론";
+
+        ClassTimeUpdate request = ClassTimeUpdate.builder().updateClassname("영상실습", newClassName).oneTime(true).build();
+        classTimeService.updateClassTime(request);
+        //then
+        ClassTime findClassTime = classTimeRepository.findById(oldClassTime.getId()).get();
+        Assertions.assertThat(findClassTime.getClassName()).isEqualTo(newClassName);
     }
 }
