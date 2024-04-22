@@ -16,7 +16,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 public class Rental {
     @Id
-    @Column(name = "classtime_id")
+    @Column(name = "rental_ID")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;          //렌탈_아이디
 

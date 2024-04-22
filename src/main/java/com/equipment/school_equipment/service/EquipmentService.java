@@ -25,14 +25,14 @@ public class EquipmentService {
     public void countMinus(EquipmentCount request) {
         Equipment findEquipmentName = equipmentRepository.findByName(request.name());
         int resultCount = findEquipmentName.getCount() - request.count();
-        findEquipmentName.setCount(resultCount);
+        findEquipmentName.editCount(resultCount);
     }
 
     @Transactional
     public void countPlus(EquipmentCount request) {
         Equipment findEquipmentName = equipmentRepository.findByName(request.name());
         int resultCount = findEquipmentName.getCount() + request.count();
-        findEquipmentName.setCount(resultCount);
+        findEquipmentName.editCount(resultCount);
 
     }
 
