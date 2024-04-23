@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: header(title='수업시간표')"></head>
+<head th:replace="~{fragments/head :: header(title='수업시간표')}"></head>
 <body>
 <div class="container">
-    <nav th:replace="fragments/navbar :: navbar"></nav>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
     <table class="table table-success table-striped">
         <thead>
         <tr>
@@ -13,7 +13,7 @@
         <tbody th:each="day : ${dayOfWeekEnumList}">
             <tr>
                 <td scope="row" th:text="${dayStat.count}">1</td>
-                <td><a href="#" th:text="${day.getWeek()}">월요일</a></td>
+                <td><a href="#" th:text="${day.getWeek()}" th:href="@{/classtimes/{dayofweek}(dayofweek = ${day.name()})}">요일</a></td>
             </tr>
         </tbody>
     </table>
