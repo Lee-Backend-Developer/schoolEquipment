@@ -34,7 +34,7 @@ public class RentalService {
         }
         findEquipment.editCount(findEquipment.getCount() - request.equipmentCount());
 
-        ClassTime findClasstime = classTimeRepository.findByClassName(request.className()).orElseThrow(RuntimeException::new);
+        ClassTime findClasstime = classTimeRepository.findByClassName(request.className()).orElseThrow(() -> new RuntimeException("수업명이 존재하지 않음"));
 
         Rental rental = new Rental(findClasstime, findEquipment);
         return rentalRepository.save(rental);

@@ -1,6 +1,7 @@
 package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.ClassTime;
+import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
 import com.equipment.school_equipment.request.classTime.ClassTimeUpdate;
@@ -30,7 +31,7 @@ class ClassTimeServiceTest {
         ClassTimeCreate request = ClassTimeCreate
                 .builder()
                 .className("영상실습")
-                .className("영상촬영실습")
+                .dayOfWeek(DayOfWeekEnum.Monday)
                 .twoTime(true)
                 .threeTime(true)
                 .fourTime(true)

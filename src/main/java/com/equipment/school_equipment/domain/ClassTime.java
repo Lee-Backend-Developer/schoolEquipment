@@ -1,5 +1,6 @@
 package com.equipment.school_equipment.domain;
 
+import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,6 +20,10 @@ public class ClassTime {
     private Long id;          //수업아이디
 
     private String className;   //수업이름
+
+    @Enumerated(EnumType.STRING)
+    private DayOfWeekEnum dayOfWeek;
+
     private boolean oneTime;    //1교시 (9:00 ~ 9:50)
     private boolean twoTime;    //2교시 (10:00 ~ 10:50)
     private boolean threeTime;  //3교시 (11:00 ~ 11:50)
@@ -31,8 +36,9 @@ public class ClassTime {
     private boolean tenTime;    //10교시(18:00 ~ 18:50)
 
     @Builder
-    public ClassTime(String className, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
+    public ClassTime(String className, DayOfWeekEnum dayOfWeek, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
         this.className = className;
+        this.dayOfWeek = dayOfWeek;
         this.oneTime = oneTime;
         this.twoTime = twoTime;
         this.threeTime = threeTime;
@@ -44,7 +50,6 @@ public class ClassTime {
         this.nineTime = nineTime;
         this.tenTime = tenTime;
     }
-
 
     // 비즈니스 로직
     public void setUpdate(String newClassname, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
@@ -62,3 +67,5 @@ public class ClassTime {
     }
 
 }
+
+

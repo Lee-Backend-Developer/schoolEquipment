@@ -21,6 +21,8 @@ public class QClassTime extends EntityPathBase<ClassTime> {
 
     public final StringPath className = createString("className");
 
+    public final EnumPath<com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum> dayOfWeek = createEnum("dayOfWeek", com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum.class);
+
     public final BooleanPath eightTime = createBoolean("eightTime");
 
     public final BooleanPath fiveTime = createBoolean("fiveTime");
