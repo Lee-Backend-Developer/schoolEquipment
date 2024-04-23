@@ -7,6 +7,7 @@ import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.RentalRepository;
 import com.equipment.school_equipment.request.rental.RentalCreate;
+import com.equipment.school_equipment.request.rental.RentalReturn;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,5 +38,11 @@ public class RentalService {
 
         Rental rental = new Rental(findClasstime, findEquipment);
         return rentalRepository.save(rental);
+    }
+
+    @Transactional
+    public void rentalReturn(RentalReturn request) {
+        Equipment findNameEquipment = equipmentRepository.findByName(request.equipmentName());
+        findNameEquipment.editCount(findNameEquipment.getCount() + request.retCount());
     }
 }

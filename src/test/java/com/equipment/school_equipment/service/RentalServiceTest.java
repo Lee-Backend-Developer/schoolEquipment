@@ -6,6 +6,7 @@ import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.RentalRepository;
 import com.equipment.school_equipment.request.rental.RentalCreate;
+import com.equipment.school_equipment.request.rental.RentalReturn;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,5 +57,18 @@ public class RentalServiceTest {
         Equipment findEquipment = equipmentRepository.findByName("pmw");
         assertThat(findEquipment.getCount()).isEqualTo(8);
         assertThat(equipmentRepository.count()).isEqualTo(1);
+    }
+
+    @DisplayName("장비를 반납했으면 반납한 수 만큼 더 해야져함")
+    @Test
+    void returnRental(){
+        //given
+        RentalReturn request = RentalReturn.builder().classname("영상촬영실습").equipmentName("pmw").retCount(3).build();
+
+        //when
+        rentalService.rentalReturn(request);
+
+        //then
+        assertThat(equipmentRepository.findByName("pmw").getCount()).isEqualTo(13);
     }
 }
