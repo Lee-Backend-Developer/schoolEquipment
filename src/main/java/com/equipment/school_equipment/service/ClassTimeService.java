@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -47,5 +49,11 @@ public class ClassTimeService {
     @Transactional
     public void delete(Long id) {
         classTimeRepository.deleteById(id);
+    }
+
+    public List<ClassTime> findByDay(String week) {
+        List<ClassTime> classTime = classTimeRepository.findByDayOfWeek(DayOfWeekEnum.valueOf(week));
+        if(classTime.isEmpty()) throw new RuntimeException("입력하신 요일은 없습니다.");
+        return classTime;
     }
 }

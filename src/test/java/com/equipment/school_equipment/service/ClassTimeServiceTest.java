@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,6 +50,35 @@ class ClassTimeServiceTest {
         //then
         ClassTime findClassTime = classTimeRepository.findById(saveClassTime.getId()).get();
         Assertions.assertThat(findClassTime).isNotNull();
+    }
+
+    @DisplayName("요일별로 시간표를 가지고 온다")
+    @Test
+    void findOfDays() {
+        //given
+        ClassTime[] classTimes = new ClassTime[5];
+
+        classTimes[0] = ClassTime.builder().className("영상촬영실습").dayOfWeek(DayOfWeekEnum.Monday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[1] = ClassTime.builder().className("방송기술계열").dayOfWeek(DayOfWeekEnum.Tuesday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[2] = ClassTime.builder().className("촬영이론및실습").dayOfWeek(DayOfWeekEnum.Wednesday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[3] = ClassTime.builder().className("숏폼콘텐츠제작/촬영").dayOfWeek(DayOfWeekEnum.Thursday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[4] = ClassTime.builder().className("영상미디어디자인연구").dayOfWeek(DayOfWeekEnum.Friday).twoTime(true).threeTime(true).fourTime(true).build();
+
+        classTimeRepository.saveAll(Arrays.asList(classTimes));
+
+        //when
+        ClassTime monday = classTimeService.findByDay(DayOfWeekEnum.Monday.name()).get(0);
+        ClassTime tuesday = classTimeService.findByDay(DayOfWeekEnum.Tuesday.name()).get(0);
+        ClassTime wednesday = classTimeService.findByDay(DayOfWeekEnum.Wednesday.name()).get(0);
+        ClassTime thursday = classTimeService.findByDay(DayOfWeekEnum.Thursday.name()).get(0);
+        ClassTime friday = classTimeService.findByDay(DayOfWeekEnum.Friday.name()).get(0);
+
+        //then
+        Assertions.assertThat(monday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.Monday);
+        Assertions.assertThat(tuesday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.Tuesday);
+        Assertions.assertThat(wednesday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.Wednesday);
+        Assertions.assertThat(thursday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.Thursday);
+        Assertions.assertThat(friday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.Friday);
     }
 
     @DisplayName("영상실습수업이 영상이론 수업으로 변경이 되어야 한다")
