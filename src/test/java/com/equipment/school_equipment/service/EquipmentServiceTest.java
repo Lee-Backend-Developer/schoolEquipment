@@ -4,6 +4,7 @@ import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import com.equipment.school_equipment.request.equipment.EquipmentCount;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,11 @@ class EquipmentServiceTest {
     void setUp() {
         Equipment equipment = new Equipment("pmw-200", 10);
         equipmentRepository.save(equipment);
+    }
+
+    @AfterEach
+    void end() {
+        equipmentRepository.deleteAll();
     }
 
     @DisplayName("장비이름,장비수량이 저장이 되어야함")

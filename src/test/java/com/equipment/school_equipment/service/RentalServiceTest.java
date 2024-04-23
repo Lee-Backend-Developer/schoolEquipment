@@ -2,6 +2,7 @@ package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.ClassTime;
 import com.equipment.school_equipment.domain.Equipment;
+import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.RentalRepository;
@@ -32,7 +33,7 @@ public class RentalServiceTest {
     @BeforeEach
     void setUp() {
         equipmentRepository.save(new Equipment("pmw", 10));
-        classTimeRepository.save(ClassTime.builder().className("영상촬영실습").twoTime(true).threeTime(true).fourTime(true).build());
+        classTimeRepository.save(ClassTime.builder().className("영상촬영실습").dayOfWeek(DayOfWeekEnum.Monday).twoTime(true).threeTime(true).fourTime(true).build());
     }
 
     @AfterEach
@@ -47,7 +48,11 @@ public class RentalServiceTest {
     void equipmentRental() {
         //given
 
-        RentalCreate request = new RentalCreate("영상촬영실습", "pmw", 2);
+        RentalCreate request = RentalCreate.builder()
+                .className("영상촬영실습")
+                .equipmentName("pmw")
+                .equipmentCount(2)
+                .build();
 
         //when
         rentalService.rentalCreate(request);

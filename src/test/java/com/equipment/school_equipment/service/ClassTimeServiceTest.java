@@ -6,6 +6,7 @@ import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
 import com.equipment.school_equipment.request.classTime.ClassTimeUpdate;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ class ClassTimeServiceTest {
     ClassTimeRepository classTimeRepository;
     @Autowired
     ClassTimeService classTimeService;
+
+    @AfterEach
+    void end() {
+        classTimeRepository.deleteAll();
+    }
 
     @DisplayName("수업등록")
     @Test
