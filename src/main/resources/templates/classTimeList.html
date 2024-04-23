@@ -10,13 +10,11 @@
             <th scope="col">No</th>
             <th scope="col">요일</th>
         </tr>
-        <tbody>
-            <td scope="row">1</td>
-            <td>월요일</td>
-        </tbody>
-        <tbody>
-            <td scope="row">2</td>
-            <td>화요일</td>
+        <tbody th:each="day : ${dayOfWeekEnumList}">
+            <tr>
+                <td scope="row" th:text="${dayStat.count}">1</td>
+                <td><a href="#" th:text="${day.getWeek()}">월요일</a></td>
+            </tr>
         </tbody>
     </table>
 </div>
