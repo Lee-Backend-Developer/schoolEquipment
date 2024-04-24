@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class MainController {
 
-    @GetMapping("/test")
+    @GetMapping("/")
     public String MainHomePage() {
-        log.info("MainHomePage");
         return "mainHome";
     }
 }
