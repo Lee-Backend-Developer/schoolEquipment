@@ -10,6 +10,7 @@ import static jakarta.persistence.GenerationType.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Table(name = "EQUIPMENT")
 public class Equipment {
     @Id
     @Column(name = "equipment_id")
