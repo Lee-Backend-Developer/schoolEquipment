@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: header(title='장비')}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <table class="table">
+        <thead class="table-dark">
+            <th scope="col">장비 이름</th>
+            <th scope="col">장비 수량</th>
+        </thead>
+        <tbody>
+            <tr th:each="equipment : ${equipmentList}">
+                <th scope="row" th:text="${equipment.getName()}">카메라</th>
+                <td th:text="${equipment.getCount()}">2</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

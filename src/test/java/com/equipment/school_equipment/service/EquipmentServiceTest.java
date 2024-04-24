@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -48,6 +50,19 @@ class EquipmentServiceTest {
 
         //then
         assertThat(equipmentRepository.count()).isEqualTo(1);
+    }
+
+    @DisplayName("현재 존재하는 장비를 조회함")
+    @Test
+    void findAll() {
+        //given
+        equipmentRepository.save(new Equipment("pmw-300", 10));
+        equipmentRepository.save(new Equipment("pmw-400", 10));
+        //when
+        List<Equipment> equipments = equipmentService.findAll();
+
+        //then
+        assertThat(equipments.size()).isEqualTo(3);
     }
 
     @DisplayName("장비를 빌렸을때 빌린 만큼 빠져야한다")
