@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.ClassTime;
+import com.equipment.school_equipment.domain.Classtimetable;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
@@ -14,9 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -45,10 +42,10 @@ class ClassTimeServiceTest {
                 .build();
 
         //when
-        ClassTime saveClassTime = classTimeService.save(request);
+        Classtimetable saveClassTime = classTimeService.save(request);
 
         //then
-        ClassTime findClassTime = classTimeRepository.findById(saveClassTime.getId()).get();
+        Classtimetable findClassTime = classTimeRepository.findById(saveClassTime.getId()).get();
         Assertions.assertThat(findClassTime).isNotNull();
     }
 
@@ -56,22 +53,22 @@ class ClassTimeServiceTest {
     @Test
     void findOfDays() {
         //given
-        ClassTime[] classTimes = new ClassTime[5];
+        Classtimetable[] classTimes = new Classtimetable[5];
 
-        classTimes[0] = ClassTime.builder().className("영상촬영실습").dayOfWeek(DayOfWeekEnum.Monday).twoTime(true).threeTime(true).fourTime(true).build();
-        classTimes[1] = ClassTime.builder().className("방송기술계열").dayOfWeek(DayOfWeekEnum.Tuesday).twoTime(true).threeTime(true).fourTime(true).build();
-        classTimes[2] = ClassTime.builder().className("촬영이론및실습").dayOfWeek(DayOfWeekEnum.Wednesday).twoTime(true).threeTime(true).fourTime(true).build();
-        classTimes[3] = ClassTime.builder().className("숏폼콘텐츠제작/촬영").dayOfWeek(DayOfWeekEnum.Thursday).twoTime(true).threeTime(true).fourTime(true).build();
-        classTimes[4] = ClassTime.builder().className("영상미디어디자인연구").dayOfWeek(DayOfWeekEnum.Friday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[0] = Classtimetable.builder().className("영상촬영실습").dayOfWeek(DayOfWeekEnum.Monday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[1] = Classtimetable.builder().className("방송기술계열").dayOfWeek(DayOfWeekEnum.Tuesday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[2] = Classtimetable.builder().className("촬영이론및실습").dayOfWeek(DayOfWeekEnum.Wednesday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[3] = Classtimetable.builder().className("숏폼콘텐츠제작/촬영").dayOfWeek(DayOfWeekEnum.Thursday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[4] = Classtimetable.builder().className("영상미디어디자인연구").dayOfWeek(DayOfWeekEnum.Friday).twoTime(true).threeTime(true).fourTime(true).build();
 
         classTimeRepository.saveAll(Arrays.asList(classTimes));
 
         //when
-        ClassTime monday = classTimeService.findByDay(DayOfWeekEnum.Monday.name()).get(0);
-        ClassTime tuesday = classTimeService.findByDay(DayOfWeekEnum.Tuesday.name()).get(0);
-        ClassTime wednesday = classTimeService.findByDay(DayOfWeekEnum.Wednesday.name()).get(0);
-        ClassTime thursday = classTimeService.findByDay(DayOfWeekEnum.Thursday.name()).get(0);
-        ClassTime friday = classTimeService.findByDay(DayOfWeekEnum.Friday.name()).get(0);
+        Classtimetable monday = classTimeService.findByDay(DayOfWeekEnum.Monday.name()).get(0);
+        Classtimetable tuesday = classTimeService.findByDay(DayOfWeekEnum.Tuesday.name()).get(0);
+        Classtimetable wednesday = classTimeService.findByDay(DayOfWeekEnum.Wednesday.name()).get(0);
+        Classtimetable thursday = classTimeService.findByDay(DayOfWeekEnum.Thursday.name()).get(0);
+        Classtimetable friday = classTimeService.findByDay(DayOfWeekEnum.Friday.name()).get(0);
 
         //then
         Assertions.assertThat(monday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.Monday);
@@ -85,7 +82,7 @@ class ClassTimeServiceTest {
     @Test
     void classTimeUpdate_O() {
         //given
-        ClassTime oldClassTime = ClassTime.builder().className("영상실습").twoTime(true).threeTime(true).fourTime(true).build();
+        Classtimetable oldClassTime = Classtimetable.builder().className("영상실습").twoTime(true).threeTime(true).fourTime(true).build();
         classTimeRepository.save(oldClassTime);
 
         //when
@@ -94,7 +91,7 @@ class ClassTimeServiceTest {
         ClassTimeUpdate request = ClassTimeUpdate.builder().updateClassname("영상실습", newClassName).oneTime(true).build();
         classTimeService.updateClassTime(request);
         //then
-        ClassTime findClassTime = classTimeRepository.findById(oldClassTime.getId()).get();
+        Classtimetable findClassTime = classTimeRepository.findById(oldClassTime.getId()).get();
         Assertions.assertThat(findClassTime.getClassName()).isEqualTo(newClassName);
     }
 
@@ -102,7 +99,7 @@ class ClassTimeServiceTest {
     @Test
     void classTimeDelete_O() {
         //given
-        ClassTime saveClassTime = ClassTime.builder().className("영상실습").twoTime(true).threeTime(true).fourTime(true).build();
+        Classtimetable saveClassTime = Classtimetable.builder().className("영상실습").twoTime(true).threeTime(true).fourTime(true).build();
         classTimeRepository.save(saveClassTime);
 
         //when

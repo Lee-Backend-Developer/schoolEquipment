@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.ClassTime;
+import com.equipment.school_equipment.domain.Classtimetable;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
@@ -33,7 +33,7 @@ public class RentalServiceTest {
     @BeforeEach
     void setUp() {
         equipmentRepository.save(new Equipment("pmw", 10));
-        classTimeRepository.save(ClassTime.builder().className("영상촬영실습").dayOfWeek(DayOfWeekEnum.Monday).twoTime(true).threeTime(true).fourTime(true).build());
+        classTimeRepository.save(Classtimetable.builder().className("영상촬영실습").dayOfWeek(DayOfWeekEnum.Monday).twoTime(true).threeTime(true).fourTime(true).build());
     }
 
     @AfterEach

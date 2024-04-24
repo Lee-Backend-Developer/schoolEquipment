@@ -1,7 +1,7 @@
 package com.equipment.school_equipment.service;
 
 
-import com.equipment.school_equipment.domain.ClassTime;
+import com.equipment.school_equipment.domain.Classtimetable;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
@@ -19,10 +19,10 @@ public class ClassTimeService {
     private final ClassTimeRepository classTimeRepository;
 
     @Transactional
-    public ClassTime save(ClassTimeCreate request) throws RuntimeException {
+    public Classtimetable save(ClassTimeCreate request) throws RuntimeException {
         if(request.dayOfWeek() == null) throw new RuntimeException("요일이 선택되지 않음.");
 
-        ClassTime classTime = ClassTime.builder()
+        Classtimetable classTime = Classtimetable.builder()
                 .className(request.className())
                 .oneTime(request.oneTime())
                 .twoTime(request.twoTime())
@@ -39,8 +39,8 @@ public class ClassTimeService {
     }
 
     @Transactional
-    public ClassTime updateClassTime(ClassTimeUpdate request) {
-        ClassTime findClassName = classTimeRepository.findByClassName(request.oldClassname()).get();
+    public Classtimetable updateClassTime(ClassTimeUpdate request) {
+        Classtimetable findClassName = classTimeRepository.findByClassName(request.oldClassname()).get();
 
         findClassName.setUpdate(request.newClassname(), request.oneTime(), request.twoTime(), request.threeTime(), request.fourTime(), request.fiveTime(), request.sixTime(), request.sevenTime(), request.eightTime(), request.nineTime(), request.tenTime());
         return findClassName;
@@ -51,8 +51,8 @@ public class ClassTimeService {
         classTimeRepository.deleteById(id);
     }
 
-    public List<ClassTime> findByDay(String week) {
-        List<ClassTime> classTime = classTimeRepository.findByDayOfWeek(DayOfWeekEnum.valueOf(week));
+    public List<Classtimetable> findByDay(String week) {
+        List<Classtimetable> classTime = classTimeRepository.findByDayOfWeek(DayOfWeekEnum.valueOf(week));
         if(classTime.isEmpty()) throw new RuntimeException("입력하신 요일은 없습니다.");
         return classTime;
     }

@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.ClassTime;
+import com.equipment.school_equipment.domain.Classtimetable;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
@@ -34,7 +34,7 @@ public class RentalService {
         }
         findEquipment.editCount(findEquipment.getCount() - request.equipmentCount());
 
-        ClassTime findClasstime = classTimeRepository.findByClassName(request.className()).orElseThrow(() -> new RuntimeException("수업명이 존재하지 않음"));
+        Classtimetable findClasstime = classTimeRepository.findByClassName(request.className()).orElseThrow(() -> new RuntimeException("수업명이 존재하지 않음"));
 
         Rental rental = new Rental(findClasstime, findEquipment);
         return rentalRepository.save(rental);
