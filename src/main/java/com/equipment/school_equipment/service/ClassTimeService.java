@@ -7,6 +7,8 @@ import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
 import com.equipment.school_equipment.request.classTime.ClassTimeUpdate;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ClassTimeService {
+    private static final Logger log = LoggerFactory.getLogger(ClassTimeService.class);
     private final ClassTimeRepository classTimeRepository;
 
     @Transactional
@@ -51,9 +54,12 @@ public class ClassTimeService {
         classTimeRepository.deleteById(id);
     }
 
-    public List<Classtimetable> findByDay(String week) {
-        List<Classtimetable> classTime = classTimeRepository.findByDayOfWeek(DayOfWeekEnum.valueOf(week));
-        if(classTime.isEmpty()) throw new RuntimeException("입력하신 요일은 없습니다.");
-        return classTime;
+    public List<Classtimetable> findByDay(String week) throws RuntimeException {
+        try{
+            DayOfWeekEnum.valueOf(week); // 월요일
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("입력하신 요일은 없습니다.");
+        }
+        return classTimeRepository.findByDayOfWeekEquals(DayOfWeekEnum.valueOf(week));
     }
 }

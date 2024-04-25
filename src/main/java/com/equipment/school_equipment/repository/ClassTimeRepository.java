@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface ClassTimeRepository extends JpaRepository<Classtimetable, Long> {
     Optional<Classtimetable> findByClassName(String name);
-    List<Classtimetable> findByDayOfWeek(DayOfWeekEnum week);
+    List<Classtimetable> findByDayOfWeekEquals(DayOfWeekEnum dayOfWeek);
 }

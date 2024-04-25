@@ -4,6 +4,59 @@
 <body>
 <div class="container">
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+                <th scope="col">수업명</th>
+                <th scope="col">1교시</th>
+                <th scope="col">2교시</th>
+                <th scope="col">3교시</th>
+                <th scope="col">4교시</th>
+                <th scope="col">5교시</th>
+                <th scope="col">6교시</th>
+                <th scope="col">7교시</th>
+                <th scope="col">8교시</th>
+                <th scope="col">9교시</th>
+                <th scope="col">10교시</th>
+            </tr>
+        </thead>
+        <tbody th:each="class : ${classtimetableList}">
+            <tr>
+                <td scope="row" th:text="${class.getClassName()}">수업명</td>
+                <td scope="row">
+                    <p th:if="${class.isOneTime()}">V</p>
+                </td>
+                <td scope="row">
+                    <p th:if="${class.isTwoTime()}">V</p>
+                </td>
+                <td scope="row">
+                    <p th:if="${class.isThreeTime()}">V</p>
+                </td>
+                <td scope="row">
+                    <p th:if="${class.isFourTime()}">V</p>
+                </td>
+                <td scope="row">
+                    <p th:if="${class.isFiveTime()}">V</p>
+                </td>
+                <td scope="row">
+                    <p th:if="${class.isSixTime()}">V</p>
+                </td>
+                <td scope="row">
+                    <p th:if="${class.isSevenTime()}">V</p>
+                </td>
+                <td scope="row">
+                    <p th:if="${class.isEightTime()}">V</p>
+                </td>
+                <td scope="row">
+                    <p th:if="${class.isNineTime()}">V</p>
+                </td>
+                <td scope="row">
+                    <p th:if="${class.isTenTime()}">V</p>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
