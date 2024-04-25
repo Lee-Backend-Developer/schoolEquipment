@@ -14,11 +14,11 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: validate
-    properties:
-      hibernate: # query log
-          show_sql: true
-          format_sql: true
-#        use_sql_comments: true
+#    properties:
+#      hibernate: # query log
+#          show_sql: true
+#          format_sql: true
+#          use_sql_comments: true
 
   datasource:
     driver-class-name: org.h2.Driver
@@ -26,12 +26,14 @@ spring:
 #    url: jdbc:h2:tcp://localhost/~/school;MODE=MYSQL
     username: sa
     password:
+
   sql:
     init:
-      mode: always
+      mode: always # 스키마, 값 Sql 생성
 
-logging:
-  level:
-    org.hibernate.sql: trace
-    org.hibernate.type.descriptor.sql: trace
+#logging:
+#  level:
+#    org.hibernate.bind: trace
+#    org.hibernate.sql: trace
+#    org.hibernate.type.descriptor.sql: trace
 
