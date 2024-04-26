@@ -7,17 +7,14 @@
     <table class="table table-Danger table-hover">
         <thead>
             <tr class="table-danger">
-                <th scope="col">수업명</th>
-                <th scope="col">1교시</th>
-                <th scope="col">2교시</th>
-                <th scope="col">3교시</th>
-                <th scope="col">4교시</th>
-                <th scope="col">5교시</th>
-                <th scope="col">6교시</th>
-                <th scope="col">7교시</th>
-                <th scope="col">8교시</th>
-                <th scope="col">9교시</th>
-                <th scope="col">10교시</th>
+                <th scope="col" class="border border-warning border-1">수업명</th>
+                <th
+                        scope="col"
+                        class="border border-warning border-1"
+                        th:each="num : ${#numbers.sequence(1, 10)}"
+                >
+                [[${num}]]교시
+                </th>
             </tr>
         </thead>
         <tbody th:each="response : ${classtimeResponseList}">
