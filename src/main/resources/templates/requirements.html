@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: header(title='장비')}"></head>
+<head th:replace="~{fragments/head :: header(title='오늘 남는수량')}"></head>
 <body>
 <div class="container">
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
     <table class="table">
         <thead class="table-dark">
-            <th scope="col">장비 이름</th>
-            <th scope="col">장비 수량</th>
+            <th scope="col" class="border border-warning border-1">장비 이름</th>
+            <th scope="col" class="border border-warning border-1">반납 후</th>
+            <th scope="col" class="border border-warning border-1">반납 전</th>
         </thead>
         <tbody>
             <tr th:each="equipment : ${equipmentList}">
                 <th scope="row" th:text="${equipment.getName()}">카메라</th>
+                <th>2</th>
                 <td th:text="${equipment.getCount()}">2</td>
             </tr>
         </tbody>

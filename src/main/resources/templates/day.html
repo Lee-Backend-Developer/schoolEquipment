@@ -20,7 +20,7 @@
         <tbody th:each="response : ${classtimeResponseList}">
             <tr>
                 <td scope="row" th:text="${response.classname()}" class="table-info">수업명</td>
-                <td scope="row" th:each="time : ${response.times()}" th:classappend="${time == true} ? bg-black : ''"></td>
+                <td scope="row" th:each="time : ${response.times()}" th:classappend="${time == true} ? 'bg-black' : ''"></td>
             </tr>
         </tbody>
     </table>
