@@ -2,6 +2,7 @@ package com.equipment.school_equipment.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,10 +18,21 @@ public class Equipment {
     private Long id;      // 장비 아이디
 
     private String name;    // 장비 이름
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "equipment_category_id")
+    private EquipmentCategory equipmentCategory;
+
+    private String mainImg;
+    private String content;
     private int count;      // 장비 수량
 
-    public Equipment(String name, int count) {
+    @Builder
+    public Equipment(String name, EquipmentCategory equipmentCategory, String mainImg, String content, int count) {
         this.name = name;
+        if(this.equipmentCategory.getEquipmentList() != null) this.equipmentCategory.getEquipmentList().add(this);
+        this.mainImg = mainImg;
+        this.content = content;
         this.count = count;
     }
 

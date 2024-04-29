@@ -24,9 +24,10 @@ class EquipmentServiceTest {
     @Autowired
     private EquipmentService equipmentService;
 
+
     @BeforeEach
     void setUp() {
-        Equipment equipment = new Equipment("pmw-200", 10);
+        Equipment equipment = Equipment.builder().name("pmw-200").count(10).build();
         equipmentRepository.save(equipment);
     }
 
@@ -56,8 +57,8 @@ class EquipmentServiceTest {
     @Test
     void findAll() {
         //given
-        equipmentRepository.save(new Equipment("pmw-300", 10));
-        equipmentRepository.save(new Equipment("pmw-400", 10));
+        equipmentRepository.save(Equipment.builder().name("pmw-200").count(10).build());
+        equipmentRepository.save(Equipment.builder().name("pmw-300").count(10).build());
         //when
         List<Equipment> equipments = equipmentService.findAll();
 
@@ -97,7 +98,7 @@ class EquipmentServiceTest {
     @Test
     void delete_o(){
         //given
-        Equipment equipment = new Equipment("pmw-200", 10);
+        Equipment equipment = Equipment.builder().name("pmw-200").count(10).build();
         equipmentRepository.save(equipment);
 
         //when

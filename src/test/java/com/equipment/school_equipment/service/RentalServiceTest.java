@@ -2,9 +2,11 @@ package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.ClassTimeList;
 import com.equipment.school_equipment.domain.Equipment;
+import com.equipment.school_equipment.domain.EquipmentCategory;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
+import com.equipment.school_equipment.repository.EquipmentCategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.RentalRepository;
 import com.equipment.school_equipment.request.rental.RentalCreate;
@@ -32,10 +34,17 @@ public class RentalServiceTest {
     private RentalRepository rentalRepository;
     @Autowired
     private RentalService rentalService;
+    @Autowired
+    private EquipmentCategoryRepository equipmentCategoryRepository;
 
     @BeforeEach
     void setUp() {
-        equipmentRepository.save(new Equipment("pmw", 10));
+        EquipmentCategory category = EquipmentCategory.builder().categoryName("카메라").build();
+        equipmentCategoryRepository.save(category);
+
+        Equipment equipment = Equipment.builder().name("pmw").equipmentCategory(category).count(10).build();
+        equipmentRepository.save(equipment);
+
         classTimeRepository.save(ClassTimeList.builder()
                 .className("영상촬영실습").dayOfWeek(DayOfWeekEnum.monday)
                 .twoTime(true).threeTime(true).fourTime(true).build());
@@ -114,7 +123,8 @@ public class RentalServiceTest {
                 .dayOfWeek(DayOfWeekEnum.valueOf(monday))
                 .twoTime(true).build());
 
-        Equipment saveEquipment = equipmentRepository.save(new Equipment(equipmentName, maxCount));
+
+        Equipment saveEquipment = equipmentRepository.save(Equipment.builder().name(equipmentName).count(maxCount).build());
 
 
         //when

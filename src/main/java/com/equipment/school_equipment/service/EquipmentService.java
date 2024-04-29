@@ -19,7 +19,7 @@ public class EquipmentService {
 
     @Transactional
     public Equipment save(EquipmentCreate request) {
-        Equipment saveEquipment = new Equipment(request.name(), request.count());
+        Equipment saveEquipment = Equipment.builder().name(request.name()).count(request.count()).build();
         return equipmentRepository.save(saveEquipment);
     }
 
