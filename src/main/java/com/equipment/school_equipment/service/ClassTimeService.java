@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ClassTimeService {
-    private static final Logger log = LoggerFactory.getLogger(ClassTimeService.class);
     private final ClassTimeRepository classTimeRepository;
 
     @Transactional
