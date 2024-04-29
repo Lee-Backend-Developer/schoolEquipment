@@ -24,36 +24,45 @@ public class RentalService {
     private final ClassTimeRepository classTimeRepository;
     private final RentalRepository rentalRepository;
 
+    /**
+     * 현재 장비 남은 수량 확인
+     * @param request 수업명, 요일, 장비, 장비빌릴수
+     * @return 장비남은수량
+     * @throws RuntimeException 요일 or 요청 받은 장비가 남은 장비보다 넘칠때 오류
+     */
     @Transactional
-    public Rental rentalCreate(RentalCreate request) throws RuntimeException {
+    public int rentalCreate(RentalCreate request) {
 
-        Equipment findEquipment = equipmentRepository.findByName(request.equipmentName());
+        ClassTimeList classTimeList = classTimeRepository.findByClassName(request.className()).orElseThrow(IllegalArgumentException::new);
+        Equipment equipment = equipmentRepository.findByName(request.equipmentName());
 
-        //장비 수량 검증
-        if (findEquipment.getCount() < request.equipmentCount()) {
-            throw new RuntimeException("수량초과");
-        } else if (findEquipment.getCount() == request.equipmentCount()) {
-            //현재 남은 수량과 사용자가 입력한 수량이 같을때
-        }
-        findEquipment.editCount(findEquipment.getCount() - request.equipmentCount());
+        Rental rental = Rental.builder().classTimeListId(classTimeList)
+                .equipmentId(equipment)
+                .rentalCnt(request.equipmentCount())
+                .build();
+        //가지고 있는 장비수, 요청받은 입력수 검증로직이 필요
+        int verification = equipment.getCount() - request.equipmentCount();
+        if(verification < 0) throw new IllegalArgumentException();
 
-        ClassTimeList findClasstime = classTimeRepository.findByClassName(request.className()).orElseThrow(() -> new RuntimeException("수업명이 존재하지 않음"));
+        rentalRepository.save(rental);
 
-        Rental rental = Rental.builder().classTimeListId(findClasstime).equipmentId(findEquipment).build();
-        return rentalRepository.save(rental);
+        return verification;
     }
 
 
     @Transactional
     public void rentalReturn(RentalReturn request) {
-        Equipment findNameEquipment = equipmentRepository.findByName(request.equipmentName());
-        findNameEquipment.editCount(findNameEquipment.getCount() + request.retCount());
+        Rental findRental = rentalRepository.findById(request.rentalId()).orElseThrow(() -> new RuntimeException("렌탈한 이력이 없습니다."));
+        if(findRental.getRentalCnt() < request.rentalCnt()) {
+            throw new RuntimeException("반환한 횟수보다 입력하신 횟수가 큽니다.");
+        }
+        findRental.updateRentalCnt(findRental.getRentalCnt() - request.rentalCnt());
     }
 
-    public List<Equipment> findByEquipment(String classname, String day) {
+    public Equipment findByEquipment(String classname, String day) {
         ClassTimeList classTime = classTimeRepository.findByClassNameEqualsAndDayOfWeek(classname, DayOfWeekEnum.valueOf(day))
                 .orElseThrow(() -> new RuntimeException("그런 수업은 없습니다."));
-        Rental rental = rentalRepository.findByClassOfDay(classname, day).orElseThrow(() -> new RuntimeException("수업 또는 요일이 잘못입력되었습니다"));
-        return null;
+        Rental rental = rentalRepository.findByClassOfDay(classTime.getClassName(), day).orElseThrow(() -> new RuntimeException("수업 또는 요일이 잘못입력되었습니다"));
+        return rental.getEquipmentId();
     }
 }

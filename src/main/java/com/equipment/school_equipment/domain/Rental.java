@@ -2,10 +2,7 @@ package com.equipment.school_equipment.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -35,5 +32,10 @@ public class Rental {
         this.equipmentId = equipmentId;
         this.rentalCnt = rentalCnt;
         this.rentalChk = rentalChk;
+    }
+
+    //비즈니스 로직
+    public void updateRentalCnt(int rentalCnt) {
+        this.rentalCnt = rentalCnt;
     }
 }

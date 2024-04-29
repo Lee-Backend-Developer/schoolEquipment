@@ -2,8 +2,13 @@ package com.equipment.school_equipment.request.rental;
 
 import lombok.Builder;
 
+/**
+ * 요청을 받는 반환 DTO
+ * @param rentalId 렌탈_아이디
+ * @param rentalCnt 반환할_수량
+ */
 @Builder
 public record RentalReturn(
-        String classname, String equipmentName, int retCount
+        Long rentalId, int rentalCnt
 ) {
 }

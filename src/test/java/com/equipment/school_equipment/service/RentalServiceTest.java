@@ -17,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -50,23 +48,23 @@ public class RentalServiceTest {
 
     @DisplayName("장비를 대여가 되고 장비도 대어한 만큼 줄어들어야함")
     @Test
-    void equipmentRental() {
+    void createRental() {
         //given
-
         RentalCreate request = RentalCreate.builder()
                 .className("영상촬영실습")
+                .dayOfWeekEnum(DayOfWeekEnum.Monday)
                 .equipmentName("pmw")
                 .equipmentCount(2)
                 .build();
 
         //when
-        rentalService.rentalCreate(request);
+        int countLeft = rentalService.rentalCreate(request); //남은 장비 수량 ((장비 갯수[10] - 렌탈 갯수[2]) => 8
 
         //then
         //수량확인
-        Equipment findEquipment = equipmentRepository.findByName("pmw");
-        assertThat(findEquipment.getCount()).isEqualTo(8);
-        assertThat(equipmentRepository.count()).isEqualTo(1);
+        Rental findRental = rentalRepository.findAll().get(0);
+        assertThat(findRental.getRentalCnt()).isEqualTo(2); // 2개를 렌탈
+        assertThat(countLeft).isEqualTo(8);                 // 8개가 남아야함
     }
 
     @DisplayName("수업명과 요일을 입력받아 장비가 몇 개 들어가는지 조회가 되어야함")
@@ -87,32 +85,47 @@ public class RentalServiceTest {
 
 
         //when
-        saveEquipment.editCount(inputCount);
-
         Rental saveRental = Rental.builder()
-                .classTimeList(saveClasstime)
-                .equipment(saveEquipment)
+                .classTimeListId(saveClasstime)
+                .equipmentId(saveEquipment)
+                .rentalCnt(inputCount)
                 .build();
         rentalRepository.save(saveRental);
 
-        List<Equipment> equipments = rentalService.findByEquipment(classname, monday);
+        Equipment equipments = rentalService.findByEquipment(classname, monday);
 
         //then
-        assertThat(equipments.get(0).getName()).isEqualTo(equipmentName);
-        assertThat(equipments.get(0).getCount()).isEqualTo(inputCount);
+        assertThat(equipments.getName()).isEqualTo(equipmentName);      //장비 이름이 "pmw-test" 나와야함
+        assertThat(saveRental.getRentalCnt()).isEqualTo(inputCount);    // 빌린 갯수가 10개여야한다
 
     }
 
-    @DisplayName("장비를 반납했으면 반납한 수 만큼 더 해야져함")
+    @DisplayName("장비를 반납했으면 빌린 횟수가 0이 되어야함")
     @Test
-    void returnRental(){
+    void returnRental() {
         //given
-        RentalReturn request = RentalReturn.builder().classname("영상촬영실습").equipmentName("pmw").retCount(3).build();
+        Rental saveRental = rentalRepository.save(Rental.builder() //pmw 제품 3개 대여함
+                .classTimeListId(getClassTimeList())
+                .equipmentId(getEquipment()).rentalCnt(3)
+                .build());
+
+        RentalReturn request = RentalReturn.builder()
+                .rentalId(saveRental.getId())
+                .rentalCnt(3).build();// 사용자 요청으로 인해 3개 반납하였음
 
         //when
         rentalService.rentalReturn(request);
 
         //then
-        assertThat(equipmentRepository.findByName("pmw").getCount()).isEqualTo(13);
+        Rental findRental = rentalRepository.findAll().get(0);
+        assertThat(findRental.getRentalCnt()).isEqualTo(0);
+    }
+
+    private ClassTimeList getClassTimeList() {
+        return classTimeRepository.findAll().get(0);
+    }
+
+    private Equipment getEquipment() {
+        return equipmentRepository.findAll().get(0);
     }
 }
