@@ -23,7 +23,7 @@ public class ClassTimeRepositoryTest {
 
         ClassTimeList classTime = ClassTimeList.builder()
                 .className("영상촬영실습")
-                .dayOfWeek(DayOfWeekEnum.Monday)
+                .dayOfWeek(DayOfWeekEnum.monday)
                 .twoTime(true)
                 .threeTime(true)
                 .fourTime(true)

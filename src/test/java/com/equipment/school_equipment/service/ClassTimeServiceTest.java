@@ -35,7 +35,7 @@ class ClassTimeServiceTest {
         ClassTimeCreate request = ClassTimeCreate
                 .builder()
                 .className("영상실습")
-                .dayOfWeek(DayOfWeekEnum.Monday)
+                .dayOfWeek(DayOfWeekEnum.monday)
                 .twoTime(true)
                 .threeTime(true)
                 .fourTime(true)
@@ -55,27 +55,27 @@ class ClassTimeServiceTest {
         //given
         ClassTimeList[] classTimes = new ClassTimeList[5];
 
-        classTimes[0] = ClassTimeList.builder().className("영상촬영실습").dayOfWeek(DayOfWeekEnum.Monday).twoTime(true).threeTime(true).fourTime(true).build();
-        classTimes[1] = ClassTimeList.builder().className("방송기술계열").dayOfWeek(DayOfWeekEnum.Tuesday).twoTime(true).threeTime(true).fourTime(true).build();
-        classTimes[2] = ClassTimeList.builder().className("촬영이론및실습").dayOfWeek(DayOfWeekEnum.Wednesday).twoTime(true).threeTime(true).fourTime(true).build();
-        classTimes[3] = ClassTimeList.builder().className("숏폼콘텐츠제작/촬영").dayOfWeek(DayOfWeekEnum.Thursday).twoTime(true).threeTime(true).fourTime(true).build();
-        classTimes[4] = ClassTimeList.builder().className("영상미디어디자인연구").dayOfWeek(DayOfWeekEnum.Friday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[0] = ClassTimeList.builder().className("영상촬영실습").dayOfWeek(DayOfWeekEnum.monday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[1] = ClassTimeList.builder().className("방송기술계열").dayOfWeek(DayOfWeekEnum.tuesday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[2] = ClassTimeList.builder().className("촬영이론및실습").dayOfWeek(DayOfWeekEnum.wednesday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[3] = ClassTimeList.builder().className("숏폼콘텐츠제작/촬영").dayOfWeek(DayOfWeekEnum.thursday).twoTime(true).threeTime(true).fourTime(true).build();
+        classTimes[4] = ClassTimeList.builder().className("영상미디어디자인연구").dayOfWeek(DayOfWeekEnum.friday).twoTime(true).threeTime(true).fourTime(true).build();
 
         classTimeRepository.saveAll(Arrays.asList(classTimes));
 
         //when
-        ClassTimeList monday = classTimeService.findByDay(DayOfWeekEnum.Monday.name()).get(0);
-        ClassTimeList tuesday = classTimeService.findByDay(DayOfWeekEnum.Tuesday.name()).get(0);
-        ClassTimeList wednesday = classTimeService.findByDay(DayOfWeekEnum.Wednesday.name()).get(0);
-        ClassTimeList thursday = classTimeService.findByDay(DayOfWeekEnum.Thursday.name()).get(0);
-        ClassTimeList friday = classTimeService.findByDay(DayOfWeekEnum.Friday.name()).get(0);
+        ClassTimeList monday = classTimeService.findByDay(DayOfWeekEnum.monday.name()).get(0);
+        ClassTimeList tuesday = classTimeService.findByDay(DayOfWeekEnum.tuesday.name()).get(0);
+        ClassTimeList wednesday = classTimeService.findByDay(DayOfWeekEnum.wednesday.name()).get(0);
+        ClassTimeList thursday = classTimeService.findByDay(DayOfWeekEnum.thursday.name()).get(0);
+        ClassTimeList friday = classTimeService.findByDay(DayOfWeekEnum.friday.name()).get(0);
 
         //then
-        Assertions.assertThat(monday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.Monday);
-        Assertions.assertThat(tuesday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.Tuesday);
-        Assertions.assertThat(wednesday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.Wednesday);
-        Assertions.assertThat(thursday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.Thursday);
-        Assertions.assertThat(friday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.Friday);
+        Assertions.assertThat(monday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.monday);
+        Assertions.assertThat(tuesday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.tuesday);
+        Assertions.assertThat(wednesday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.wednesday);
+        Assertions.assertThat(thursday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.thursday);
+        Assertions.assertThat(friday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.friday);
     }
 
     @DisplayName("영상실습수업이 영상이론 수업으로 변경이 되어야 한다")

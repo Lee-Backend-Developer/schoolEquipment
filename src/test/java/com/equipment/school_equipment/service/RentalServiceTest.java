@@ -35,7 +35,7 @@ public class RentalServiceTest {
     void setUp() {
         equipmentRepository.save(new Equipment("pmw", 10));
         classTimeRepository.save(ClassTimeList.builder()
-                .className("영상촬영실습").dayOfWeek(DayOfWeekEnum.Monday)
+                .className("영상촬영실습").dayOfWeek(DayOfWeekEnum.monday)
                 .twoTime(true).threeTime(true).fourTime(true).build());
     }
 
@@ -52,7 +52,7 @@ public class RentalServiceTest {
         //given
         RentalCreate request = RentalCreate.builder()
                 .className("영상촬영실습")
-                .dayOfWeekEnum(DayOfWeekEnum.Monday)
+                .dayOfWeekEnum(DayOfWeekEnum.monday)
                 .equipmentName("pmw")
                 .equipmentCount(2)
                 .build();
@@ -72,7 +72,7 @@ public class RentalServiceTest {
     void classTimeRental() {
         //given
         String classname = "배우연기연출";
-        String monday = DayOfWeekEnum.Monday.name();
+        String monday = DayOfWeekEnum.monday.name();
         String equipmentName = "pmw-test";
         int maxCount = 20;
         int inputCount = 10;
