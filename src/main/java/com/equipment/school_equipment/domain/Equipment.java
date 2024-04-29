@@ -20,7 +20,7 @@ public class Equipment {
     private String name;    // 장비 이름
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "equipment_category_id")
+    @JoinColumn(name = "id")
     private EquipmentCategory equipmentCategory;
 
     private String mainImg;
