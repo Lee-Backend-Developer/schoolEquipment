@@ -1,30 +1,10 @@
 spring:
-  application:
-    name: "school_equipment"
-
   jpa:
-#    defer-datasource-initialization: true
-    generate-ddl: false
     hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate: # query log
-          show_sql: true
-          format_sql: true
-#        use_sql_comments: true
+      ddl-auto: create
 
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:school
-#    url: jdbc:h2:tcp://localhost/~/school;MODE=MYSQL
     username: sa
     password:
-  sql:
-    init:
-      mode: always
-
-logging:
-  level:
-    org.hibernate.sql: trace
-    org.hibernate.type.descriptor.sql: trace
-

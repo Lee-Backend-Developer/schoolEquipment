@@ -1,7 +1,8 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.Classtimetable;
+import com.equipment.school_equipment.domain.ClassTimeList;
 import com.equipment.school_equipment.domain.Equipment;
+import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
@@ -15,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -33,7 +36,9 @@ public class RentalServiceTest {
     @BeforeEach
     void setUp() {
         equipmentRepository.save(new Equipment("pmw", 10));
-        classTimeRepository.save(Classtimetable.builder().className("영상촬영실습").dayOfWeek(DayOfWeekEnum.Monday).twoTime(true).threeTime(true).fourTime(true).build());
+        classTimeRepository.save(ClassTimeList.builder()
+                .className("영상촬영실습").dayOfWeek(DayOfWeekEnum.Monday)
+                .twoTime(true).threeTime(true).fourTime(true).build());
     }
 
     @AfterEach
@@ -62,6 +67,40 @@ public class RentalServiceTest {
         Equipment findEquipment = equipmentRepository.findByName("pmw");
         assertThat(findEquipment.getCount()).isEqualTo(8);
         assertThat(equipmentRepository.count()).isEqualTo(1);
+    }
+
+    @DisplayName("수업명과 요일을 입력받아 장비가 몇 개 들어가는지 조회가 되어야함")
+    @Test
+    void classTimeRental() {
+        //given
+        String classname = "배우연기연출";
+        String monday = DayOfWeekEnum.Monday.name();
+        String equipmentName = "pmw-test";
+        int maxCount = 20;
+        int inputCount = 10;
+
+        ClassTimeList saveClasstime = classTimeRepository.save(ClassTimeList.builder().className(classname)
+                .dayOfWeek(DayOfWeekEnum.valueOf(monday))
+                .twoTime(true).build());
+
+        Equipment saveEquipment = equipmentRepository.save(new Equipment(equipmentName, maxCount));
+
+
+        //when
+        saveEquipment.editCount(inputCount);
+
+        Rental saveRental = Rental.builder()
+                .classTimeList(saveClasstime)
+                .equipment(saveEquipment)
+                .build();
+        rentalRepository.save(saveRental);
+
+        List<Equipment> equipments = rentalService.findByEquipment(classname, monday);
+
+        //then
+        assertThat(equipments.get(0).getName()).isEqualTo(equipmentName);
+        assertThat(equipments.get(0).getCount()).isEqualTo(inputCount);
+
     }
 
     @DisplayName("장비를 반납했으면 반납한 수 만큼 더 해야져함")

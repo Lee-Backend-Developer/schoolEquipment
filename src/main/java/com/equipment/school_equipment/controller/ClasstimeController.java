@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.controller;
 
-import com.equipment.school_equipment.domain.Classtimetable;
+import com.equipment.school_equipment.domain.ClassTimeList;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.response.thymeleaf.ClasstimeResponse;
 import com.equipment.school_equipment.service.ClassTimeService;
@@ -29,10 +29,10 @@ public class ClasstimeController {
 
     @RequestMapping("/{dayofweek}")
     public String dayofweek(@PathVariable String dayofweek, Model model){
-        List<Classtimetable> classtimetableList = classTimeService.findByDay(dayofweek);
+        List<ClassTimeList> classTimeListList = classTimeService.findByDay(dayofweek);
         List<ClasstimeResponse> responsesList = new ArrayList<>();
 
-        classtimetableList.iterator().forEachRemaining(
+        classTimeListList.iterator().forEachRemaining(
                 classtimetable -> {
                     List<Boolean> times = getTimes(classtimetable); // 교시 가져오기
                     responsesList.add(ClasstimeResponse.builder()
@@ -47,18 +47,18 @@ public class ClasstimeController {
         return "day";
     }
 
-    private static List<Boolean> getTimes(Classtimetable classtimetable) {
+    private static List<Boolean> getTimes(ClassTimeList classTimeList) {
         List<Boolean> times = new ArrayList<>();
-        times.add(classtimetable.isOneTime());
-        times.add(classtimetable.isTwoTime());
-        times.add(classtimetable.isThreeTime());
-        times.add(classtimetable.isFourTime());
-        times.add(classtimetable.isFiveTime());
-        times.add(classtimetable.isSixTime());
-        times.add(classtimetable.isSevenTime());
-        times.add(classtimetable.isEightTime());
-        times.add(classtimetable.isNineTime());
-        times.add(classtimetable.isTenTime());
+        times.add(classTimeList.isOneTime());
+        times.add(classTimeList.isTwoTime());
+        times.add(classTimeList.isThreeTime());
+        times.add(classTimeList.isFourTime());
+        times.add(classTimeList.isFiveTime());
+        times.add(classTimeList.isSixTime());
+        times.add(classTimeList.isSevenTime());
+        times.add(classTimeList.isEightTime());
+        times.add(classTimeList.isNineTime());
+        times.add(classTimeList.isTenTime());
         return times;
     }
 }

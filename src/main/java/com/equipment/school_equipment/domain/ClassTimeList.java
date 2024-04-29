@@ -13,10 +13,9 @@ import static jakarta.persistence.GenerationType.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "CLASSTIMETABLE")
-public class Classtimetable {
+public class ClassTimeList {
     @Id
-    @Column(name = "classtimetable_id")
+    @Column(name = "class_time_list_id")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;          //수업아이디
 
@@ -37,7 +36,7 @@ public class Classtimetable {
     private boolean tenTime;    //10교시(18:00 ~ 18:50)
 
     @Builder
-    public Classtimetable(String className, DayOfWeekEnum dayOfWeek, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
+    public ClassTimeList(String className, DayOfWeekEnum dayOfWeek, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
         this.className = className;
         this.dayOfWeek = dayOfWeek;
         this.oneTime = oneTime;
