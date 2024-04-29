@@ -41,11 +41,17 @@ public class RentalService {
                 .rentalCnt(request.equipmentCount())
                 .build();
         //가지고 있는 장비수, 요청받은 입력수 검증로직이 필요
-        int verification = equipment.getCount() - request.equipmentCount();
-        if(verification < 0) throw new IllegalArgumentException();
+        int verification = valedationLeftEquipment(request, equipment);
 
         rentalRepository.save(rental);
 
+        return verification;
+    }
+
+
+    private static int valedationLeftEquipment(RentalCreate request, Equipment equipment) {
+        int verification = equipment.getCount() - request.equipmentCount();
+        if(verification < 0) throw new IllegalArgumentException();
         return verification;
     }
 
@@ -64,5 +70,18 @@ public class RentalService {
                 .orElseThrow(() -> new RuntimeException("그런 수업은 없습니다."));
         Rental rental = rentalRepository.findByClassOfDay(classTime.getClassName(), day).orElseThrow(() -> new RuntimeException("수업 또는 요일이 잘못입력되었습니다"));
         return rental.getEquipmentId();
+    }
+
+    /**
+     * (가지고 있던 수량 - 렌탈 장비 수)
+     * 요청값 없음
+     * @return 갯수 반환
+     */
+    public int findByEquipmentCnt(String equipmentName) {
+        List<Rental> findRental = rentalRepository.findRentals(equipmentName);
+        int count = equipmentRepository.findByName(equipmentName).getCount();
+        for (Rental rentalsObj : findRental) count -= rentalsObj.getRentalCnt();
+
+        return count;
     }
 }

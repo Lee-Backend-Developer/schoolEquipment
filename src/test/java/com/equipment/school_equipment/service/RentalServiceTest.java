@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -65,6 +67,37 @@ public class RentalServiceTest {
         Rental findRental = rentalRepository.findAll().get(0);
         assertThat(findRental.getRentalCnt()).isEqualTo(2); // 2개를 렌탈
         assertThat(countLeft).isEqualTo(8);                 // 8개가 남아야함
+    }
+
+    @DisplayName("장비대여 모두 조회 할 때 대여수 수량을 알아야함")
+    @Test
+    void equipmentLeft(){
+        //given
+        Rental rental = Rental.builder().classTimeListId(getClassTimeList())
+                .equipmentId(getEquipment())
+                .rentalCnt(2)
+                .rentalChk(true)// 10 - 2
+                .build();
+
+        Rental rental2 = Rental.builder().classTimeListId(getClassTimeList())
+                .equipmentId(getEquipment())
+                .rentalCnt(2) // 10 - 2
+                .rentalChk(true)
+                .build();
+
+        rentalRepository.save(rental);
+        rentalRepository.save(rental2);
+
+        String equipmentName = rental.getEquipmentId().getName();
+
+        //when
+//        rentalService.findByEquipmentCnt(equipmentName, getClassTimeList().getClassName()); //요청: 값 없음
+
+        int pmwCnt = rentalService.findByEquipmentCnt("pmw");
+
+
+        //then
+        assertThat(pmwCnt).isEqualTo(4);
     }
 
     @DisplayName("수업명과 요일을 입력받아 장비가 몇 개 들어가는지 조회가 되어야함")

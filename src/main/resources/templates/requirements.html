@@ -7,14 +7,14 @@
     <table class="table">
         <thead class="table-dark">
             <th scope="col" class="border border-warning border-1">장비 이름</th>
-            <th scope="col" class="border border-warning border-1">반납 후</th>
-            <th scope="col" class="border border-warning border-1">반납 전</th>
+            <th scope="col" class="border border-warning border-1">대여가능</th>
+            <th scope="col" class="border border-warning border-1">총</th>
         </thead>
         <tbody>
-            <tr th:each="equipment : ${equipmentList}">
-                <th scope="row" th:text="${equipment.getName()}">카메라</th>
-                <th>2</th>
-                <td th:text="${equipment.getCount()}">2</td>
+            <tr th:each="equipmentResponse : ${equipmentResponseList}">
+                <th scope="row" th:text="${equipmentResponse.equipmentName()}">카메라</th>
+                <td scope="row" th:text="${equipmentResponse.retCnt()}">2</td>
+                <td scope="row" th:text="${equipmentResponse.leftCnt()}">2</td>
             </tr>
         </tbody>
     </table>
