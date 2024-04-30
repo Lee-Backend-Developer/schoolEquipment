@@ -3,21 +3,19 @@
 <head th:replace="~{fragments/head :: header(title='오늘 남는수량')}"></head>
 <body>
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table})}">
-    <table class="table">
-        <thead class="table-dark">
-            <th scope="col" class="border border-warning border-1">장비 이름</th>
-            <th scope="col" class="border border-warning border-1">대여가능</th>
-            <th scope="col" class="border border-warning border-1">총</th>
-        </thead>
-        <tbody>
-            <tr th:each="equipmentResponse : ${equipmentResponseList}">
-                <th scope="row" th:text="${equipmentResponse.equipmentName()}">카메라</th>
-                <td scope="row" th:text="${equipmentResponse.retCnt()}">2</td>
-                <td scope="row" th:text="${equipmentResponse.leftCnt()}">2</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::#card-deck})}">
+    <div class="card-deck" id="card-deck">
+        <div class="card" th:each="equipment : ${equipmentResponseList}">
+            <img src="/mainPage/camara01.jpg" class="card-img-top" alt="카메라">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${equipment.equipmentName()}">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
