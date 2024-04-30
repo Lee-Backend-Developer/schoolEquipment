@@ -2,26 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: header(title='월요일 시간표')}"></head>
 <body>
-<div class="container">
-    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
-    <table class="table table-Danger table-hover">
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table})}">
+    <table class="table table-Danger table-hover" >
         <thead>
-            <tr class="table-danger">
-                <th scope="col" class="border border-warning border-1">수업명</th>
-                <th
-                        scope="col"
-                        class="border border-warning border-1"
-                        th:each="num : ${#numbers.sequence(1, 10)}"
-                >
+        <tr class="table-danger">
+            <th scope="col" class="border border-warning border-1">수업명</th>
+            <th
+                    scope="col"
+                    class="border border-warning border-1"
+                    th:each="num : ${#numbers.sequence(1, 10)}"
+            >
                 [[${num}]]교시
-                </th>
-            </tr>
+            </th>
+        </tr>
         </thead>
         <tbody th:each="response : ${classtimeResponseList}">
-            <tr>
-                <td scope="row" th:text="${response.classname()}" class="table-info">수업명</td>
-                <td scope="row" th:each="time : ${response.times()}" th:classappend="${time == true} ? 'bg-black' : ''"></td>
-            </tr>
+        <tr>
+            <td scope="row" th:text="${response.classname()}" class="table-info">수업명</td>
+            <td scope="row" th:each="time : ${response.times()}"
+                th:classappend="${time == true} ? 'bg-dark' : ''"></td>
+        </tr>
         </tbody>
     </table>
 </div>
