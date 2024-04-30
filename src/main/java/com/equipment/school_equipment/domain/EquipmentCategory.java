@@ -25,8 +25,7 @@ public class EquipmentCategory {
     List<Equipment> equipmentList = new ArrayList<>();
 
     @Builder
-    public EquipmentCategory(String categoryName,Equipment equipment) {
+    public EquipmentCategory(String categoryName) {
         this.categoryName = categoryName;
-        this.equipmentList.add(equipment);
     }
 }

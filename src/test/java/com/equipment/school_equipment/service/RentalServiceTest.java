@@ -42,7 +42,8 @@ public class RentalServiceTest {
         EquipmentCategory category = EquipmentCategory.builder().categoryName("카메라").build();
         equipmentCategoryRepository.save(category);
 
-        Equipment equipment = Equipment.builder().name("pmw").equipmentCategory(category).count(10).build();
+        Equipment equipment = Equipment.builder().name("pmw").count(10).equipmentCategory(category).build();
+
         equipmentRepository.save(equipment);
 
         classTimeRepository.save(ClassTimeList.builder()
@@ -162,6 +163,26 @@ public class RentalServiceTest {
         //then
         Rental findRental = rentalRepository.findAll().get(0);
         assertThat(findRental.getRentalCnt()).isEqualTo(0);
+    }
+
+    @DisplayName("수업명과 요일 입력받아 대여된 장비들이 나와야한다")
+    @Test
+    void findByClassNameAndDayOfWeek() {
+        //given
+        String dayOfWeek = DayOfWeekEnum.monday.name();
+        String className = "영상촬영실습";
+        Rental rental = Rental.builder().equipmentId(getEquipment()).classTimeListId(getClassTimeList()).rentalCnt(3).build();
+        rentalRepository.save(rental);
+
+
+        //when
+        List<Equipment> equipment = rentalService.findByClassnameAndDayOfWeek(className, dayOfWeek);
+
+        //then
+        assertThat(equipment.size()).isEqualTo(1);
+        assertThat(equipment).contains(rental.getEquipmentId());
+        assertThat(rental.getRentalCnt()).isEqualTo(3);
+
     }
 
     private ClassTimeList getClassTimeList() {

@@ -84,4 +84,10 @@ public class RentalService {
 
         return count;
     }
+
+    public List<Equipment> findByClassnameAndDayOfWeek(String className, String dayOfWeek) {
+        List<Equipment> equipments = rentalRepository.findByClassnameAndDayOfWeek(className, dayOfWeek);
+
+        return equipments;
+    }
 }
