@@ -17,10 +17,13 @@
             </th>
         </tr>
         </thead>
-        <tbody th:each="response : ${classtimeResponseList}">
+        <tbody th:each="classtimeResponse : ${classtimeResponseList}">
         <tr>
-            <td scope="row" th:text="${response.classname()}" class="table-info">수업명</td>
-            <td scope="row" th:each="time : ${response.times()}"
+            <td scope="row"  class="table-info">
+                <a href="#" th:text="${classtimeResponse.classname()}"
+                   th:href="@{/rental/{dayofWeek}/{classname} (dayofWeek = ${classtimeResponse.dayOfWeekEnum().name()}, classname = ${classtimeResponse.id()})}">수업명</a>
+            </td>
+            <td scope="row" th:each="time : ${classtimeResponse.times()}"
                 th:classappend="${time == true} ? 'bg-dark' : ''"></td>
         </tr>
         </tbody>

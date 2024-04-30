@@ -1,7 +1,6 @@
 package com.equipment.school_equipment.repository.custom;
 
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.domain.QClassTimeList;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -41,13 +40,11 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
     }
 
     @Override
-    public List<Equipment> findByClassnameAndDayOfWeek(String className, String dayOfWeek) {
-        List<Equipment> fetch = queryFactory.select(rental.equipmentId)
+    public List<Equipment> findByClassnameIdAndDayOfWeek(String classNameId, String dayOfWeek) {
+        return queryFactory.select(rental.equipmentId)
                 .from(rental)
                 .join(rental.classTimeListId, classTimeList)
-                .where(classTimeList.className.eq(className).and(classTimeList.dayOfWeek.eq(DayOfWeekEnum.valueOf(dayOfWeek))))
+                .where(classTimeList.id.eq(Long.parseLong(classNameId)).and(classTimeList.dayOfWeek.eq(DayOfWeekEnum.valueOf(dayOfWeek))))
                 .fetch();
-
-        return fetch;
     }
 }

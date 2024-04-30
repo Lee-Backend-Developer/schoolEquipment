@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: header(title='수업장비확인')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- Page Content  -->
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::#card-deck})}">
+    <div class="card-deck row" id="card-deck">
+        <div class="card col-4" th:each="equipment : ${rentalEquipment}">
+            <img src="/mainPage/camara01.jpg" class="card-img-top" alt="카메라">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${equipment.name()}">Card title</h5>
+                <p class="card-text" th:text="${equipment.content()}">This is a wider card with</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small><!-- 수량 표시-->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

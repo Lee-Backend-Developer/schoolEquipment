@@ -85,8 +85,8 @@ public class RentalService {
         return count;
     }
 
-    public List<Equipment> findByClassnameAndDayOfWeek(String className, String dayOfWeek) {
-        List<Equipment> equipments = rentalRepository.findByClassnameAndDayOfWeek(className, dayOfWeek);
+    public List<Equipment> findByClassnameIdAndDayOfWeek(String className, String dayOfWeek) {
+        List<Equipment> equipments = rentalRepository.findByClassnameIdAndDayOfWeek(className, dayOfWeek);
 
         return equipments;
     }

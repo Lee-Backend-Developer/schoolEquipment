@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface RentalRepositoryCustom {
     Optional<Rental> findByClassOfDay(String className, String classOfDay);
     List<Rental> findRentals(String equipmentName);
-    List<Equipment> findByClassnameAndDayOfWeek(String className, String dayOfWeek);
+    List<Equipment> findByClassnameIdAndDayOfWeek(String classNameId, String dayOfWeek);
 }

@@ -167,7 +167,7 @@ public class RentalServiceTest {
 
     @DisplayName("수업명과 요일 입력받아 대여된 장비들이 나와야한다")
     @Test
-    void findByClassNameAndDayOfWeek() {
+    void findByClassNameIdAndDayOfWeek() {
         //given
         String dayOfWeek = DayOfWeekEnum.monday.name();
         String className = "영상촬영실습";
@@ -176,7 +176,7 @@ public class RentalServiceTest {
 
 
         //when
-        List<Equipment> equipment = rentalService.findByClassnameAndDayOfWeek(className, dayOfWeek);
+        List<Equipment> equipment = rentalService.findByClassnameIdAndDayOfWeek(className, dayOfWeek);
 
         //then
         assertThat(equipment.size()).isEqualTo(1);

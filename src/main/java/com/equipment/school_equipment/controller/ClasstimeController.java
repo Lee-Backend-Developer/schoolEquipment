@@ -1,9 +1,11 @@
 package com.equipment.school_equipment.controller;
 
 import com.equipment.school_equipment.domain.ClassTimeList;
+import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.response.thymeleaf.ClasstimeResponse;
 import com.equipment.school_equipment.service.ClassTimeService;
+import com.equipment.school_equipment.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import java.util.List;
 @RequestMapping("/classtimes")
 public class ClasstimeController {
     private final ClassTimeService classTimeService;
+    private final RentalService rentalService;
 
     @RequestMapping
     public String classtimes(Model model) {
@@ -46,6 +49,7 @@ public class ClasstimeController {
         model.addAttribute(responsesList);
         return "day";
     }
+
 
     private static List<Boolean> getTimes(ClassTimeList classTimeList) {
         List<Boolean> times = new ArrayList<>();
