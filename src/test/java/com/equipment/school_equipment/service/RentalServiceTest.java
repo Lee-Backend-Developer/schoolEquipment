@@ -42,7 +42,7 @@ public class RentalServiceTest {
         Category category = Category.builder().categoryName("카메라").build();
         categoryRepository.save(category);
 
-        Equipment equipment = Equipment.builder().name("pmw").count(10).category(category).build();
+        Equipment equipment = Equipment.builder().name("pmw").count(10).build();
 
         equipmentRepository.save(equipment);
 

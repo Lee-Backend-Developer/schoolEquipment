@@ -20,12 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin/category")
 public class AdminCategoryController {
-    /**
-     * todo 카테고리 추가
-     * todo 카테고리 모두 읽기
-     * todo 카테고리 이름 수정
-     * todo 카테고리 삭제
-     */
 
     private final CategoryService categoryService;
 
@@ -39,7 +33,7 @@ public class AdminCategoryController {
         System.out.println(request);
         categoryService.addCategory(request.name());
 
-        response.sendRedirect("/");
+        response.sendRedirect("/admin/category/find");
     }
 
     @GetMapping("/find")

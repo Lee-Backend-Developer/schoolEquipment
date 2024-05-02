@@ -22,8 +22,8 @@ public class Category {
 
     private String categoryName;
 
-    @OneToMany(mappedBy = "id")
-    List<Equipment> equipmentList = new ArrayList<>();
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    private List<Equipment> equipmentList = new ArrayList<>();
 
     @Builder
     public Category(String categoryName) {

@@ -103,7 +103,7 @@ class CategoryRepositoryServiceTest {
         categoryRepository.save(camara);
 
         Equipment saveEquipment = Equipment.builder().name("캐논").count(10)
-                .category(camara).build();
+                .build();
         equipmentRepository.save(saveEquipment);
 
         //then 검증 <- 삭제 못하게 예외처리
