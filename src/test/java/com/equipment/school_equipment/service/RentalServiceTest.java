@@ -1,7 +1,7 @@
 package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.Category;
-import com.equipment.school_equipment.domain.Classtimelist;
+import com.equipment.school_equipment.domain.Classtimes;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
@@ -43,10 +43,10 @@ public class RentalServiceTest {
         categoryRepository.save(category);
 
         Equipment equipment = Equipment.builder().name("pmw").count(10).build();
-
         equipmentRepository.save(equipment);
+        equipment.addCategory(category);
 
-        classTimeRepository.save(Classtimelist.builder()
+        classTimeRepository.save(Classtimes.builder()
                 .className("영상촬영실습").dayOfWeek(DayOfWeekEnum.monday)
                 .twoTime(true).threeTime(true).fourTime(true).build());
     }
@@ -54,6 +54,7 @@ public class RentalServiceTest {
     @AfterEach
     void end() {
         equipmentRepository.deleteAll();
+        categoryRepository.deleteAll();
         classTimeRepository.deleteAll();
         rentalRepository.deleteAll();
     }
@@ -83,13 +84,13 @@ public class RentalServiceTest {
     @Test
     void equipmentLeft(){
         //given
-        Rental rental = Rental.builder().classtimelistId(getClassTimeList())
+        Rental rental = Rental.builder().classtimesId(getClassTimeList())
                 .equipmentId(getEquipment())
                 .rentalCnt(2)
                 .rentalChk(true)// 10 - 2
                 .build();
 
-        Rental rental2 = Rental.builder().classtimelistId(getClassTimeList())
+        Rental rental2 = Rental.builder().classtimesId(getClassTimeList())
                 .equipmentId(getEquipment())
                 .rentalCnt(2) // 10 - 2
                 .rentalChk(true)
@@ -111,29 +112,34 @@ public class RentalServiceTest {
     @Test
     void classTimeRental() {
         //given
+        Category category = new Category("카메라");
+        categoryRepository.save(category);
+
         String classname = "배우연기연출";
         String monday = DayOfWeekEnum.monday.name();
         String equipmentName = "pmw-test";
         int maxCount = 20;
         int inputCount = 10;
 
-        Classtimelist saveClasstime = classTimeRepository.save(Classtimelist.builder().className(classname)
+        Classtimes saveClasstime = classTimeRepository.save(Classtimes.builder().className(classname)
                 .dayOfWeek(DayOfWeekEnum.valueOf(monday))
                 .twoTime(true).build());
 
 
         Equipment saveEquipment = equipmentRepository.save(Equipment.builder().name(equipmentName).count(maxCount).build());
+        saveEquipment.addCategory(category);
 
 
         //when
         Rental saveRental = Rental.builder()
-                .classtimelistId(saveClasstime)
+                .classtimesId(saveClasstime)
                 .equipmentId(saveEquipment)
                 .rentalCnt(inputCount)
                 .build();
         rentalRepository.save(saveRental);
 
         Equipment equipments = rentalService.findByEquipment(classname, monday);
+        equipments.addCategory(category);
 
         //then
         assertThat(equipments.getName()).isEqualTo(equipmentName);      //장비 이름이 "pmw-test" 나와야함
@@ -146,7 +152,7 @@ public class RentalServiceTest {
     void returnRental() {
         //given
         Rental saveRental = rentalRepository.save(Rental.builder() //pmw 제품 3개 대여함
-                .classtimelistId(getClassTimeList())
+                .classtimesId(getClassTimeList())
                 .equipmentId(getEquipment()).rentalCnt(3)
                 .build());
 
@@ -168,7 +174,7 @@ public class RentalServiceTest {
         //given
         String dayOfWeek = DayOfWeekEnum.monday.name();
         String classNameId = Long.toString(getClassTimeList().getId());
-        Rental rental = Rental.builder().equipmentId(getEquipment()).classtimelistId(getClassTimeList()).rentalCnt(3).build();
+        Rental rental = Rental.builder().equipmentId(getEquipment()).classtimesId(getClassTimeList()).rentalCnt(3).build();
         rentalRepository.save(rental);
 
 
@@ -182,7 +188,7 @@ public class RentalServiceTest {
 
     }
 
-    private Classtimelist getClassTimeList() {
+    private Classtimes getClassTimeList() {
         return classTimeRepository.findAll().get(0);
     }
 

@@ -5,6 +5,7 @@ import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.repository.CategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,13 @@ public class EquipmentCategoryTest {
     @Autowired
     private EquipmentRepository equipmentRepository;
     @Autowired
-    private EquipmentService equipmentService;
-
-    @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
-    private CategoryService categoryService;
+
+    @AfterEach
+    void end() {
+        equipmentRepository.deleteAll();
+        categoryRepository.deleteAll();
+    }
 
     @DisplayName("pmw장비가 카메라 카테고리에 추가가 되어야한다.")
     @Test

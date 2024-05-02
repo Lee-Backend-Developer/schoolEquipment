@@ -1,6 +1,8 @@
 package com.equipment.school_equipment.service;
 
+import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.domain.Equipment;
+import com.equipment.school_equipment.repository.CategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import com.equipment.school_equipment.request.equipment.EquipmentCount;
@@ -20,6 +22,8 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 class EquipmentServiceTest {
     @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
     private EquipmentRepository equipmentRepository;
     @Autowired
     private EquipmentService equipmentService;
@@ -27,27 +31,38 @@ class EquipmentServiceTest {
 
     @BeforeEach
     void setUp() {
+        Category category = new Category("카메라");
+        categoryRepository.save(category);
+
         Equipment equipment = Equipment.builder().name("pmw-200").count(10).build();
         equipmentRepository.save(equipment);
+        equipment.addCategory(category);
     }
 
     @AfterEach
     void end() {
         equipmentRepository.deleteAll();
+        categoryRepository.deleteAll();
     }
 
     @DisplayName("장비이름,장비수량이 저장이 되어야함")
     @Test
     void save_O() {
         equipmentRepository.deleteAll();
+        categoryRepository.deleteAll();
         //given
+        Category category = new Category("카메라");
+        categoryRepository.save(category);
+
         EquipmentCreate request = EquipmentCreate.builder()
                 .name("pmw-200")
                 .count(10)
                 .build();
 
         //when
-        equipmentService.save(request);
+        Equipment saveEquipment = equipmentService.save(request);
+        saveEquipment.addCategory(category);
+
 
         //then
         assertThat(equipmentRepository.count()).isEqualTo(1);
@@ -57,8 +72,14 @@ class EquipmentServiceTest {
     @Test
     void findAll() {
         //given
-        equipmentRepository.save(Equipment.builder().name("pmw-200").count(10).build());
-        equipmentRepository.save(Equipment.builder().name("pmw-300").count(10).build());
+        Category category = new Category("카메라");
+        categoryRepository.save(category);
+
+        Equipment saveEquipment1 = equipmentRepository.save(Equipment.builder().name("pmw-200").count(10).build());
+        Equipment saveEquipment2 = equipmentRepository.save(Equipment.builder().name("pmw-300").count(10).build());
+
+        saveEquipment1.addCategory(category);
+        saveEquipment2.addCategory(category);
         //when
         List<Equipment> equipments = equipmentService.findAll();
 

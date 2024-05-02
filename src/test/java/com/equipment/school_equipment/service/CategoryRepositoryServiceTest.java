@@ -105,6 +105,7 @@ class CategoryRepositoryServiceTest {
         Equipment saveEquipment = Equipment.builder().name("캐논").count(10)
                 .build();
         equipmentRepository.save(saveEquipment);
+        saveEquipment.addCategory(camara);
 
         //then 검증 <- 삭제 못하게 예외처리
         assertThatRuntimeException().isThrownBy(() -> categoryService.deleteById(camara.getId()));
