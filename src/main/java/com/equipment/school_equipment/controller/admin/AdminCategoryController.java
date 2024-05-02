@@ -65,6 +65,24 @@ public class AdminCategoryController {
     @PostMapping("/edit/{categoryId}")
     public void editCategory(@PathVariable("categoryId") Long categoryId, @ModelAttribute("category") CategoryEditResponse editResponse, HttpServletResponse response) throws IOException {
         categoryService.findByIdAndName(categoryId, editResponse.oldClassname(), editResponse.changeNameClassname());
-        response.sendRedirect("/");
+        response.sendRedirect("/admin/category/find");
+    }
+
+    @GetMapping("/delete")
+    public String deleteCategory(Model model) {
+        List<Category> categoryList = categoryService.findAll();
+        List<CategoryFindResponse> categoryRespons = categoryList.stream()
+                .map(category -> CategoryFindResponse.builder().id(category.getId()).name(category.getCategoryName()).build())
+                .toList();
+
+        model.addAttribute("categorys", categoryRespons);
+        return "admin/categoryDelete";
+    }
+
+    @GetMapping("/delete/{categoryid}")
+    public void deleteCategory(@PathVariable("categoryid") Long categoryid, HttpServletResponse response) throws IOException {
+        categoryService.deleteById(categoryid);
+
+        response.sendRedirect("/admin/category/delete");
     }
 }

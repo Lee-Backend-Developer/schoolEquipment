@@ -6,7 +6,7 @@ import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
-import com.equipment.school_equipment.repository.EquipmentCategoryRepository;
+import com.equipment.school_equipment.repository.CategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.RentalRepository;
 import com.equipment.school_equipment.request.rental.RentalCreate;
@@ -35,12 +35,12 @@ public class RentalServiceTest {
     @Autowired
     private RentalService rentalService;
     @Autowired
-    private EquipmentCategoryRepository equipmentCategoryRepository;
+    private CategoryRepository categoryRepository;
 
     @BeforeEach
     void setUp() {
         Category category = Category.builder().categoryName("카메라").build();
-        equipmentCategoryRepository.save(category);
+        categoryRepository.save(category);
 
         Equipment equipment = Equipment.builder().name("pmw").count(10).category(category).build();
 
@@ -104,7 +104,6 @@ public class RentalServiceTest {
 //        rentalService.findByEquipmentCnt(equipmentName, getClassTimeList().getClassName()); //요청: 값 없음
 
         int pmwCnt = rentalService.findByEquipmentCnt("pmw");
-
 
         //then
         assertThat(pmwCnt).isEqualTo(4);
