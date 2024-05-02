@@ -3,22 +3,22 @@
 <head th:replace="~{fragments/head :: header(title='수업장비확인')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-
-<!-- Page Content  -->
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::#card-deck})}">
-    <div class="card-deck row" id="card-deck">
-        <div class="card col-4" th:each="equipment : ${rentalEquipment}">
-            <img src="/mainPage/camara01.jpg" class="card-img-top" alt="카메라">
-            <div class="card-body">
-                <h5 class="card-title" th:text="${equipment.name()}">Card title</h5>
-                <p class="card-text" th:text="${equipment.content()}">This is a wider card with</p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small><!-- 수량 표시-->
-            </div>
-        </div>
-    </div>
-</div>
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table})}">
+    <table class="table">
+        <h2>수업 장비대여</h2>
+        <thead>
+        <tr>
+            <th scope="col">장비명</th>
+            <th scope="col">나갈 수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="equipment : ${rentalEquipment}">
+            <th scope="row" th:text="${equipment.name()}">1</th>
+            <td th:text="${equipment.retCnt() - equipment.leftCnt()}">Mark</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
