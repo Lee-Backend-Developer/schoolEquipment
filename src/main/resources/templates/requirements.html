@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: header(title='오늘 남는수량')}"></head>
+<head th:replace="~{fragments/head :: header(title='오늘 대여가능수량')}"></head>
 <body>
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::#card-deck})}">
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::#card-deck}, '기자재 대여')}">
     <div class="card-deck" id="card-deck">
         <div class="card" th:each="equipment : ${equipmentResponseList}">
             <img src="/mainPage/camara01.jpg" class="card-img-top" alt="카메라">

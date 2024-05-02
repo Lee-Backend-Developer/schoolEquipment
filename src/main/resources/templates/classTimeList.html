@@ -5,7 +5,7 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <!-- Page Content  -->
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table})}">
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table}, '수업 장비 수업표')}">
     <!--    컨텐츠-->
     <table class="table table-hover">
         <thead>

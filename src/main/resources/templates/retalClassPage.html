@@ -3,9 +3,8 @@
 <head th:replace="~{fragments/head :: header(title='수업장비확인')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table})}">
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table}, '수업 장비대여')}">
     <table class="table">
-        <h2>수업 장비대여</h2>
         <thead>
         <tr>
             <th scope="col">장비명</th>
