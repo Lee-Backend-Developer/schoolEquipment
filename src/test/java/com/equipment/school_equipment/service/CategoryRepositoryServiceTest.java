@@ -18,7 +18,7 @@ class CategoryRepositoryServiceTest {
     @Autowired
     private EquipmentCategoryRepository equipmentCategoryRepository;
     @Autowired
-    private EquipmentCategoryService equipmentCategoryService;
+    private CategoryService categoryService;
 
     @DisplayName("카메라 라는 카테고리가 만들어져야한다")
     @Test
@@ -27,7 +27,7 @@ class CategoryRepositoryServiceTest {
         String name = "카메라";
 
         //when
-        equipmentCategoryService.addEquipmentCategory(name);
+        categoryService.addCategory(name);
 
         //then
         Category category = equipmentCategoryRepository.findByCategoryName(name).get();
@@ -46,7 +46,7 @@ class CategoryRepositoryServiceTest {
 
         //when
 
-        List<Category> categoryList = equipmentCategoryService.findAll();
+        List<Category> categoryList = categoryService.findAll();
         //then
         assertThat(categoryList).hasSize(2);
         assertThat(categoryList).contains(camara, mic);

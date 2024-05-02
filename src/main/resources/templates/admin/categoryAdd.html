@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/head :: header(title='수업시간표')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- Page Content  -->
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '카테고리 추가')}">
+    <!--    컨텐츠-->
+    <form method="post" action="/admin/category/add" th:object="${category}">
+        <div class="form-group">
+            <label for="categoryInput">카테고리 명</label>
+            <input type="text" class="form-control" id="categoryInput" placeholder="카메라" th:field="*{name}">
+        </div>
+        <button type="submit" class="btn btn-primary">추가</button>
+    </form>
+</div>
+</body>
+</html>

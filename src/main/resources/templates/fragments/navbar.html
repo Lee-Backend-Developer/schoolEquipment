@@ -28,17 +28,38 @@
                 </li>
                 <li>
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">관리자</a>
+
                     <ul class="collapse list-unstyled" id="pageSubmenu">
                         <li>
-                            <a href="#">기자재 추가하기</a>
+                            <a href="#equipment" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">기자재</a>
+                            <ul class="collapse list-unstyled" id="equipment">
+                                <li>
+                                    <a href="#">장비추가</a>
+                                </li>
+                                <li>
+                                    <a href="#">장비수정</a>
+                                </li>
+                                <li>
+                                    <a href="#">장비삭제</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
-                            <a href="#">기자재 카테고리 추가</a>
-                        </li>
-                        <li>
-                            <a href="#">기자재 대여</a>
+                            <a href="#classtimelists" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">시간표</a>
+                            <ul class="collapse list-unstyled" id="classtimelists">
+                                    <li><a href="#">시간표 추가</a></li>
+                                    <li><a href="#">시간표 수정</a></li>
+                                    <li><a href="#">시간표 삭제</a></li>
+                            </ul>
+                            <a href="#category" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">카테고리</a>
+                            <ul class="collapse list-unstyled" id="category">
+                                    <li><a href="/admin/category/add">카테고리 추가</a></li>
+                                    <li><a href="#">카테고리 수정</a></li>
+                                    <li><a href="#">카테고리 삭제</a></li>
+                            </ul>
                         </li>
                     </ul>
+
                 </li>
             </ul>
 

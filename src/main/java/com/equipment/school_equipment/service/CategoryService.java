@@ -11,11 +11,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class EquipmentCategoryService {
+public class CategoryService {
     private final EquipmentCategoryRepository equipmentCategoryRepository;
 
     @Transactional
-    public Category addEquipmentCategory(String name) {
+    public Category addCategory(String name) {
         Category category = Category.builder().categoryName(name).build();
         return equipmentCategoryRepository.save(category);
     }
