@@ -79,7 +79,7 @@ public class RentalServiceTest {
         assertThat(countLeft).isEqualTo(8);                 // 8개가 남아야함
     }
 
-    @DisplayName("장비대여 모두 조회 할 때 대여수 수량을 알아야함")
+    @DisplayName("장비 4개 대여하고 6개 남아야한다.")
     @Test
     void equipmentLeft(){
         //given
@@ -101,12 +101,10 @@ public class RentalServiceTest {
         String equipmentName = rental.getEquipmentId().getName();
 
         //when
-//        rentalService.findByEquipmentCnt(equipmentName, getClassTimeList().getClassName()); //요청: 값 없음
-
-        int pmwCnt = rentalService.findByEquipmentCnt("pmw");
+        int leftCnt = rentalService.findByEquipmentCnt(equipmentName); //남은 값
 
         //then
-        assertThat(pmwCnt).isEqualTo(4);
+        assertThat(leftCnt).isEqualTo(6);
     }
 
     @DisplayName("수업명과 요일을 입력받아 장비가 몇 개 들어가는지 조회가 되어야함")
@@ -169,13 +167,13 @@ public class RentalServiceTest {
     void findByClassNameIdAndDayOfWeek() {
         //given
         String dayOfWeek = DayOfWeekEnum.monday.name();
-        String className = "영상촬영실습";
+        String classNameId = Long.toString(getClassTimeList().getId());
         Rental rental = Rental.builder().equipmentId(getEquipment()).classtimelistId(getClassTimeList()).rentalCnt(3).build();
         rentalRepository.save(rental);
 
 
         //when
-        List<Equipment> equipment = rentalService.findByClassnameIdAndDayOfWeek(className, dayOfWeek);
+        List<Equipment> equipment = rentalService.findByClassnameIdAndDayOfWeek(classNameId, dayOfWeek);
 
         //then
         assertThat(equipment.size()).isEqualTo(1);
