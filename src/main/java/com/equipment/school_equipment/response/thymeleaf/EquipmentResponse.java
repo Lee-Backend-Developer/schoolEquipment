@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record EquipmentResponse(
-        String equipmentName, int retCnt, int leftCnt
+        String equipmentName, String content, String img, int retCnt, int leftCnt
 
 ) {
 }

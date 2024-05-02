@@ -1,14 +1,12 @@
 package com.equipment.school_equipment.service;
 
 
-import com.equipment.school_equipment.domain.ClassTimeList;
+import com.equipment.school_equipment.domain.Classtimelist;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
 import com.equipment.school_equipment.request.classTime.ClassTimeUpdate;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +19,10 @@ public class ClassTimeService {
     private final ClassTimeRepository classTimeRepository;
 
     @Transactional
-    public ClassTimeList save(ClassTimeCreate request) throws RuntimeException {
+    public Classtimelist save(ClassTimeCreate request) throws RuntimeException {
         if(request.dayOfWeek() == null) throw new RuntimeException("요일이 선택되지 않음.");
 
-        ClassTimeList classTime = ClassTimeList.builder()
+        Classtimelist classTime = Classtimelist.builder()
                 .className(request.className())
                 .oneTime(request.oneTime())
                 .twoTime(request.twoTime())
@@ -41,8 +39,8 @@ public class ClassTimeService {
     }
 
     @Transactional
-    public ClassTimeList updateClassTime(ClassTimeUpdate request) {
-        ClassTimeList findClassName = classTimeRepository.findByClassName(request.oldClassname()).get();
+    public Classtimelist updateClassTime(ClassTimeUpdate request) {
+        Classtimelist findClassName = classTimeRepository.findByClassName(request.oldClassname()).get();
 
         findClassName.setUpdate(request.newClassname(), request.oneTime(), request.twoTime(), request.threeTime(), request.fourTime(), request.fiveTime(), request.sixTime(), request.sevenTime(), request.eightTime(), request.nineTime(), request.tenTime());
         return findClassName;
@@ -53,7 +51,7 @@ public class ClassTimeService {
         classTimeRepository.deleteById(id);
     }
 
-    public List<ClassTimeList> findByDay(String week) throws RuntimeException {
+    public List<Classtimelist> findByDay(String week) throws RuntimeException {
         try{
             DayOfWeekEnum.valueOf(week); // 월요일
         } catch (IllegalArgumentException e) {

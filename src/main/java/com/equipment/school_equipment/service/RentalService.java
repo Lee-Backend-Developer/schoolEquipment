@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.ClassTimeList;
+import com.equipment.school_equipment.domain.Classtimelist;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
@@ -33,10 +33,10 @@ public class RentalService {
     @Transactional
     public int rentalCreate(RentalCreate request) {
 
-        ClassTimeList classTimeList = classTimeRepository.findByClassName(request.className()).orElseThrow(IllegalArgumentException::new);
+        Classtimelist classTimeList = classTimeRepository.findByClassName(request.className()).orElseThrow(IllegalArgumentException::new);
         Equipment equipment = equipmentRepository.findByName(request.equipmentName());
 
-        Rental rental = Rental.builder().classTimeListId(classTimeList)
+        Rental rental = Rental.builder().classtimelistId(classTimeList)
                 .equipmentId(equipment)
                 .rentalCnt(request.equipmentCount())
                 .build();
@@ -66,7 +66,7 @@ public class RentalService {
     }
 
     public Equipment findByEquipment(String classname, String day) {
-        ClassTimeList classTime = classTimeRepository.findByClassNameEqualsAndDayOfWeek(classname, DayOfWeekEnum.valueOf(day))
+        Classtimelist classTime = classTimeRepository.findByClassNameEqualsAndDayOfWeek(classname, DayOfWeekEnum.valueOf(day))
                 .orElseThrow(() -> new RuntimeException("그런 수업은 없습니다."));
         Rental rental = rentalRepository.findByClassOfDay(classTime.getClassName(), day).orElseThrow(() -> new RuntimeException("수업 또는 요일이 잘못입력되었습니다"));
         return rental.getEquipmentId();

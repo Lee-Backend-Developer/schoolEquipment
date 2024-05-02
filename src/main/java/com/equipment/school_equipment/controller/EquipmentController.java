@@ -33,6 +33,8 @@ public class EquipmentController {
             String equipmentName = equipment.getName();
             EquipmentResponse response = EquipmentResponse.builder()
                     .equipmentName(equipmentName)
+                    .content(equipment.getContent())
+                    .img(equipment.getMainImg())
                     .retCnt(rentalService.findByEquipmentCnt(equipmentName))
                     .leftCnt(equipment.getCount())
                     .build();

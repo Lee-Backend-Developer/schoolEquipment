@@ -22,7 +22,7 @@ public class QRental extends EntityPathBase<Rental> {
 
     public static final QRental rental = new QRental("rental");
 
-    public final QClassTimeList classTimeListId;
+    public final QClasstimelist classtimelistId;
 
     public final QEquipment equipmentId;
 
@@ -50,8 +50,8 @@ public class QRental extends EntityPathBase<Rental> {
 
     public QRental(Class<? extends Rental> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.classTimeListId = inits.isInitialized("classTimeListId") ? new QClassTimeList(forProperty("classTimeListId")) : null;
-        this.equipmentId = inits.isInitialized("equipmentId") ? new QEquipment(forProperty("equipmentId")) : null;
+        this.classtimelistId = inits.isInitialized("classtimelistId") ? new QClasstimelist(forProperty("classtimelistId")) : null;
+        this.equipmentId = inits.isInitialized("equipmentId") ? new QEquipment(forProperty("equipmentId"), inits.get("equipmentId")) : null;
     }
 
 }

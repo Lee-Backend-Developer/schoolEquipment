@@ -14,18 +14,19 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class EquipmentCategory {
+public class Category {
     @Id
-    @Column(name = "equipment_category_id")
+    @Column(name = "category_id")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
     private String categoryName;
 
     @OneToMany(mappedBy = "id")
     List<Equipment> equipmentList = new ArrayList<>();
 
     @Builder
-    public EquipmentCategory(String categoryName) {
+    public Category(String categoryName) {
         this.categoryName = categoryName;
     }
 }

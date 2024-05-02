@@ -1,7 +1,6 @@
 package com.equipment.school_equipment.controller;
 
-import com.equipment.school_equipment.domain.ClassTimeList;
-import com.equipment.school_equipment.domain.Equipment;
+import com.equipment.school_equipment.domain.Classtimelist;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.response.thymeleaf.ClasstimeResponse;
 import com.equipment.school_equipment.service.ClassTimeService;
@@ -32,10 +31,10 @@ public class ClasstimeController {
 
     @RequestMapping("/{dayofweek}")
     public String dayofweek(@PathVariable String dayofweek, Model model){
-        List<ClassTimeList> classTimeListList = classTimeService.findByDay(dayofweek);
+        List<Classtimelist> classtimelist = classTimeService.findByDay(dayofweek);
         List<ClasstimeResponse> responsesList = new ArrayList<>();
 
-        classTimeListList.iterator().forEachRemaining(
+        classtimelist.iterator().forEachRemaining(
                 classtimetable -> {
                     List<Boolean> times = getTimes(classtimetable); // 교시 가져오기
                     responsesList.add(ClasstimeResponse.builder()
@@ -51,7 +50,7 @@ public class ClasstimeController {
     }
 
 
-    private static List<Boolean> getTimes(ClassTimeList classTimeList) {
+    private static List<Boolean> getTimes(Classtimelist classTimeList) {
         List<Boolean> times = new ArrayList<>();
         times.add(classTimeList.isOneTime());
         times.add(classTimeList.isTwoTime());

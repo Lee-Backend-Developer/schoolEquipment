@@ -1,8 +1,8 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.ClassTimeList;
+import com.equipment.school_equipment.domain.Category;
+import com.equipment.school_equipment.domain.Classtimelist;
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.domain.EquipmentCategory;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
@@ -39,14 +39,14 @@ public class RentalServiceTest {
 
     @BeforeEach
     void setUp() {
-        EquipmentCategory category = EquipmentCategory.builder().categoryName("카메라").build();
+        Category category = Category.builder().categoryName("카메라").build();
         equipmentCategoryRepository.save(category);
 
         Equipment equipment = Equipment.builder().name("pmw").count(10).equipmentCategory(category).build();
 
         equipmentRepository.save(equipment);
 
-        classTimeRepository.save(ClassTimeList.builder()
+        classTimeRepository.save(Classtimelist.builder()
                 .className("영상촬영실습").dayOfWeek(DayOfWeekEnum.monday)
                 .twoTime(true).threeTime(true).fourTime(true).build());
     }
@@ -120,7 +120,7 @@ public class RentalServiceTest {
         int maxCount = 20;
         int inputCount = 10;
 
-        ClassTimeList saveClasstime = classTimeRepository.save(ClassTimeList.builder().className(classname)
+        Classtimelist saveClasstime = classTimeRepository.save(Classtimelist.builder().className(classname)
                 .dayOfWeek(DayOfWeekEnum.valueOf(monday))
                 .twoTime(true).build());
 
@@ -185,7 +185,7 @@ public class RentalServiceTest {
 
     }
 
-    private ClassTimeList getClassTimeList() {
+    private Classtimelist getClassTimeList() {
         return classTimeRepository.findAll().get(0);
     }
 

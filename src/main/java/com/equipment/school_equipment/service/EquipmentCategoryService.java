@@ -1,8 +1,7 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.EquipmentCategory;
+import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.repository.EquipmentCategoryRepository;
-import com.equipment.school_equipment.repository.EquipmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,13 +15,13 @@ public class EquipmentCategoryService {
     private final EquipmentCategoryRepository equipmentCategoryRepository;
 
     @Transactional
-    public EquipmentCategory addEquipmentCategory(String name) {
-        EquipmentCategory category = EquipmentCategory.builder().categoryName(name).build();
+    public Category addEquipmentCategory(String name) {
+        Category category = Category.builder().categoryName(name).build();
         return equipmentCategoryRepository.save(category);
     }
 
 
-    public List<EquipmentCategory> findAll() {
+    public List<Category> findAll() {
             return equipmentCategoryRepository.findAll();
     }
 }

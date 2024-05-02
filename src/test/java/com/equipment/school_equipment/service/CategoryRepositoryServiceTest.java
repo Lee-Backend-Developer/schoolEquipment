@@ -1,8 +1,7 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.EquipmentCategory;
+import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.repository.EquipmentCategoryRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class EquipmentCategoryRepositoryServiceTest {
+class CategoryRepositoryServiceTest {
     @Autowired
     private EquipmentCategoryRepository equipmentCategoryRepository;
     @Autowired
@@ -31,8 +30,8 @@ class EquipmentCategoryRepositoryServiceTest {
         equipmentCategoryService.addEquipmentCategory(name);
 
         //then
-        EquipmentCategory equipmentCategory = equipmentCategoryRepository.findByCategoryName(name).get();
-        assertThat(equipmentCategory.getCategoryName()).isEqualTo(name);
+        Category category = equipmentCategoryRepository.findByCategoryName(name).get();
+        assertThat(category.getCategoryName()).isEqualTo(name);
 
     }
 
@@ -40,17 +39,17 @@ class EquipmentCategoryRepositoryServiceTest {
     @Test
     void findCategory_O(){
         //given
-        EquipmentCategory camara = EquipmentCategory.builder().categoryName("카메라").build();
-        EquipmentCategory mic = EquipmentCategory.builder().categoryName("마이크").build();
+        Category camara = Category.builder().categoryName("카메라").build();
+        Category mic = Category.builder().categoryName("마이크").build();
         equipmentCategoryRepository.save(camara);
         equipmentCategoryRepository.save(mic);
 
         //when
 
-        List<EquipmentCategory> equipmentCategoryList = equipmentCategoryService.findAll();
+        List<Category> categoryList = equipmentCategoryService.findAll();
         //then
-        assertThat(equipmentCategoryList).hasSize(2);
-        assertThat(equipmentCategoryList).contains(camara, mic);
+        assertThat(categoryList).hasSize(2);
+        assertThat(categoryList).contains(camara, mic);
 
     }
 }
