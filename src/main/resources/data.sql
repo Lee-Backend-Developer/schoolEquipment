@@ -38,5 +38,5 @@ values ('방송음향', 'Friday', true, true, true);
 
 
 -- 장비대여
-insert into rental(classtimelist_id, EQUIPMENT_ID) VALUES (1,1);
-insert into rental(classtimelist_id, EQUIPMENT_ID) VALUES (1,1);
+insert into rental(classtimelist_id, EQUIPMENT_ID, rental_cnt) VALUES (1,1,4);
+insert into rental(classtimelist_id, EQUIPMENT_ID, rental_cnt) VALUES (1,1,4);
