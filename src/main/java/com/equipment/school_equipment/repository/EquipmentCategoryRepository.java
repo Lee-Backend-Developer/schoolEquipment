@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface EquipmentCategoryRepository extends JpaRepository<Category, Long> {
     Optional<Category> findByCategoryName(String name);
+    Optional<Category> findByIdAndCategoryName(Long id, String name);
 }

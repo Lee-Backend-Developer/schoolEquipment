@@ -42,7 +42,7 @@ public class RentalServiceTest {
         Category category = Category.builder().categoryName("카메라").build();
         equipmentCategoryRepository.save(category);
 
-        Equipment equipment = Equipment.builder().name("pmw").count(10).equipmentCategory(category).build();
+        Equipment equipment = Equipment.builder().name("pmw").count(10).category(category).build();
 
         equipmentRepository.save(equipment);
 
@@ -83,13 +83,13 @@ public class RentalServiceTest {
     @Test
     void equipmentLeft(){
         //given
-        Rental rental = Rental.builder().classTimeListId(getClassTimeList())
+        Rental rental = Rental.builder().classtimelistId(getClassTimeList())
                 .equipmentId(getEquipment())
                 .rentalCnt(2)
                 .rentalChk(true)// 10 - 2
                 .build();
 
-        Rental rental2 = Rental.builder().classTimeListId(getClassTimeList())
+        Rental rental2 = Rental.builder().classtimelistId(getClassTimeList())
                 .equipmentId(getEquipment())
                 .rentalCnt(2) // 10 - 2
                 .rentalChk(true)
@@ -130,7 +130,7 @@ public class RentalServiceTest {
 
         //when
         Rental saveRental = Rental.builder()
-                .classTimeListId(saveClasstime)
+                .classtimelistId(saveClasstime)
                 .equipmentId(saveEquipment)
                 .rentalCnt(inputCount)
                 .build();
@@ -149,7 +149,7 @@ public class RentalServiceTest {
     void returnRental() {
         //given
         Rental saveRental = rentalRepository.save(Rental.builder() //pmw 제품 3개 대여함
-                .classTimeListId(getClassTimeList())
+                .classtimelistId(getClassTimeList())
                 .equipmentId(getEquipment()).rentalCnt(3)
                 .build());
 
@@ -171,7 +171,7 @@ public class RentalServiceTest {
         //given
         String dayOfWeek = DayOfWeekEnum.monday.name();
         String className = "영상촬영실습";
-        Rental rental = Rental.builder().equipmentId(getEquipment()).classTimeListId(getClassTimeList()).rentalCnt(3).build();
+        Rental rental = Rental.builder().equipmentId(getEquipment()).classtimelistId(getClassTimeList()).rentalCnt(3).build();
         rentalRepository.save(rental);
 
 

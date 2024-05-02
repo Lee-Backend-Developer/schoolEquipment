@@ -5,14 +5,18 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <!-- Page Content  -->
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '카테고리 추가')}">
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '카테고리 수정')}">
     <!--    컨텐츠-->
-    <form method="post" action="/admin/category/add" th:object="${category}">
+    <form id="content" th:object="${category}" method="post" th:action="@{/admin/category/edit/{categoryId} (categoryId = ${category.id()})}">
         <div class="form-group">
-            <label for="categoryInput">카테고리 명</label>
-            <input type="text" class="form-control" id="categoryInput" placeholder="카메라" th:field="*{name}">
+            <label for="oldCategory">기존 카테고리명</label>
+            <input type="text" class="form-control" id="oldCategory" th:field="*{oldClassname}" readonly>
         </div>
-        <button type="submit" class="btn btn-primary">추가</button>
+        <div class="form-group">
+            <label for="currentCategory">수정할 카테고리 이름</label>
+            <input type="text" class="form-control" id="currentCategory" placeholder="변경할 카테고리 명" th:field="*{changeNameClassname}">
+        </div>
+        <button type="submit" class="btn btn-primary">수정</button>
     </form>
 </div>
 </body>

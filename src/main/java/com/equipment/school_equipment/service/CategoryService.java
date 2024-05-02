@@ -20,8 +20,19 @@ public class CategoryService {
         return equipmentCategoryRepository.save(category);
     }
 
-
     public List<Category> findAll() {
             return equipmentCategoryRepository.findAll();
+    }
+
+    public Category findById(Long id) {
+        Category category = equipmentCategoryRepository.findById(id).orElseThrow(() -> new RuntimeException("입력하신 카테고리는 없습니다."));
+        return category;
+    }
+
+    @Transactional
+    public Category findByIdAndName(Long id, String categoryName, String changeName) {
+        Category category = equipmentCategoryRepository.findByIdAndCategoryName(id, categoryName).orElseThrow(() -> new RuntimeException("잘못된 접근입니다."));
+        category.updateName(changeName);
+        return category;
     }
 }

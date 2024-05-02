@@ -29,4 +29,10 @@ public class Category {
     public Category(String categoryName) {
         this.categoryName = categoryName;
     }
+
+
+    // 비즈니스 로직
+    public void updateName(String changeName) {
+        this.categoryName = changeName;
+    }
 }
