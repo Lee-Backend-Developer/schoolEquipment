@@ -23,7 +23,7 @@ public class AdminCategoryController {
 
     @GetMapping("/add")
     public String addCategory(@ModelAttribute("category") CategoryAddRequest request) {
-        return "admin/categoryAdd";
+        return "admin/category/categoryAdd";
     }
 
     @PostMapping("/add")
@@ -42,7 +42,7 @@ public class AdminCategoryController {
                 .toList();
 
         model.addAttribute("categorys", categoryRespons);
-        return "admin/categoryFindAll";
+        return "admin/category/categoryFindAll";
     }
 
     @GetMapping("/edit/{categoryId}")
@@ -68,7 +68,7 @@ public class AdminCategoryController {
                 .toList();
 
         model.addAttribute("categorys", categoryRespons);
-        return "admin/categoryDelete";
+        return "admin/category/categoryDelete";
     }
 
     @GetMapping("/delete/{categoryid}")
