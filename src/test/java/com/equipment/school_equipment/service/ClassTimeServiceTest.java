@@ -50,6 +50,27 @@ class ClassTimeServiceTest {
         Assertions.assertThat(findClassTime).isNotNull();
     }
 
+    @DisplayName("수업 아이디를 검색했을때 수업 도메인이 가져와야된다.")
+    @Test
+    void findById_O() throws Exception {
+        //given 준비 과정
+        Classtimes saveClasstimes = Classtimes.builder()
+                .className("국어")
+                .dayOfWeek(DayOfWeekEnum.monday)
+                .twoTime(true)
+                .threeTime(true)
+                .fourTime(true)
+                .build();
+
+        classTimeRepository.save(saveClasstimes);
+
+        //when 실행
+        Classtimes findClasstimes = classTimeService.findById(saveClasstimes.getId());
+
+        //then 검증
+        Assertions.assertThat(findClasstimes.getClassName()).isEqualTo(saveClasstimes.getClassName());
+    }
+
     @DisplayName("요일별로 시간표를 가지고 온다")
     @Test
     void findOfDays() {

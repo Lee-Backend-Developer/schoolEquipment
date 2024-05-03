@@ -52,8 +52,9 @@ public class Classtimes {
     }
 
     // 비즈니스 로직
-    public void setUpdate(String newClassname, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
+    public void setUpdate(String newClassname, DayOfWeekEnum dayOfWeekEnum, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
         this.className = newClassname;
+        this.dayOfWeek = dayOfWeekEnum;
         this.oneTime = oneTime;
         this.twoTime = twoTime;
         this.threeTime = threeTime;

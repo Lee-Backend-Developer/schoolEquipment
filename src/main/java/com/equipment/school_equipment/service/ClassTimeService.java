@@ -41,9 +41,9 @@ public class ClassTimeService {
 
     @Transactional
     public Classtimes updateClassTime(ClassTimeUpdate request) {
-        Classtimes findClassName = classTimeRepository.findByClassName(request.oldClassname()).get();
+        Classtimes findClassName = classTimeRepository.findByClassName(request.oldClassname()).orElseThrow(() -> new RuntimeException("접근에러"));
 
-        findClassName.setUpdate(request.newClassname(), request.oneTime(), request.twoTime(), request.threeTime(), request.fourTime(), request.fiveTime(), request.sixTime(), request.sevenTime(), request.eightTime(), request.nineTime(), request.tenTime());
+        findClassName.setUpdate(request.newClassname(), request.dayOfWeekEnum(), request.oneTime(), request.twoTime(), request.threeTime(), request.fourTime(), request.fiveTime(), request.sixTime(), request.sevenTime(), request.eightTime(), request.nineTime(), request.tenTime());
         return findClassName;
     }
 
@@ -63,5 +63,11 @@ public class ClassTimeService {
 
     public List<Classtimes> findAll() {
         return classTimeRepository.findAll();
+    }
+
+    public Classtimes findById(Long classnameId) {
+        Classtimes classtimes = classTimeRepository.findById(classnameId).orElseThrow(() -> new RuntimeException("잘못된 접근입니다."));
+
+        return classtimes;
     }
 }
