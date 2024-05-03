@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/head :: header(title='장비')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- Page Content  -->
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table}, '장비')}">
+    <!--    컨텐츠-->
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">No</th>
+            <th scope="col">장비명</th>
+            <th scope="col">남은수량/창고수량</th>
+        </tr>
+        <tbody th:each="equipment : ${equipments}">
+        <tr>
+            <td scope="row" th:text="${equipmentStat.count}">1</td>
+            <td>
+                <a href="#" th:text="${equipment.equipmentName()}" th:href="@{/admin/equipment/edit/{no} (no = ${equipment.id()})}">카메라</a>
+            </td>
+            <td>
+                <p>[[${equipment.retCnt()}]]/[[${equipment.leftCnt()}]]</p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
