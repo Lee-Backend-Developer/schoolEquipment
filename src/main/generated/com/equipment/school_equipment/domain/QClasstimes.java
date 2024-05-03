@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QClasstimelist is a Querydsl query type for Classtimelist
+ * QClasstimes is a Querydsl query type for Classtimes
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QClasstimelist extends EntityPathBase<Classtimelist> {
+public class QClasstimes extends EntityPathBase<Classtimes> {
 
-    private static final long serialVersionUID = -151575977L;
+    private static final long serialVersionUID = -455437990L;
 
-    public static final QClasstimelist classtimelist = new QClasstimelist("classtimelist");
+    public static final QClasstimes classtimes = new QClasstimes("classtimes");
 
     public final StringPath className = createString("className");
 
@@ -45,16 +45,16 @@ public class QClasstimelist extends EntityPathBase<Classtimelist> {
 
     public final BooleanPath twoTime = createBoolean("twoTime");
 
-    public QClasstimelist(String variable) {
-        super(Classtimelist.class, forVariable(variable));
+    public QClasstimes(String variable) {
+        super(Classtimes.class, forVariable(variable));
     }
 
-    public QClasstimelist(Path<? extends Classtimelist> path) {
+    public QClasstimes(Path<? extends Classtimes> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QClasstimelist(PathMetadata metadata) {
-        super(Classtimelist.class, metadata);
+    public QClasstimes(PathMetadata metadata) {
+        super(Classtimes.class, metadata);
     }
 
 }

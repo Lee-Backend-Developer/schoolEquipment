@@ -7,7 +7,6 @@ import com.equipment.school_equipment.response.thymeleaf.admin.CategoryFindRespo
 import com.equipment.school_equipment.service.CategoryService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/admin/category")
 public class AdminCategoryController {

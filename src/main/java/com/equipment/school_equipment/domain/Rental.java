@@ -17,7 +17,7 @@ public class Rental {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classtimelist_id")
-    private Classtimelist classtimelistId = new Classtimelist();
+    private Classtimes classtimesId = new Classtimes();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "equipment_id")
@@ -27,8 +27,8 @@ public class Rental {
     private boolean rentalChk = true; //렌탈 여부
 
     @Builder
-    public Rental(Classtimelist classtimelistId, Equipment equipmentId, int rentalCnt, boolean rentalChk) {
-        this.classtimelistId = classtimelistId;
+    public Rental(Classtimes classtimesId, Equipment equipmentId, int rentalCnt, boolean rentalChk) {
+        this.classtimesId = classtimesId;
         this.equipmentId = equipmentId;
         this.rentalCnt = rentalCnt;
         this.rentalChk = rentalChk;

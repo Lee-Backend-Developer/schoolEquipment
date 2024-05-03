@@ -5,18 +5,18 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <!-- Page Content  -->
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table}, '카테고리')}">
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table}, '시간표')}">
     <!--    컨텐츠-->
     <table class="table table-hover">
         <thead>
         <tr>
             <th scope="col">No</th>
-            <th scope="col">카테고리 명</th>
+            <th scope="col">수업명</th>
         </tr>
-        <tbody th:each="category : ${categorys}">
+        <tbody th:each="classtime : ${classtimes}">
         <tr>
-            <td scope="row" th:text="${categoryStat.count}">1</td>
-            <td><a href="#" th:text="${category.name()}" th:href="@{/admin/category/edit/{no} (no = ${category.id()})}">카메라</a></td>
+            <td scope="row" th:text="${classtimeStat.count}">1</td>
+            <td><a href="#" th:text="${classtime.name()}" th:href="@{/admin/classtimes/edit/{no} (no = ${classtime.id()})}">카메라</a></td>
         </tr>
         </tbody>
     </table>

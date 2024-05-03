@@ -13,7 +13,7 @@ import static jakarta.persistence.GenerationType.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Classtimelist {
+public class Classtimes {
     @Id
     @Column(name = "classtimelist_id")
     @GeneratedValue(strategy = IDENTITY)
@@ -36,7 +36,7 @@ public class Classtimelist {
     private boolean tenTime;    //10교시(18:00 ~ 18:50)
 
     @Builder
-    public Classtimelist(String className, DayOfWeekEnum dayOfWeek, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
+    public Classtimes(String className, DayOfWeekEnum dayOfWeek, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
         this.className = className;
         this.dayOfWeek = dayOfWeek;
         this.oneTime = oneTime;

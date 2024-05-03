@@ -1,13 +1,11 @@
 package com.equipment.school_equipment.repository.custom;
 
-import com.equipment.school_equipment.domain.Category;
+
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
-import static com.equipment.school_equipment.domain.QCategory.*;
-import static com.equipment.school_equipment.domain.QEquipment.*;
+import static com.equipment.school_equipment.domain.QCategory.category;
+import static com.equipment.school_equipment.domain.QEquipment.equipment;
 
 @RequiredArgsConstructor
 public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
