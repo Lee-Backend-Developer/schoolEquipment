@@ -117,4 +117,12 @@ public class AdminClasstimesController {
         response.sendRedirect("/admin/classtimes");
     }
 
+    @GetMapping("/delete")
+    public String adminClasstimesDelete(Model model) {
+        List<Classtimes> classTimesList = classTimeService.findAll();
+        List<ClasstimeResponse> responseList = classTimesList.stream().map(classtimes -> ClasstimeResponse.builder().id(classtimes.getId()).classname(classtimes.getClassName()).build()).toList();
+        model.addAttribute("responses", responseList);
+        return "admin/classtimes/classtimesDelete";
+    }
+
 }

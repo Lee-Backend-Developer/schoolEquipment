@@ -5,6 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record ClasstimeResponse(
+        Long id,
         String classname,
         DayOfWeekEnum dayOfWeekEnum,
         boolean oneTime,
