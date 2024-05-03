@@ -24,6 +24,7 @@ public class ClassTimeService {
 
         Classtimes classTime = Classtimes.builder()
                 .className(request.className())
+                .dayOfWeek(request.dayOfWeek())
                 .oneTime(request.oneTime())
                 .twoTime(request.twoTime())
                 .threeTime(request.threeTime())
