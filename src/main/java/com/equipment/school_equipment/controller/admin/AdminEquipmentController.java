@@ -3,13 +3,16 @@ package com.equipment.school_equipment.controller.admin;
 import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.request.admin.EquipmentAddRequest;
+import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import com.equipment.school_equipment.response.thymeleaf.EquipmentResponse;
 import com.equipment.school_equipment.service.CategoryService;
 import com.equipment.school_equipment.service.EquipmentService;
 import com.equipment.school_equipment.service.RentalService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/equipment")
@@ -43,7 +47,29 @@ public class AdminEquipmentController {
 
     @GetMapping("/edit/{equipmentId}")
     public String edit(@PathVariable("equipmentId") Long equipmentId, Model model) {
-        return null;
+
+        List<Category> categorys = categoryService.findAll();
+        Equipment equipment = equipmentService.findById(equipmentId);
+
+        model.addAttribute("equipment", equipment);
+        model.addAttribute("categorys", categorys);
+
+        return "/admin/equipment/equipmentEdit";
+    }
+
+    @PostMapping("/edit/{equipmentId}")
+    public void edit(@PathVariable("equipmentId") Long equipmentId, @ModelAttribute Equipment equipment, @ModelAttribute(name = "categorys") Category category, HttpServletResponse response) throws IOException {
+        //todo 파라미터 값 받는거 확인
+        EquipmentEditRequest request = EquipmentEditRequest.builder()
+                .id(equipmentId)
+                .mainImg(equipment.getMainImg())
+                .count(equipment.getCount())
+                .name(equipment.getName())
+                .content(equipment.getContent())
+                .categoryId(category.getId()).build();
+        equipmentService.updateEquipment(request);
+        response.sendRedirect("/admin/equipment");
+
     }
 
     @GetMapping("/add")

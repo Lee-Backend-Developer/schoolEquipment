@@ -1,10 +1,7 @@
 package com.equipment.school_equipment.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import static jakarta.persistence.GenerationType.*;
 
@@ -40,8 +37,19 @@ public class Equipment {
         this.count = count;
     }
 
+    public void editEquipment(Equipment equipment) {
+        this.name = equipment.getName();
+        this.mainImg = equipment.getMainImg();
+        this.content = equipment.getContent();
+        this.count = equipment.getCount();
+    }
+
     public void addCategory(Category category) {
         this.category = category;
         category.getEquipmentList().add(this);
+    }
+
+    public void removeCategory(Category category) {
+        category.getEquipmentList().remove(this);
     }
 }

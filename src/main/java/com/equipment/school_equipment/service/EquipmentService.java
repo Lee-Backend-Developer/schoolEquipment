@@ -5,6 +5,7 @@ import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.repository.CategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
+import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.equipment.EquipmentCount;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import lombok.RequiredArgsConstructor;
@@ -53,5 +54,21 @@ public class EquipmentService {
 
     public List<Equipment> findAll() {
             return equipmentRepository.findAll();
+    }
+
+    public Equipment findById(Long id) {
+        return equipmentRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+    }
+
+    @Transactional
+    public void updateEquipment(EquipmentEditRequest request) {
+        Category category = categoryRepository.findById(request.categoryId()).orElseThrow(IllegalArgumentException::new);
+
+        Equipment requestConveter = Equipment.builder().name(request.name()).count(request.count()).mainImg(request.mainImg()).content(request.content()).build();
+
+        Equipment updateEquipment = findById(request.id());
+        updateEquipment.editEquipment(requestConveter);
+        updateEquipment.removeCategory(updateEquipment.getCategory());
+        updateEquipment.addCategory(category);
     }
 }

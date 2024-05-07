@@ -4,8 +4,10 @@ import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.repository.CategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
+import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import com.equipment.school_equipment.request.equipment.EquipmentCount;
+import com.equipment.school_equipment.response.thymeleaf.admin.EquipmentResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,6 +45,25 @@ class EquipmentServiceTest {
     void end() {
         equipmentRepository.deleteAll();
         categoryRepository.deleteAll();
+    }
+
+    @DisplayName("장비 아이디로 장비가 조회가 되어야한다.")
+    @Test
+    void findById() throws Exception {
+        //given 준비 과정
+        Category category = Category.builder().categoryName("테스트").build();
+        categoryRepository.save(category);
+
+        Equipment saveEquipment = Equipment.builder().name("장비").build();
+        saveEquipment.addCategory(category);
+        equipmentRepository.save(saveEquipment);
+
+        //when 실행
+        Equipment equipment = equipmentService.findById(saveEquipment.getId());
+
+        //then 검증
+        assertThat(equipment.getName()).isEqualTo(saveEquipment.getName());
+
     }
 
     @DisplayName("장비이름,장비수량이 저장이 되어야함")
@@ -127,5 +148,25 @@ class EquipmentServiceTest {
         equipmentService.delete(equipment.getId());
         //then
         assertThat(equipmentRepository.findById(equipment.getId())).isEmpty();
+    }
+
+    @DisplayName("기존에 있는 장비가 이름, 창고 수, 카테고리 등 모두 수정이 되어야함")
+    @Test
+    void update_equipment_o() throws Exception {
+        //given 준비 과정
+        String oldName = "pmw-500";
+        String changeName = "pmw-10000";
+        Category category = new Category("테스트");
+        categoryRepository.save(category);
+
+        Equipment equipment = Equipment.builder().name(oldName).count(10).build();
+        equipment.addCategory(category);
+        equipmentRepository.save(equipment);
+
+        //when 실행
+        EquipmentEditRequest request = EquipmentEditRequest.builder().id(equipment.getId()).name(changeName).build();
+        equipmentService.updateEquipment(request);
+        //then 검증
+        assertThat(equipment.getName()).isEqualTo(changeName);
     }
 }
