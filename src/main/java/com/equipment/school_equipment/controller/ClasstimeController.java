@@ -21,7 +21,6 @@ import java.util.List;
 @RequestMapping("/classtimes")
 public class ClasstimeController {
     private final ClassTimeService classTimeService;
-    private final RentalService rentalService;
 
     @RequestMapping
     public String classtimes(Model model) {

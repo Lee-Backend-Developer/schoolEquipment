@@ -59,7 +59,6 @@ public class AdminEquipmentController {
 
     @PostMapping("/edit/{equipmentId}")
     public void edit(@PathVariable("equipmentId") Long equipmentId, @ModelAttribute Equipment equipment, @ModelAttribute(name = "categorys") Category category, HttpServletResponse response) throws IOException {
-        //todo 파라미터 값 받는거 확인
         EquipmentEditRequest request = EquipmentEditRequest.builder()
                 .id(equipmentId)
                 .mainImg(equipment.getMainImg())

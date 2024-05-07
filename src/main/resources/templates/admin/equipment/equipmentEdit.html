@@ -25,7 +25,7 @@
                 <option th:each="category : ${categorys}"
                         th:text="${category.getCategoryName()}"
                         th:value="${category.getId()}"
-                        th:attrappend="selected = ${category.getCategoryName().equals(equipment.category.getCategoryName())}"
+                        th:attr="selected = ${category.getCategoryName().equals(equipment.category.getCategoryName())}"
                 >test</option>
             </select>
         </div>

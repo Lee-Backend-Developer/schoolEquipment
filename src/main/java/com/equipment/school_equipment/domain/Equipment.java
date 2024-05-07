@@ -1,5 +1,7 @@
 package com.equipment.school_equipment.domain;
 
+import com.equipment.school_equipment.request.admin.EquipmentAddRequest;
+import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,19 +39,16 @@ public class Equipment {
         this.count = count;
     }
 
-    public void editEquipment(Equipment equipment) {
-        this.name = equipment.getName();
-        this.mainImg = equipment.getMainImg();
-        this.content = equipment.getContent();
-        this.count = equipment.getCount();
+    public void editEquipment(EquipmentEditRequest equipment, Category category) {
+        this.name = equipment.name();
+        this.mainImg = equipment.mainImg();
+        this.content = equipment.content();
+        this.count = equipment.count();
+        this.category = category;
     }
 
     public void addCategory(Category category) {
         this.category = category;
         category.getEquipmentList().add(this);
-    }
-
-    public void removeCategory(Category category) {
-        category.getEquipmentList().remove(this);
     }
 }
