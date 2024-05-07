@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="~{fragments/head :: header(title='카테고리')}"></head>
+<head th:replace="~{fragments/head :: header(title='시간표')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -16,8 +16,8 @@
         <tbody th:each="response : ${responses}">
         <tr>
             <td scope="row" th:text="${responseStat.count}">1</td>
-            <td><a href="#" th:text="${response.classname()}" th:href="@{/admin/category/edit/{no} (no = ${response.id()})}">카메라</a></td>
-            <td><a th:href="@{/admin/category/delete/{categoryid} (categoryid = ${response.id()})}" type="button" class="btn btn-danger">삭제</a></td>
+            <td th:text="${response.classname()}">카메라</td>
+            <td><a th:href="@{/admin/classtimes/delete/{classtimesId} (classtimesId = ${response.id()})}" type="button" class="btn btn-danger">삭제</a></td>
         </tr>
         </tbody>
     </table>
