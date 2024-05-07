@@ -57,6 +57,7 @@ class EquipmentServiceTest {
         EquipmentCreate request = EquipmentCreate.builder()
                 .name("pmw-200")
                 .count(10)
+                .categoryId(category.getId())
                 .build();
 
         //when

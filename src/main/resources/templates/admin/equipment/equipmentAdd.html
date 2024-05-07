@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/head :: header(title='기자재')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- Page Content  -->
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '기자재 추가')}">
+    <!--    컨텐츠-->
+    <form th:object="${equipment}" method="post">
+        <div class="form-group">
+            <label for="addEquipment">추가할 기자재명</label>
+            <input type="text" class="form-control" id="addEquipment" placeholder="기자재 명" th:field="*{name}">
+        </div>
+
+        <div class="form-group">
+            <label for="cnt">창고 갯수</label>
+            <input type="text" class="form-control" id="cnt" placeholder="창고에 있는 갯수" th:field="*{count}">
+        </div>
+
+        <!-- 카테고리 선택 -->
+        <div class="form-group">
+            <select class="form-control" name="categorys">
+                <option>장비 카테고리 선택하세요.</option>
+                <option th:each="category : ${categorys}" th:text="${category.getCategoryName()}" th:value="${category.getId()}">test</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">추가</button>
+    </form>
+</div>
+</body>
+</html>

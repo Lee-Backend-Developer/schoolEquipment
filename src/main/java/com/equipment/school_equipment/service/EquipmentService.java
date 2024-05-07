@@ -1,7 +1,9 @@
 package com.equipment.school_equipment.service;
 
 
+import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.domain.Equipment;
+import com.equipment.school_equipment.repository.CategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.request.equipment.EquipmentCount;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
@@ -16,10 +18,16 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class EquipmentService {
     private final EquipmentRepository equipmentRepository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional
     public Equipment save(EquipmentCreate request) {
-        Equipment saveEquipment = Equipment.builder().name(request.name()).count(request.count()).build();
+        Category findCategory = categoryRepository.findById(request.categoryId()).orElseThrow(IllegalArgumentException::new);
+        Equipment saveEquipment = Equipment.builder()
+                .name(request.name())
+                .count(request.count())
+                .build();
+        saveEquipment.addCategory(findCategory);
         return equipmentRepository.save(saveEquipment);
     }
 
