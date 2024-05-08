@@ -88,4 +88,25 @@ public class AdminEquipmentController {
         response.sendRedirect("/admin/equipment");
     }
 
+    @GetMapping("/delete")
+    public String delete(Model model) {
+        List<Equipment> equipments = equipmentService.findAll();
+        List<EquipmentResponse> equipmentResponseList = equipments.stream().map(equipment -> EquipmentResponse
+                        .builder()
+                        .id(equipment.getId())
+                        .equipmentName(equipment.getName())
+                        .leftCnt(equipment.getCount())
+                        .retCnt(rentalService.findByEquipmentCnt(equipment.getName()))
+                        .build())
+                .toList();
+
+        model.addAttribute("equipments", equipmentResponseList);
+        return "/admin/equipment/equipmentDelete";
+    }
+
+    @GetMapping("/delete/{equipmentId}")
+    public void delete(@PathVariable(name = "equipmentId") Long equipmentId, HttpServletResponse response) throws IOException {
+        equipmentService.delete(equipmentId);
+        response.sendRedirect("/admin/equipment/delete");
+    }
 }
