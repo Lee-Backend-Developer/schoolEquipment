@@ -5,6 +5,7 @@ import com.equipment.school_equipment.repository.CategoryRepository;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.request.admin.RentalAddRequest;
+import com.equipment.school_equipment.repository.dto.RentalDuplication;
 import com.equipment.school_equipment.service.RentalService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class AdminRentalController {
 
     @GetMapping
     public String find(Model model) {
-        List<Rental> rentals = rentalService.findByAll();
+        List<Rental> rentals = rentalService.findByDuplication();
         model.addAttribute("rentals", rentals);
         return "admin/rental/find";
     }
