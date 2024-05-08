@@ -1,5 +1,6 @@
 package com.equipment.school_equipment.controller.admin;
 
+import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.repository.CategoryRepository;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
@@ -15,15 +16,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/admin/rental/")
+@RequestMapping("/admin/rental")
 public class AdminRentalController {
     private final RentalService rentalService;
     private final CategoryRepository categoryRepository;
     private final ClassTimeRepository classTimeRepository;
     private final EquipmentRepository equipmentRepository;
+
+    @GetMapping
+    public String find(Model model) {
+        List<Rental> rentals = rentalService.findByAll();
+        model.addAttribute("rentals", rentals);
+        return "admin/rental/find";
+    }
 
     @GetMapping("/add")
     public String add(Model model) {

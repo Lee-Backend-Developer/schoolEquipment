@@ -58,14 +58,6 @@ public class RentalService {
         return 0;
     }
 
-
-    private static int valedationLeftEquipment(RentalCreate request, Equipment equipment) {
-        int verification = equipment.getCount() - request.equipmentCount();
-        if(verification < 0) throw new IllegalArgumentException();
-        return verification;
-    }
-
-
     @Transactional
     public void rentalReturn(RentalReturn request) {
         Rental findRental = rentalRepository.findById(request.rentalId()).orElseThrow(() -> new RuntimeException("렌탈한 이력이 없습니다."));
@@ -73,6 +65,10 @@ public class RentalService {
             throw new RuntimeException("반환한 횟수보다 입력하신 횟수가 큽니다.");
         }
         findRental.updateRentalCnt(findRental.getRentalCnt() - request.rentalCnt());
+    }
+
+    public List<Rental> findByAll() {
+        return rentalRepository.findAll();
     }
 
     public Equipment findByEquipment(String classname, String day) {
@@ -99,5 +95,11 @@ public class RentalService {
         List<Equipment> equipments = rentalRepository.findByClassnameIdAndDayOfWeek(classNameId, dayOfWeek);
 
         return equipments;
+    }
+
+    private static int valedationLeftEquipment(RentalCreate request, Equipment equipment) {
+        int verification = equipment.getCount() - request.equipmentCount();
+        if(verification < 0) throw new IllegalArgumentException();
+        return verification;
     }
 }
