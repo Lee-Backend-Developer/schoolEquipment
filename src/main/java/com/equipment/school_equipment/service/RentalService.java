@@ -53,7 +53,7 @@ public class RentalService {
     public int rentalCreate(RentalAddRequest request){
         Classtimes classtime = classTimeRepository.findById(request.classroomId()).orElseThrow(IllegalArgumentException::new);
         Equipment equipment = equipmentRepository.findById(request.equipmentId()).orElseThrow(IllegalArgumentException::new);
-        Rental rental = Rental.builder().equipmentId(equipment).classtimesId(classtime).rentalCnt(request.retCnt()).build();
+        Rental rental = Rental.builder().equipmentId(equipment).classtimesId(classtime).rentalCnt(request.retCnt()).rentalChk(true).build();
         rentalRepository.save(rental);
         return 0;
     }
