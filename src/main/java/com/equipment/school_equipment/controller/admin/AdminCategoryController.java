@@ -51,7 +51,7 @@ public class AdminCategoryController {
 
         CategoryEditResponse response = CategoryEditResponse.builder().id(category.getId()).oldClassname(category.getCategoryName()).build();
         model.addAttribute("category", response);
-        return "admin/categoryEdit";
+        return "admin/category/categoryEdit";
     }
 
     @PostMapping("/edit/{categoryId}")
