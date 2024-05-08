@@ -13,7 +13,9 @@
             <th scope="col">No</th>
             <th scope="col">수업명</th>
             <th scope="col">장비명</th>
-            <th scope="col">빌린 수</th>
+            <th scope="col">대여</th>
+            <th><a th:href="@{/admin/rental/add}" type="button" class="btn btn-primary">추가</a></th>
+
         </tr>
         <tbody th:each="rental : ${rentals}">
         <tr>
@@ -21,8 +23,8 @@
             <td scope="row" th:text="${rental.getClasstimesId().getClassName()}">수업이름</td>
             <td scope="row" th:text="${rental.getEquipmentId().getName()}">장비이름</td>
             <td scope="row" th:text="${rental.getRentalCnt()}">갯수</td>
+            <td><a th:href="@{/admin/rental/delete/{rentalId} (rentalId = ${rental.getId()})}" type="button" class="btn btn-danger">삭제</a></td>
             <td>
-<!--                <a href="#" th:text="${rental.getEquipmentId().getName()}" th:href="@{/admin/equipment/edit/{no} (no = ${equipment.id()})}">카메라</a>-->
             </td>
         </tr>
         </tbody>
