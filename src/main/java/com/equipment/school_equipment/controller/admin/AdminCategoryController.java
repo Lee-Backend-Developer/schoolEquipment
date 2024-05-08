@@ -75,6 +75,6 @@ public class AdminCategoryController {
     public void deleteCategory(@PathVariable("categoryid") Long categoryid, HttpServletResponse response) throws IOException {
         categoryService.deleteById(categoryid);
 
-        response.sendRedirect("/admin/category/delete");
+        response.sendRedirect("/admin/category/find");
     }
 }

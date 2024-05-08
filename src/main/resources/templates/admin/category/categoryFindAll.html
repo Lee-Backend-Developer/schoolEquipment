@@ -12,11 +12,13 @@
         <tr>
             <th scope="col">No</th>
             <th scope="col">카테고리 명</th>
+            <th><a th:href="@{/admin/category/add}" type="button" class="btn btn-primary">추가</a></th>
         </tr>
         <tbody th:each="category : ${categorys}">
         <tr>
             <td scope="row" th:text="${categoryStat.count}">1</td>
             <td><a href="#" th:text="${category.name()}" th:href="@{/admin/category/edit/{no} (no = ${category.id()})}">카메라</a></td>
+            <td><a th:href="@{/admin/category/delete/{categoryid} (categoryid = ${category.id()})}" type="button" class="btn btn-danger">삭제</a></td>
         </tr>
         </tbody>
     </table>
