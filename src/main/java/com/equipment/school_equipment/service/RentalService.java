@@ -7,6 +7,7 @@ import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.RentalRepository;
+import com.equipment.school_equipment.request.admin.RentalAddRequest;
 import com.equipment.school_equipment.request.rental.RentalCreate;
 import com.equipment.school_equipment.request.rental.RentalReturn;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,15 @@ public class RentalService {
         rentalRepository.save(rental);
 
         return verification;
+    }
+
+    @Transactional
+    public int rentalCreate(RentalAddRequest request){
+        Classtimes classtime = classTimeRepository.findById(request.classroomId()).orElseThrow(IllegalArgumentException::new);
+        Equipment equipment = equipmentRepository.findById(request.equipmentId()).orElseThrow(IllegalArgumentException::new);
+        Rental rental = Rental.builder().equipmentId(equipment).classtimesId(classtime).rentalCnt(request.retCnt()).build();
+        rentalRepository.save(rental);
+        return 0;
     }
 
 

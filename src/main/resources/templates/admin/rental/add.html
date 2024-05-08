@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/head :: header(title='대여')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- Page Content  -->
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '대여 추가')}">
+    <!--    컨텐츠-->
+    <form th:object="${rental}" method="post">
+        <!-- 장비 선택 -->
+        <div class="form-group">
+            <label for="equipment">장비 선택</label>
+            <select class="form-control" name="equipmentId" id="equipment">
+                <option>장비 선택</option>
+                <option th:each="equipment : ${equipments}" th:text="${equipment.getName()}" th:value="${equipment.getId()}">test</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="classroom">수업 선택</label>
+            <select class="form-control" name="classroomId" id="classroom">
+                <option>수업명 선택</option>
+                <option th:each="classtime : ${classtimes}" th:text="${classtime.getClassName()}" th:value="${classtime.getId()}">test</option>
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label for="cnt">대여 수</label>
+            <input type="text" class="form-control" id="cnt" placeholder="대여 수" th:field="*{retCnt}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">추가</button>
+    </form>
+</div>
+</body>
+</html>
