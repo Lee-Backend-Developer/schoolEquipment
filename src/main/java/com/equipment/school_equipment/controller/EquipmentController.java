@@ -23,6 +23,8 @@ import java.util.List;
 public class EquipmentController {
     private final EquipmentService equipmentService;
     private final RentalService rentalService;
+    final String PATH = "/equipment/";
+
 
     // 대여후 수량(가지고 있던 수량 - 렌탈마다 장비 수)
     // 응답: 장비이름, 대여 후 수량, 가지고 있던 주량
@@ -34,7 +36,7 @@ public class EquipmentController {
             EquipmentResponse response = EquipmentResponse.builder()
                     .equipmentName(equipmentName)
                     .content(equipment.getContent())
-                    .img("/equipment/" + equipment.getMainImg())
+                    .img(PATH + equipment.getMainImg())
                     .retCnt(rentalService.findByEquipmentCnt(equipmentName))
                     .leftCnt(equipment.getCount())
                     .build();
