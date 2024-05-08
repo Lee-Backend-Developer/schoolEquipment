@@ -13,6 +13,7 @@
             <th scope="col">No</th>
             <th scope="col">장비명</th>
             <th scope="col">남은수량/창고수량</th>
+            <th><a th:href="@{/admin/equipment/add}" type="button" class="btn btn-primary">추가</a></th>
         </tr>
         <tbody th:each="equipment : ${equipments}">
         <tr>
@@ -23,6 +24,8 @@
             <td>
                 <p>[[${equipment.retCnt()}]]/[[${equipment.leftCnt()}]]</p>
             </td>
+            <td><a th:href="@{/admin/equipment/delete/{equipmentId} (equipmentId = ${equipment.id()})}" type="button" class="btn btn-danger">삭제</a></td>
+
         </tr>
         </tbody>
     </table>

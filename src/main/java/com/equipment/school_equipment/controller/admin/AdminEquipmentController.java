@@ -107,6 +107,6 @@ public class AdminEquipmentController {
     @GetMapping("/delete/{equipmentId}")
     public void delete(@PathVariable(name = "equipmentId") Long equipmentId, HttpServletResponse response) throws IOException {
         equipmentService.delete(equipmentId);
-        response.sendRedirect("/admin/equipment/delete");
+        response.sendRedirect("/admin/equipment");
     }
 }
