@@ -54,7 +54,7 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
     public List<RentalDuplication> findByDuplication() {
         return queryFactory
                 .select(Projections
-                        .constructor(RentalDuplication.class, rental.classtimesId.id.longValue(), rental.equipmentId.id.longValue(), rental.rentalCnt.sum()))
+                        .constructor(RentalDuplication.class, rental.classtimesId, rental.equipmentId, rental.rentalCnt.sum()))
                 .from(rental).groupBy(rental.classtimesId.id, rental.equipmentId.id)
                 .fetch();
     }

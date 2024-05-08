@@ -101,14 +101,11 @@ public class RentalService {
 
     public List<Rental> findByDuplication() {
         List<RentalDuplication> duplications = rentalRepository.findByDuplication();
-        return duplications.stream().map(rentalDuplication -> {
-            Long equipmentId = rentalDuplication.equipmentId();
-            return Rental.builder()
-                    .equipmentId(equipmentRepository.findById(equipmentId).orElseThrow(IllegalArgumentException::new))
-                    .classtimesId(classTimeRepository.findById(rentalDuplication.classtimesId()).orElseThrow())
-                    .rentalCnt(rentalDuplication.sumCnt())
-                    .build();
-        }).toList();
+        return duplications.stream().map(rentalDuplication -> Rental.builder()
+                .equipmentId(rentalDuplication.equipment())
+                .classtimesId(rentalDuplication.classtimes())
+                .rentalCnt(rentalDuplication.sumCnt())
+                .build()).toList();
     }
 
     private static int valedationLeftEquipment(RentalCreate request, Equipment equipment) {

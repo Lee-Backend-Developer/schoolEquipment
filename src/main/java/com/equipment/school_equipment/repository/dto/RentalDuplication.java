@@ -1,8 +1,11 @@
 package com.equipment.school_equipment.repository.dto;
 
+import com.equipment.school_equipment.domain.Classtimes;
+import com.equipment.school_equipment.domain.Equipment;
+
 public record RentalDuplication(
-        Long classtimesId,
-        Long equipmentId,
+        Classtimes classtimes,
+        Equipment equipment,
         int sumCnt
 ) {
 }
