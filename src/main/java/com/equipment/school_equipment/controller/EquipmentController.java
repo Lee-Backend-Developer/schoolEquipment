@@ -34,7 +34,7 @@ public class EquipmentController {
             EquipmentResponse response = EquipmentResponse.builder()
                     .equipmentName(equipmentName)
                     .content(equipment.getContent())
-                    .img(equipment.getMainImg())
+                    .img("/equipment/" + equipment.getMainImg())
                     .retCnt(rentalService.findByEquipmentCnt(equipmentName))
                     .leftCnt(equipment.getCount())
                     .build();

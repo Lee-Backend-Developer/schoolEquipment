@@ -13,11 +13,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Slf4j
@@ -25,6 +30,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin/equipment")
 public class AdminEquipmentController {
+
+    public static String UPLOAD_DIRECTORY = "/Users/leemac/IdeaProjects/img/" + "equipment";
+
     private final EquipmentService equipmentService;
     private final RentalService rentalService;
     private final CategoryService categoryService;
@@ -81,9 +89,15 @@ public class AdminEquipmentController {
         return "/admin/equipment/equipmentAdd";
     }
 
-    @PostMapping("/add")
+    @PostMapping("add")
     public void add(@ModelAttribute EquipmentAddRequest addRequest, @ModelAttribute(name = "categorys") Category category, HttpServletResponse response) throws IOException {
-        EquipmentCreate requestCreate = EquipmentCreate.builder().name(addRequest.name()).count(addRequest.count()).categoryId(category.getId()).build();
+        // 이미지 파일 추가
+        StringBuilder fileNames = new StringBuilder();
+        Path path = Paths.get(UPLOAD_DIRECTORY, addRequest.image().getOriginalFilename());
+        fileNames.append(addRequest.image().getOriginalFilename());
+        Files.write(path, addRequest.image().getBytes());
+
+        EquipmentCreate requestCreate = EquipmentCreate.builder().name(addRequest.name()).count(addRequest.count()).categoryId(category.getId()).image(addRequest.image().getOriginalFilename()).build();
         equipmentService.save(requestCreate);
         response.sendRedirect("/admin/equipment");
     }

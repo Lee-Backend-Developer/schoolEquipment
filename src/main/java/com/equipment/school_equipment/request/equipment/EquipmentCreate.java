@@ -7,6 +7,7 @@ import lombok.Builder;
 public record EquipmentCreate(
     String name,
     int count,
+    String image,
     Long categoryId
 ) {
 }

@@ -7,10 +7,15 @@
 <!-- Page Content  -->
 <div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '기자재 추가')}">
     <!--    컨텐츠-->
-    <form th:object="${equipment}" method="post">
+    <form th:object="${equipment}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="addEquipment">추가할 기자재명</label>
             <input type="text" class="form-control" id="addEquipment" placeholder="기자재 명" th:field="*{name}">
+        </div>
+
+        <div class="form-group">
+            <label for="image">추가할 이미지</label>
+            <input type="file" class="form-control-file" id="image"  th:field="*{image}">
         </div>
 
         <div class="form-group">
