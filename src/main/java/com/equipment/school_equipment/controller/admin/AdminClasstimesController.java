@@ -127,7 +127,7 @@ public class AdminClasstimesController {
     @GetMapping("/delete/{classtimesId}")
     public void adminClasstimesDelete(@PathVariable("classtimesId") Long classtimesId, HttpServletResponse response) throws IOException {
         classTimeService.delete(classtimesId);
-        response.sendRedirect("/admin/classtimes/delete");
+        response.sendRedirect("/admin/classtimes");
     }
 
 }
