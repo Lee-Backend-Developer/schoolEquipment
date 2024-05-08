@@ -34,7 +34,7 @@ public class AdminCategoryController {
         response.sendRedirect("/admin/category/find");
     }
 
-    @GetMapping("/find")
+    @GetMapping
     public String findCategory(Model model) {
         List<Category> categoryList = categoryService.findAll();
         List<CategoryFindResponse> categoryRespons = categoryList.stream()
