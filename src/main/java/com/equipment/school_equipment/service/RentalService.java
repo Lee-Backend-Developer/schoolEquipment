@@ -83,9 +83,9 @@ public class RentalService {
     }
 
     /**
-     * (가지고 있던 수량 - 렌탈 장비 수)
-     * 요청값 없음
-     * @return 갯수 반환
+     * 남은수 = (가지고 있던 수량 - 렌탈 장비 수)
+     * @param equipmentName 장비 이름 받아야됨
+     * @return 남은갯수 반환
      */
     public int findByEquipmentCnt(String equipmentName) {
         List<Rental> findRental = rentalRepository.findRentals(equipmentName);

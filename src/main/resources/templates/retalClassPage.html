@@ -14,7 +14,7 @@
         <tbody>
         <tr th:each="equipment : ${rentalEquipment}">
             <th scope="row" th:text="${equipment.name()}">1</th>
-            <td th:text="${equipment.retCnt() - equipment.leftCnt()}">Mark</td>
+            <td th:text="${equipment.retCnt() - equipment.leftCnt()}">렌탈횟수</td>
         </tr>
         </tbody>
     </table>
