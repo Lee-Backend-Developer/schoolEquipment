@@ -54,12 +54,17 @@ public class AdminEquipmentController {
 
     @GetMapping("/edit/{equipmentId}")
     public String edit(@PathVariable("equipmentId") Long equipmentId, Model model) {
-
-        List<Category> categorys = categoryService.findAll();
         Equipment equipment = equipmentService.findById(equipmentId);
+        EquipmentForm form = EquipmentForm.builder()
+                .name(equipment.getName())
+                .content(equipment.getContent())
+                .count(equipment.getCount())
+                .imageName(equipment.getMainImg())
+                .categoryName(equipment.getCategory().getCategoryName())
+                .categories(categoryService.findAll()).build();
 
-        model.addAttribute("equipment", equipment);
-        model.addAttribute("categorys", categorys);
+
+        model.addAttribute("request", form);
 
         return "/admin/equipment/equipmentEdit";
     }
