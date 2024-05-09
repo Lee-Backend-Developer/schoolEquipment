@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public record EquipmentAddRequest(
         String name,
         MultipartFile image,
+        String equimentContent,
         int count
 ) {
 }

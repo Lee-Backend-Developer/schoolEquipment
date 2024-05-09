@@ -27,6 +27,7 @@ public class EquipmentService {
         Equipment saveEquipment = Equipment.builder()
                 .name(request.name())
                 .count(request.count())
+                .content(request.equimentContent())
                 .mainImg(request.image())
                 .build();
         saveEquipment.addCategory(findCategory);

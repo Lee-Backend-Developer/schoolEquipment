@@ -43,8 +43,8 @@ public class AdminEquipmentController {
     public String adminEquipments(Model model) {
         List<Equipment> equipments = equipmentService.findAll();
         List<EquipmentResponse> equipmentResponseList = equipments.stream().map(equipment -> EquipmentResponse
-                .builder()
-                .id(equipment.getId())
+                        .builder()
+                        .id(equipment.getId())
                         .equipmentName(equipment.getName())
                         .leftCnt(equipment.getCount())
                         .retCnt(rentalService.findByEquipmentCnt(equipment.getName()))
@@ -100,7 +100,9 @@ public class AdminEquipmentController {
         Path path = Paths.get(UPLOAD_DIRECTORY, fileName);   // 절대경로, 이미지 저장할 이름
         Files.write(path, addRequest.image().getBytes());   // path 경로에 이미지 저장
 
-        EquipmentCreate requestCreate = EquipmentCreate.builder().name(addRequest.name()).count(addRequest.count()).categoryId(category.getId()).image(fileName).build();
+        EquipmentCreate requestCreate = EquipmentCreate.builder().name(addRequest.name())
+                .count(addRequest.count()).equimentContent(addRequest.equimentContent())
+                .categoryId(category.getId()).image(fileName).build();
         equipmentService.save(requestCreate);
         response.sendRedirect("/admin/equipment");
     }
