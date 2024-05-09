@@ -2,14 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: header(title='오늘 대여가능수량')}"></head>
 <body>
-    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::#card-deck}, '기자재 대여')}">
-    <div class="card-deck" id="card-deck">
-        <div class="card" th:each="equipment : ${equipmentResponseList}">
-            <img src="/mainPage/camara01.jpg" th:src="${equipment.img()}" class="card-img-top" alt="카메라">
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::#card-deck}, '기자재')}">
+
+    <div class="row row-cols-1 row-cols-md-3" id="card-deck">
+        <div class="card ml-1 mb-3" th:each="equipment : ${equipmentResponseList}"
+             th:classappend="${equipmentStat.count % 4 == 0 } ? 'row' : ''">
+            <img src="/mainPage/camara01.jpg" th:src="${equipment.img()}" width="200" height="200" class="card-img-top" alt="카메라">
             <div class="card-body">
                 <h5 class="card-title" th:text="${equipment.equipmentName()}">Card title</h5>
-                <p class="card-text" th:text="${equipment.content()}">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text" th:text="${equipment.content()}">This is a wider card with supporting text
+                    below as a natural lead-in to additional content. This content is a little bit longer.</p>
                 <h6>[[${equipment.retCnt()}]] / [[${equipment.leftCnt()}]]</h6>
             </div>
             <div class="card-footer">
@@ -17,6 +20,7 @@
             </div>
         </div>
     </div>
+
 </div>
 </body>
 </html>
