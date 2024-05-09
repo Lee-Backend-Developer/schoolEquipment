@@ -24,6 +24,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -92,12 +94,13 @@ public class AdminEquipmentController {
     @PostMapping("add")
     public void add(@ModelAttribute EquipmentAddRequest addRequest, @ModelAttribute(name = "categorys") Category category, HttpServletResponse response) throws IOException {
         // 이미지 파일 추가
-        StringBuilder fileNames = new StringBuilder();
-        Path path = Paths.get(UPLOAD_DIRECTORY, addRequest.image().getOriginalFilename());
-        fileNames.append(addRequest.image().getOriginalFilename());
-        Files.write(path, addRequest.image().getBytes());
+        String fileContentType = Objects.requireNonNull(addRequest.image().getOriginalFilename()).split("\\.")[1];
+        String fileName = UUID.randomUUID() + "." + fileContentType;
 
-        EquipmentCreate requestCreate = EquipmentCreate.builder().name(addRequest.name()).count(addRequest.count()).categoryId(category.getId()).image(addRequest.image().getOriginalFilename()).build();
+        Path path = Paths.get(UPLOAD_DIRECTORY, fileName);   // 절대경로, 이미지 저장할 이름
+        Files.write(path, addRequest.image().getBytes());   // path 경로에 이미지 저장
+
+        EquipmentCreate requestCreate = EquipmentCreate.builder().name(addRequest.name()).count(addRequest.count()).categoryId(category.getId()).image(fileName).build();
         equipmentService.save(requestCreate);
         response.sendRedirect("/admin/equipment");
     }
