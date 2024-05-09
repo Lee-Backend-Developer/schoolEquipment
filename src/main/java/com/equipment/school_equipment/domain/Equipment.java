@@ -1,6 +1,5 @@
 package com.equipment.school_equipment.domain;
 
-import com.equipment.school_equipment.request.admin.EquipmentAddRequest;
 import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import jakarta.persistence.*;
 import lombok.*;

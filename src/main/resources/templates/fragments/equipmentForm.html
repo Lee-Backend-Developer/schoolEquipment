@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--/*@thymesVar id="request" type="com.equipment.school_equipment.request.admin.EquipmentForm"*/-->
+<!--/*@thymesVar id="category" type="com.equipment.school_equipment.domain.Category"*/-->
+<form th:fragment="form(form)" th:object="${request}" method="post" enctype="multipart/form-data" >
+    <div class="form-group">
+        <label for="addEquipment">기자재명</label>
+        <input type="text" class="form-control" id="addEquipment" placeholder="기자재 명" th:field="*{name}">
+    </div>
+
+    <div class="form-group">
+        <label for="equipmentContent">장비 내용</label>
+        <textarea class="form-control" id="equipmentContent" rows="3" th:field="*{content}"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="image">장비이미지</label>
+        <input type="file" class="form-control-file" id="image" th:field="*{image}">
+    </div>
+
+    <div class="form-group">
+        <label for="cnt">창고 갯수</label>
+        <input type="text" class="form-control" id="cnt" placeholder="창고에 있는 갯수" th:field="*{count}">
+    </div>
+
+    <!-- 카테고리 선택 -->
+    <div class="form-group">
+        <label for="categorys">장비 카테고리</label>
+        <select class="form-control" name="categorys" id="categorys">
+            <option>장비 카테고리 선택하세요.</option>
+            <option th:each="category : ${request.categories()}" th:text="${category.getCategoryName()}" th:value="${category.getId()}">test</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">추가</button>
+</form>
+</body>
+</html>

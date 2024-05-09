@@ -2,23 +2,20 @@ package com.equipment.school_equipment.controller.admin;
 
 import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.request.admin.EquipmentAddRequest;
+import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import com.equipment.school_equipment.response.thymeleaf.EquipmentResponse;
 import com.equipment.school_equipment.service.CategoryService;
 import com.equipment.school_equipment.service.EquipmentService;
 import com.equipment.school_equipment.service.RentalService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -83,16 +80,14 @@ public class AdminEquipmentController {
 
     @GetMapping("/add")
     public String add(Model model) {
-        EquipmentAddRequest addRequest = EquipmentAddRequest.builder().build();
-        List<Category> categorys = categoryService.findAll();
+        EquipmentForm form = EquipmentForm.builder().categories(categoryService.findAll()).build();
 
-        model.addAttribute("equipment", addRequest);
-        model.addAttribute("categorys", categorys);
+        model.addAttribute("request", form);
         return "/admin/equipment/equipmentAdd";
     }
 
     @PostMapping("add")
-    public void add(@ModelAttribute EquipmentAddRequest addRequest, @ModelAttribute(name = "categorys") Category category, HttpServletResponse response) throws IOException {
+    public void add(@ModelAttribute EquipmentForm addRequest, @ModelAttribute(name = "categorys") Category category, HttpServletResponse response) throws IOException {
         // 이미지 파일 추가
         String fileContentType = Objects.requireNonNull(addRequest.image().getOriginalFilename()).split("\\.")[1];
         String fileName = UUID.randomUUID() + "." + fileContentType;
@@ -101,7 +96,7 @@ public class AdminEquipmentController {
         Files.write(path, addRequest.image().getBytes());   // path 경로에 이미지 저장
 
         EquipmentCreate requestCreate = EquipmentCreate.builder().name(addRequest.name())
-                .count(addRequest.count()).equimentContent(addRequest.equimentContent())
+                .count(addRequest.count()).equimentContent(addRequest.content())
                 .categoryId(category.getId()).image(fileName).build();
         equipmentService.save(requestCreate);
         response.sendRedirect("/admin/equipment");
