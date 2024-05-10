@@ -3,6 +3,7 @@
 <body>
 <!--/*@thymesVar id="request" type="com.equipment.school_equipment.request.admin.EquipmentForm"*/-->
 <!--/*@thymesVar id="category" type="com.equipment.school_equipment.domain.Category"*/-->
+<!--/*@thymesVar id="flag" type="java.lang.String"*/-->
 <form th:fragment="form(form, flag)" th:object="${request}" method="post" enctype="multipart/form-data" >
     <div class="form-group">
         <label for="addEquipment">기자재명</label>
@@ -15,7 +16,7 @@
     </div>
 
     <!--  기자재 수정이면  -->
-    <img th:if="${flag == 'edit'}"
+    <img th:if="${flag.equals('edit')}"
          th:src="@{/equipment/{image}(image = ${request.imageName()})}"
          width="200"
          height="200"
@@ -32,16 +33,17 @@
         <input type="text" class="form-control" id="cnt" placeholder="창고에 있는 갯수" th:field="*{count}">
     </div>
 
+
     <!-- 수정일 경우 카테고리 선택 아닐 경우 선택안함 -->
     <div class="form-group">
-        <label for="categorys">장비 카테고리</label>
-        <select class="form-control" name="categorys" id="categorys">
-            <option>장비 카테고리 선택하세요.</option>
+        <label for="category">장비 카테고리</label>
+        <select class="form-control" name="categorys" id="category">
+            <option th:attr="selected = ${flag.equals('add')}">장비 카테고리 선택하세요.</option>
             <option
                     th:each="category : ${request.categories()}"
                     th:text="${category.getCategoryName()}"
                     th:value="${category.getId()}"
-                    th:attrappend="selected = ${flag == 'edit' && category.categoryName.equals(request.categoryName())}">test</option>
+                    th:attr="selected = ${flag == 'edit' && category.categoryName.equals(request.categoryName())}">test</option>
         </select>
     </div>
 
