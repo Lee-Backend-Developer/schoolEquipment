@@ -40,7 +40,7 @@ public class Equipment {
 
     public void editEquipment(EquipmentEditRequest equipment, Category category) {
         this.name = equipment.name();
-        this.mainImg = equipment.mainImg();
+        this.mainImg = equipment.mainImg() == null ? "none.jpg" : equipment.mainImg();
         this.content = equipment.content();
         this.count = equipment.count();
         this.category = category;
