@@ -61,6 +61,7 @@ public class AdminEquipmentController {
                 .count(equipment.getCount())
                 .imageName(equipment.getMainImg())
                 .categoryName(equipment.getCategory().getCategoryName())
+                .categoryId(equipment.getCategory().getId())
                 .categories(categoryService.findAll()).build();
 
 
@@ -70,14 +71,17 @@ public class AdminEquipmentController {
     }
 
     @PostMapping("/edit/{equipmentId}")
-    public void edit(@PathVariable("equipmentId") Long equipmentId, @ModelAttribute Equipment equipment, @ModelAttribute(name = "categorys") Category category, HttpServletResponse response) throws IOException {
+    public void edit(@PathVariable("equipmentId") Long equipmentId, @ModelAttribute EquipmentForm requestForm, @ModelAttribute(name = "categorys") Category category, HttpServletResponse response) throws IOException {
+
         EquipmentEditRequest request = EquipmentEditRequest.builder()
                 .id(equipmentId)
-                .mainImg(equipment.getMainImg())
-                .count(equipment.getCount())
-                .name(equipment.getName())
-                .content(equipment.getContent())
-                .categoryId(category.getId()).build();
+                .mainImg(requestForm.imageName())
+                .count(requestForm.count())
+                .name(requestForm.name())
+                .content(requestForm.content())
+                .categoryId(category.getId())
+                .build();
+        log.info("request: {}", request);
         equipmentService.updateEquipment(request);
         response.sendRedirect("/admin/equipment");
 

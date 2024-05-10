@@ -14,9 +14,10 @@ public record EquipmentForm(
         MultipartFile image,
         int count,
         List<Category> categories,
+        String categoryName,
         // 수정할 때 사용
         String imageName,
-        String categoryName
+        Long categoryId
 ) {
 
 }

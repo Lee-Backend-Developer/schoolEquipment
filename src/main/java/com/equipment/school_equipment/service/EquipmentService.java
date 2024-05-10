@@ -72,8 +72,5 @@ public class EquipmentService {
                 .equipmentAndCategory(request.id());
 
         updateEquipment.editEquipment(request, category);
-
-//        updateEquipment.removeCategory(updateEquipment.getCategory());
-//        updateEquipment.addCategory(category);
     }
 }
