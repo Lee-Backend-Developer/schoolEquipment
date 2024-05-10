@@ -1,6 +1,7 @@
 package com.equipment.school_equipment.controller.admin;
 
 import com.equipment.school_equipment.domain.Rental;
+import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.CategoryRepository;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
@@ -37,12 +38,13 @@ public class AdminRentalController {
 
     @GetMapping("/add")
     public String add(Model model) {
-        RentalAddRequest request = RentalAddRequest.builder().build();
+        RentalAddRequest request = RentalAddRequest.builder()
+                .categories(categoryRepository.findAll())
+                .equipments(equipmentRepository.findAll())
+                .classtimes(classTimeRepository.findAll())
+                .weekday(DayOfWeekEnum.values())
+                .build();
         model.addAttribute("rental", request);
-
-        model.addAttribute("categories", categoryRepository.findAll());
-        model.addAttribute("equipments", equipmentRepository.findAll());
-        model.addAttribute("classtimes", classTimeRepository.findAll());
 
         return "admin/rental/add";
     }
