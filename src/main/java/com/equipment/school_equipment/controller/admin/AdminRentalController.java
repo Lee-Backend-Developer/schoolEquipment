@@ -10,6 +10,7 @@ import com.equipment.school_equipment.repository.dto.RentalDuplication;
 import com.equipment.school_equipment.service.RentalService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin/rental")
@@ -51,8 +53,10 @@ public class AdminRentalController {
 
     @PostMapping("/add")
     public void add(@ModelAttribute RentalAddRequest request, HttpServletResponse response) throws IOException {
-        rentalService.rentalCreate(request);
-        response.sendRedirect("/admin/rental/add");
+//        rentalService.rentalCreate(request);
+//        response.sendRedirect("/admin/rental/add");
 
     }
+
+    // Method to check if the rental is duplicated
 }
