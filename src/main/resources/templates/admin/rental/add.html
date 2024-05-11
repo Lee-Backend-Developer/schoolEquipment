@@ -25,9 +25,9 @@
             <div class="form-check form-check-inline" th:each="day : ${rental.weekday()}">
                 <label class="form-check-label" th:for="${day}">
                     <input class="form-check-input"
-                           type="checkbox"
+                           type="radio"
                            th:id="${day}"
-                           th:name="${day}"
+                           name="weekday"
                            th:text="${day.getWeek()}"
                     >
                 </label>
