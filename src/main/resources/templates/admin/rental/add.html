@@ -13,7 +13,9 @@
             <label for="equipment">장비 선택</label>
             <select class="form-control" name="equipmentId" id="equipment">
                 <option>장비 선택</option>
-                <option th:each="equipment : ${rental.equipments()}" th:text="${equipment.getName()}" th:value="${equipment.getId()}">test</option>
+                <option th:each="equipment : ${rental.equipments()}" th:text="${equipment.getName()}"
+                        th:value="${equipment.getId()}">test
+                </option>
             </select>
         </div>
 
@@ -22,7 +24,6 @@
             <h6>요일</h6>
             <div class="form-check form-check-inline" th:each="day : ${rental.weekday()}">
                 <label class="form-check-label" th:for="${day}">
-                    <!--/*@thymesVar id="DayOfWeekEnum" type="com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum"*/-->
                     <input class="form-check-input"
                            type="checkbox"
                            th:id="${day}"
@@ -37,10 +38,6 @@
             <label for="classroom">수업 선택</label>
             <select class="form-control" name="classroomId" id="classroom">
                 <option>수업명</option>
-                <option
-                        th:each="classtime : ${rental.classtimes()}"
-                        th:text="${classtime.getClassName()}"
-                        th:value="${classtime.getId()}">test</option>
             </select>
         </div>
 
@@ -53,5 +50,40 @@
         <button type="submit" class="btn btn-primary">추가</button>
     </form>
 </div>
+<script>
+    document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function (e) {
+            if (e.target.checked) {
+                fetch('/api/classtimes/' + e.target.id)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        if(data.length >= 1) {
+                            const select = document.getElementById('classroom');
+                            select.innerHTML = '';
+                            data.forEach(function (classtime) {
+                                const option = document.createElement('option');
+                                option.text = classtime.classNames;
+                                option.value = classtime.id;
+                                select.add(option);
+                            });
+                        }
+                        else {
+                            alert('해당 요일에는 수업이 없습니다.');
+                            e.target.checked = false;
+                        }
+                    });
+            }
+            if (!e.target.checked) {
+                const select = document.getElementById('classroom');
+                select.innerHTML = '';
+                const option = document.createElement('option');
+                option.text = "수업명";
+                option.value = '';
+                select.add(option);
+            }
+        });
+    });
+</script>
 </body>
 </html>

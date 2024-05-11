@@ -43,7 +43,6 @@ public class AdminRentalController {
         RentalAddRequest request = RentalAddRequest.builder()
                 .categories(categoryRepository.findAll())
                 .equipments(equipmentRepository.findAll())
-                .classtimes(classTimeRepository.findAll())
                 .weekday(DayOfWeekEnum.values())
                 .build();
         model.addAttribute("rental", request);
