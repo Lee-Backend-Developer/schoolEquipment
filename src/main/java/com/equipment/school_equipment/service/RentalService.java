@@ -29,6 +29,7 @@ public class RentalService {
 
     /**
      * 현재 장비 남은 수량 확인
+     *
      * @param request 수업명, 요일, 장비, 장비빌릴수
      * @return 장비남은수량
      * @throws RuntimeException 요일 or 요청 받은 장비가 남은 장비보다 넘칠때 오류
@@ -51,19 +52,39 @@ public class RentalService {
         return verification;
     }
 
+    /**
+     * 대여를 추가 할 때 검증
+     * 1. 수업 요일에 장비가 있는지 확인
+     * INPUT: 수업명, 요일를 가지고 대여 테이블에 조회함 만약에
+     * 있다면
+     * 1.1 렌탈 장비 + 사용자가 렌탈 할 수
+     * 없다면
+     * 1.2 새로 추가함
+     *
+     * @param request
+     * @return
+     */
     @Transactional
-    public int rentalCreate(RentalAddRequest request){
+    public void rentalCreate(RentalAddRequest request) {
         Classtimes classtime = classTimeRepository.findById(request.classroomId()).orElseThrow(IllegalArgumentException::new);
         Equipment equipment = equipmentRepository.findById(request.equipmentId()).orElseThrow(IllegalArgumentException::new);
-        Rental rental = Rental.builder().equipmentId(equipment).classtimesId(classtime).rentalCnt(request.retCnt()).rentalChk(true).build();
-        rentalRepository.save(rental);
-        return 0;
+
+        rentalRepository.findByClassIdAndEquipmentId(classtime.getId(), equipment.getId())
+                .ifPresentOrElse(rental1 ->  // 있다면
+                            rental1.updateRentalCnt(rental1.getRentalCnt() + request.retCnt()),
+                        () -> { // 없다면
+                            Rental rental = Rental.builder()
+                                    .equipmentId(equipment).classtimesId(classtime)
+                                    .rentalCnt(request.retCnt()).rentalChk(true).build();
+                            rentalRepository.save(rental);
+                        }
+                );
     }
 
     @Transactional
     public void rentalReturn(RentalReturn request) {
         Rental findRental = rentalRepository.findById(request.rentalId()).orElseThrow(() -> new RuntimeException("렌탈한 이력이 없습니다."));
-        if(findRental.getRentalCnt() < request.rentalCnt()) {
+        if (findRental.getRentalCnt() < request.rentalCnt()) {
             throw new RuntimeException("반환한 횟수보다 입력하신 횟수가 큽니다.");
         }
         findRental.updateRentalCnt(findRental.getRentalCnt() - request.rentalCnt());
@@ -82,6 +103,7 @@ public class RentalService {
 
     /**
      * 남은수 = (가지고 있던 수량 - 렌탈 장비 수)
+     *
      * @param equipmentName 장비 이름 받아야됨
      * @return 남은갯수 반환
      */
@@ -110,7 +132,7 @@ public class RentalService {
 
     private static int valedationLeftEquipment(RentalCreate request, Equipment equipment) {
         int verification = equipment.getCount() - request.equipmentCount();
-        if(verification < 0) throw new IllegalArgumentException();
+        if (verification < 0) throw new IllegalArgumentException();
         return verification;
     }
 }

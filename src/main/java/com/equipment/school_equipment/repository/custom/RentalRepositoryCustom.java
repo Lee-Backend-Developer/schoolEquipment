@@ -12,4 +12,5 @@ public interface RentalRepositoryCustom {
     List<Rental> findRentals(String equipmentName);
     List<Equipment> findByClassnameIdAndDayOfWeek(String classNameId, String dayOfWeek);
     List<RentalDuplication> findByDuplication();
+    Optional<Rental> findByClassIdAndEquipmentId(Long classId, Long equipmentId);
 }

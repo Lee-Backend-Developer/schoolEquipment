@@ -51,9 +51,9 @@ public class AdminRentalController {
     }
 
     @PostMapping("/add")
-    public void add(@ModelAttribute RentalAddRequest request, HttpServletResponse response) throws IOException {
-//        rentalService.rentalCreate(request);
-//        response.sendRedirect("/admin/rental/add");
+    public void add(@ModelAttribute("rental") RentalAddRequest request, HttpServletResponse response) throws IOException {
+        rentalService.rentalCreate(request);
+        response.sendRedirect("/admin/rental");
 
     }
 

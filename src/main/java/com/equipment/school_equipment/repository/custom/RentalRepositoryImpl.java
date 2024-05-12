@@ -58,4 +58,11 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
                 .from(rental).groupBy(rental.classtimesId.id, rental.equipmentId.id)
                 .fetch();
     }
+
+    @Override
+    public Optional<Rental> findByClassIdAndEquipmentId(Long classId, Long equipmentId) {
+        return Optional.ofNullable(queryFactory.selectFrom(rental)
+                .where(rental.classtimesId.id.eq(classId).and(rental.equipmentId.id.eq(equipmentId)))
+                .fetchOne());
+    }
 }
