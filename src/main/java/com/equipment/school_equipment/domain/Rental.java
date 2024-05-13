@@ -27,7 +27,8 @@ public class Rental {
     private boolean rentalChk = true; //렌탈 여부
 
     @Builder
-    public Rental(Classtimes classtimesId, Equipment equipmentId, int rentalCnt, boolean rentalChk) {
+    public Rental(Long id, Classtimes classtimesId, Equipment equipmentId, int rentalCnt, boolean rentalChk) {
+        this.id = id;
         this.classtimesId = classtimesId;
         this.equipmentId = equipmentId;
         this.rentalCnt = rentalCnt;

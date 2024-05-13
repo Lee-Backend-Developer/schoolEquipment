@@ -91,7 +91,7 @@ public class RentalService {
     }
 
     public List<Rental> findByAll() {
-        return rentalRepository.findAll();
+        return rentalRepository.findAllAndRentalChkTrue();
     }
 
     public Equipment findByEquipment(String classname, String day) {

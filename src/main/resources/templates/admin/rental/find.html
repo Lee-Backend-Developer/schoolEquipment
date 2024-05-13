@@ -17,13 +17,13 @@
             <th><a th:href="@{/admin/rental/add}" type="button" class="btn btn-primary">추가</a></th>
 
         </tr>
-        <tbody th:each="rental : ${rentals}">
+        <tbody th:each="rental : ${rentals}" th:object="${rental}">
         <tr>
             <td scope="row" th:text="${rentalStat.count}">1</td>
-            <td scope="row" th:text="${rental.getClasstimesId().getClassName()}">수업이름</td>
-            <td scope="row" th:text="${rental.getEquipmentId().getName()}">장비이름</td>
-            <td scope="row" th:text="${rental.getRentalCnt()}">갯수</td>
-            <td><a th:href="@{/admin/rental/delete/{rentalId} (rentalId = ${rental.getId()})}" type="button" class="btn btn-danger">삭제</a></td>
+            <td scope="row" th:text="*{className()}">수업이름</td>
+            <td scope="row" th:text="*{equipmentName()}">장비이름</td>
+            <td scope="row" th:text="*{rentalCnt()}">갯수</td>
+            <td><a th:href="@{/admin/rental/delete/{rentalId} (rentalId = ${rental.id()})}" type="button" class="btn btn-danger">삭제</a></td>
             <td>
             </td>
         </tr>

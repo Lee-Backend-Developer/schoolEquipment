@@ -33,8 +33,19 @@ public class AdminRentalController {
 
     @GetMapping
     public String find(Model model) {
-        List<Rental> rentals = rentalService.findByDuplication();
-        model.addAttribute("rentals", rentals);
+
+        List<RentalFindAllResponse> responses = rentalService.findByAll().stream().map(rental ->
+                RentalFindAllResponse.builder()
+                        .id(rental.getId())
+                        .equipmentName(rental.getEquipmentId().getName())
+                        .className(rental.getClasstimesId().getClassName())
+                        .rentalChk(rental.isRentalChk())
+                        .rentalCnt(rental.getRentalCnt())
+                        .build()
+        ).toList();
+
+        model.addAttribute("rentals", responses);
+
         return "admin/rental/find";
     }
 

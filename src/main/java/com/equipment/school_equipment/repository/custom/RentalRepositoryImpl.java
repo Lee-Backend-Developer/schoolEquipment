@@ -65,4 +65,11 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
                 .where(rental.classtimesId.id.eq(classId).and(rental.equipmentId.id.eq(equipmentId)))
                 .fetchOne());
     }
+
+    @Override
+    public List<Rental> findAllAndRentalChkTrue() {
+        return queryFactory.selectFrom(rental)
+                .where(rental.rentalChk.isTrue())
+                .fetch();
+    }
 }
