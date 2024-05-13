@@ -10,13 +10,11 @@ import com.equipment.school_equipment.repository.RentalRepository;
 import com.equipment.school_equipment.request.admin.RentalAddRequest;
 import com.equipment.school_equipment.request.rental.RentalCreate;
 import com.equipment.school_equipment.request.rental.RentalReturn;
-import com.equipment.school_equipment.repository.dto.RentalDuplication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -61,8 +59,7 @@ public class RentalService {
      * 없다면
      * 1.2 새로 추가함
      *
-     * @param request
-     * @return
+     * @param request 사용자로
      */
     @Transactional
     public void rentalCreate(RentalAddRequest request) {
@@ -79,15 +76,6 @@ public class RentalService {
                             rentalRepository.save(rental);
                         }
                 );
-    }
-
-    @Transactional
-    public void rentalReturn(RentalReturn request) {
-        Rental findRental = rentalRepository.findById(request.rentalId()).orElseThrow(() -> new RuntimeException("렌탈한 이력이 없습니다."));
-        if (findRental.getRentalCnt() < request.rentalCnt()) {
-            throw new RuntimeException("반환한 횟수보다 입력하신 횟수가 큽니다.");
-        }
-        findRental.updateRentalCnt(findRental.getRentalCnt() - request.rentalCnt());
     }
 
     public List<Rental> findByAll() {
@@ -119,15 +107,6 @@ public class RentalService {
         List<Equipment> equipments = rentalRepository.findByClassnameIdAndDayOfWeek(classNameId, dayOfWeek);
 
         return equipments;
-    }
-
-    public List<Rental> findByDuplication() {
-        List<RentalDuplication> duplications = rentalRepository.findByDuplication();
-        return duplications.stream().map(rentalDuplication -> Rental.builder()
-                .equipmentId(rentalDuplication.equipment())
-                .classtimesId(rentalDuplication.classtimes())
-                .rentalCnt(rentalDuplication.sumCnt())
-                .build()).toList();
     }
 
     private static int valedationLeftEquipment(RentalCreate request, Equipment equipment) {

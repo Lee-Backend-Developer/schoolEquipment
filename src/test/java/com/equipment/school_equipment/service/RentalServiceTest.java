@@ -147,26 +147,6 @@ public class RentalServiceTest {
 
     }
 
-    @DisplayName("장비를 반납했으면 빌린 횟수가 0이 되어야함")
-    @Test
-    void returnRental() {
-        //given
-        Rental saveRental = rentalRepository.save(Rental.builder() //pmw 제품 3개 대여함
-                .classtimesId(getClassTimeList())
-                .equipmentId(getEquipment()).rentalCnt(3)
-                .build());
-
-        RentalReturn request = RentalReturn.builder()
-                .rentalId(saveRental.getId())
-                .rentalCnt(3).build();// 사용자 요청으로 인해 3개 반납하였음
-
-        //when
-        rentalService.rentalReturn(request);
-
-        //then
-        Rental findRental = rentalRepository.findAll().get(0);
-        assertThat(findRental.getRentalCnt()).isEqualTo(0);
-    }
 
     @DisplayName("수업명과 요일 입력받아 대여된 장비들이 나와야한다")
     @Test

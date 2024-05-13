@@ -1,12 +1,10 @@
 package com.equipment.school_equipment.controller.admin;
 
-import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.CategoryRepository;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.request.admin.RentalAddRequest;
-import com.equipment.school_equipment.repository.dto.RentalDuplication;
 import com.equipment.school_equipment.response.thymeleaf.admin.RentalFindAllResponse;
 import com.equipment.school_equipment.service.RentalService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
