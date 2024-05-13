@@ -6,9 +6,11 @@ import com.equipment.school_equipment.request.admin.CategoryEditResponse;
 import com.equipment.school_equipment.response.thymeleaf.admin.CategoryFindResponse;
 import com.equipment.school_equipment.service.CategoryService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -27,11 +29,14 @@ public class AdminCategoryController {
     }
 
     @PostMapping("/add")
-    public void createCategory(@ModelAttribute("category") CategoryAddRequest request, HttpServletResponse response) throws IOException {
-        System.out.println(request);
+    public String createCategory(@Valid @ModelAttribute("category") CategoryAddRequest request, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "admin/category/categoryAdd";
+        }
+
         categoryService.addCategory(request.name());
 
-        response.sendRedirect("/admin/category/find");
+        return "redirect:/admin/category";
     }
 
     @GetMapping

@@ -11,6 +11,9 @@
         <div class="form-group">
             <label for="categoryInput">카테고리 명</label>
             <input type="text" class="form-control" id="categoryInput" placeholder="카메라" th:field="*{name}">
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                    class="alert alert-danger mt-1" role="alert">
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">추가</button>
     </form>
