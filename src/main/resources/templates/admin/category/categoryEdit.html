@@ -7,7 +7,7 @@
 <!-- Page Content  -->
 <div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '카테고리 수정')}">
     <!--    컨텐츠-->
-    <form id="content" th:object="${category}" method="post" th:action="@{/admin/category/edit/{categoryId} (categoryId = ${category.id()})}">
+    <form id="content" th:object="${category}" method="post" th:action="@{/admin/category/edit/{categoryId} (categoryId = ${category.categoryId()})}">
         <div class="form-group">
             <label for="oldCategory">기존 카테고리명</label>
             <input type="text" class="form-control" id="oldCategory" th:field="*{oldClassname}" readonly>
@@ -15,6 +15,9 @@
         <div class="form-group">
             <label for="currentCategory">수정할 카테고리 이름</label>
             <input type="text" class="form-control" id="currentCategory" placeholder="변경할 카테고리 명" th:field="*{changeNameClassname}">
+            <div th:if="${#fields.hasErrors('changeNameClassname')}" th:errors="*{changeNameClassname}"
+                 class="alert alert-danger mt-1" role="alert">
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">수정</button>
     </form>

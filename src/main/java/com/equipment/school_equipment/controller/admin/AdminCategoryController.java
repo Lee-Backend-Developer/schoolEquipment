@@ -8,10 +8,13 @@ import com.equipment.school_equipment.service.CategoryService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,6 +24,7 @@ import java.util.List;
 @RequestMapping("/admin/category")
 public class AdminCategoryController {
 
+    private static final Logger log = LoggerFactory.getLogger(AdminCategoryController.class);
     private final CategoryService categoryService;
 
     @GetMapping("/add")
@@ -30,7 +34,7 @@ public class AdminCategoryController {
 
     @PostMapping("/add")
     public String createCategory(@Valid @ModelAttribute("category") CategoryAddRequest request, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "admin/category/categoryAdd";
         }
 
@@ -54,15 +58,18 @@ public class AdminCategoryController {
     public String editCategory(@PathVariable("categoryId") Long categoryId, Model model) {
         Category category = categoryService.findById(categoryId);
 
-        CategoryEditResponse response = CategoryEditResponse.builder().id(category.getId()).oldClassname(category.getCategoryName()).build();
-        model.addAttribute("category", response);
+        CategoryEditResponse request = CategoryEditResponse.builder().categoryId(category.getId()).oldClassname(category.getCategoryName()).build();
+        model.addAttribute("category", request);
         return "admin/category/categoryEdit";
     }
 
     @PostMapping("/edit/{categoryId}")
-    public void editCategory(@PathVariable("categoryId") Long categoryId, @ModelAttribute("category") CategoryEditResponse editResponse, HttpServletResponse response) throws IOException {
-        categoryService.findByIdAndName(categoryId, editResponse.oldClassname(), editResponse.changeNameClassname());
-        response.sendRedirect("/admin/category/find");
+    public String editCategory(@Valid @ModelAttribute("category") CategoryEditResponse request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "admin/category/categoryEdit";
+        }
+        categoryService.findByIdAndName(request.categoryId(), request.oldClassname(), request.changeNameClassname());
+        return "redirect:/admin/category";
     }
 
     @GetMapping("/delete")
@@ -77,9 +84,9 @@ public class AdminCategoryController {
     }
 
     @GetMapping("/delete/{categoryid}")
-    public void deleteCategory(@PathVariable("categoryid") Long categoryid, HttpServletResponse response) throws IOException {
-        categoryService.deleteById(categoryid);
+    public String deleteCategory(@PathVariable("categoryid") Long categoryId) {
+        categoryService.deleteById(categoryId);
 
-        response.sendRedirect("/admin/category/find");
+        return "redirect:/admin/category";
     }
 }

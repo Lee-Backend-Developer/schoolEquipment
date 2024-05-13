@@ -6,6 +6,9 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: none
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+
 
   datasource: #mysql 설정
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -14,4 +17,7 @@ spring:
     password: 1234
 #  mvc:
 #    static-path-pattern: /static/**
-
+server:
+  error:
+    whitelabel:
+      enabled: false
