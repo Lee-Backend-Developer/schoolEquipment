@@ -39,4 +39,12 @@ public class Rental {
     public void updateRentalCnt(int rentalCnt) {
         this.rentalCnt = rentalCnt;
     }
+
+    /**
+     * 렌탈 여부 변경
+     * @param rentalChk 대여사용 T, 반납F
+     */
+    public void updateRentalChk(boolean rentalChk) {
+        this.rentalChk = rentalChk;
+    }
 }

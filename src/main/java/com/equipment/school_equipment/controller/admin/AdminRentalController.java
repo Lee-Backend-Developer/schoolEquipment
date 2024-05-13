@@ -7,19 +7,18 @@ import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.request.admin.RentalAddRequest;
 import com.equipment.school_equipment.repository.dto.RentalDuplication;
+import com.equipment.school_equipment.response.thymeleaf.admin.RentalFindAllResponse;
 import com.equipment.school_equipment.service.RentalService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -68,5 +67,9 @@ public class AdminRentalController {
 
     }
 
-    // Method to check if the rental is duplicated
+    @GetMapping("/delete/{id}")
+    public String edit(@PathVariable Long id) {
+        rentalService.rentaldelete(id);
+        return "redirect:/admin/rental";
+    }
 }

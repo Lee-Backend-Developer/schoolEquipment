@@ -135,4 +135,11 @@ public class RentalService {
         if (verification < 0) throw new IllegalArgumentException();
         return verification;
     }
+
+    @Transactional
+    public void rentaldelete(Long id) {
+        Rental rental = rentalRepository.findById(id).orElseThrow(() -> new RuntimeException("해당 아이디가 없습니다."));
+        rental.updateRentalCnt(0);
+        rental.updateRentalChk(false);
+    }
 }
