@@ -11,4 +11,9 @@ public interface AdminErrorMessage {
     String EQUIPMENT_ADD_CONTENT_ERROR = "장비 설명을 입력하세요.";
     String EQUIPMENT_ADD_COUNT_ERROR = "장비 수량을 입력하세요.";
     String EQUIPMENT_ADD_CATEGORY_ERROR = "장비 카테고리를 선택하세요.";
+
+    //classtimes
+    String CLASSTIMES_ADD_ERROR = "수업 이름을 입력하세요.";
+    String CLASSTIMES_ADD_DAYOFWEEK_ERROR = "요일을 선택하세요.";
+    String CLASSTIMES_ADD_TIME_ERROR = "수업 시간을 선택하세요.";
 }

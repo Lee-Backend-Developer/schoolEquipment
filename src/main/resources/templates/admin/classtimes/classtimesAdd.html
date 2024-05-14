@@ -3,7 +3,6 @@
 <head th:replace="~{fragments/head :: header(title='수업시간표')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-
 <!-- Page Content  -->
 <div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '시간표 추가')}">
     <!--    컨텐츠-->
@@ -11,14 +10,28 @@
         <div class="form-group">
             <label for="addClassname">추가할 수업명</label>
             <input type="text" class="form-control" id="addClassname" placeholder="수업이름" th:field="*{classname}">
+            <div th:if="${#fields.hasErrors('classname')}"
+                 th:errors="*{classname}"
+                 class="alert alert-danger mt-1"
+                 role="alert"></div>
         </div>
 
         <!-- 요일 선택 -->
+        <!--/*@thymesVar id="getWeek" type="java.lang.String"*/-->
         <div class="form-group">
-            <select class="form-control" name="dayOfWeekEnum">
-                <option>수업 요일 선택하세요.</option>
-                <option th:each="day : *{dayOfWeekEnum}" th:text="${day.getWeek()}" th:value="${day.name()}">test</option>
+            <label for="dayOfWeekEnum">수업 요일</label>
+            <select class="form-control" name="dayOfWeekEnum" id="dayOfWeekEnum" th:field="*{dayOfWeekEnum}">
+                <option value="">수업 요일 선택하세요.</option>
+                <option
+                        th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}"
+                        th:text="${day.getWeek()}"
+                        th:value="${day}">test
+                </option>
             </select>
+            <div th:if="${#fields.hasErrors('dayOfWeekEnum')}"
+                 th:errors="*{dayOfWeekEnum}"
+                 class="alert alert-danger mt-1"
+                 role="alert"></div>
         </div>
 
         <!-- 교시 선택-->

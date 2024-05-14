@@ -2,16 +2,20 @@ package com.equipment.school_equipment.controller.admin;
 
 import com.equipment.school_equipment.domain.Classtimes;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
-import com.equipment.school_equipment.request.admin.ClasstimesAddRequest;
+import com.equipment.school_equipment.request.admin.ClassmateRequest;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
 import com.equipment.school_equipment.request.classTime.ClassTimeUpdate;
 import com.equipment.school_equipment.response.thymeleaf.admin.ClasstimeResponse;
 import com.equipment.school_equipment.response.thymeleaf.admin.ClasstimesFindResponse;
 import com.equipment.school_equipment.service.ClassTimeService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -22,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin/classtimes")
 public class AdminClasstimesController {
+    private static final Logger log = LoggerFactory.getLogger(AdminClasstimesController.class);
     private final ClassTimeService classTimeService;
 
     @GetMapping
@@ -41,41 +46,45 @@ public class AdminClasstimesController {
     @GetMapping("/add")
     public String adminClasstimesAdd(Model model) {
         model.addAttribute("classtimeRequest",
-                ClasstimesAddRequest.builder()
-                        .dayOfWeekEnum(DayOfWeekEnum.values()).build());
+                ClassmateRequest.builder()
+                        .build());
         return "admin/classtimes/classtimesAdd";
     }
 
     @PostMapping("/add")
-    public void adminClasstimesAdd(@ModelAttribute("classtimeRequest") ClasstimesAddRequest request, HttpServletResponse response) throws IOException {
-        List<String> list = Arrays.stream(request.dayOfWeekEnum()).map(Enum::name).toList();
+    public String adminClasstimesAdd(@Valid @ModelAttribute("classtimeRequest") ClassmateRequest request, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()){
+            log.info("request: {}", request);
+            return "admin/classtimes/classtimesAdd";
+        }
+        List<String> list = Arrays.stream(request.getDayOfWeekEnum()).map(Enum::name).toList();
         DayOfWeekEnum dayOfWeekEnum = DayOfWeekEnum.valueOf(list.get(0));
         ClassTimeCreate classTimeCreate = ClassTimeCreate.builder()
-                .className(request.classname())
+                .className(request.getClassname())
                 .dayOfWeek(dayOfWeekEnum)
-                .oneTime(request.oneTime())
-                .twoTime(request.twoTime())
-                .threeTime(request.threeTime())
-                .fourTime(request.fourTime())
-                .fiveTime(request.fiveTime())
-                .sixTime(request.sixTime())
-                .sevenTime(request.sevenTime())
-                .nineTime(request.nineTime())
-                .tenTime(request.tenTime())
+                .oneTime(request.isOneTime())
+                .twoTime(request.isTwoTime())
+                .threeTime(request.isThreeTime())
+                .fourTime(request.isFourTime())
+                .fiveTime(request.isFiveTime())
+                .sixTime(request.isSixTime())
+                .sevenTime(request.isSevenTime())
+                .nineTime(request.isNineTime())
+                .tenTime(request.isTenTime())
                 .build();
         classTimeService.save(classTimeCreate);
 
-        response.sendRedirect("/admin/classtimes");
+        return "redirect:/admin/classtimes";
     }
 
 
     @GetMapping("/edit/{classnameId}")
-    public String adminClasstimesEdit(@PathVariable Long classnameId, Model model) throws IOException {
+    public String adminClasstimesEdit(@PathVariable Long classnameId, Model model) {
         Classtimes classTimes = classTimeService.findById(classnameId);
 
-        ClasstimeResponse classtimeResponse = ClasstimeResponse.builder()
+        ClassmateRequest classmateRequest = ClassmateRequest.builder()
                 .classname(classTimes.getClassName())
-                .dayOfWeekEnum(classTimes.getDayOfWeek())
+                .currentDayOfWeekEnum(classTimes.getDayOfWeek())
                 .oneTime(classTimes.isOneTime())
                 .twoTime(classTimes.isTwoTime())
                 .threeTime(classTimes.isThreeTime())
@@ -87,33 +96,36 @@ public class AdminClasstimesController {
                 .tenTime(classTimes.isTenTime())
                 .build();
 
-        model.addAttribute("classtime", classtimeResponse);
-        model.addAttribute("dayofweek", DayOfWeekEnum.values());
+        model.addAttribute("classtime", classmateRequest);
 
         return "admin/classtimes/classtimesEdit";
     }
 
     @PostMapping("/edit/{classnameId}")
-    public void adminClasstimesAdd(@PathVariable Long classnameId, @ModelAttribute ClasstimeResponse classtimeResponse, HttpServletResponse response) throws IOException {
+    public String adminClasstimesAdd(@Valid @ModelAttribute(name = "classtime") ClassmateRequest classmateRequest, BindingResult bindingResult) {
 
-        Classtimes findByClasstimes = classTimeService.findById(classnameId);
-
+        if(bindingResult.hasErrors()){
+            return "admin/classtimes/classtimesEdit";
+        }
+        Classtimes findByClasstimes = classTimeService.findById(classmateRequest.getClassnameId());
 
         ClassTimeUpdate classTimeUpdate = ClassTimeUpdate.builder()
-                .updateClassname(findByClasstimes.getClassName(), classtimeResponse.classname())
-                .dayOfWeek(classtimeResponse.dayOfWeekEnum())
-                .oneTime(classtimeResponse.oneTime())
-                .twoTime(classtimeResponse.twoTime())
-                .threeTime(classtimeResponse.threeTime())
-                .fourTime(classtimeResponse.fourTime())
-                .fiveTime(classtimeResponse.fiveTime())
-                .sixTime(classtimeResponse.sixTime())
-                .sevenTime(classtimeResponse.sevenTime())
-                .nineTime(classtimeResponse.nineTime())
-                .tenTime(classtimeResponse.tenTime())
+                .updateClassname(findByClasstimes.getClassName(), classmateRequest.getClassname())
+                .dayOfWeek(classmateRequest.getCurrentDayOfWeekEnum())
+                .oneTime(classmateRequest.isOneTime())
+                .twoTime(classmateRequest.isTwoTime())
+                .threeTime(classmateRequest.isThreeTime())
+                .fourTime(classmateRequest.isFourTime())
+                .fiveTime(classmateRequest.isFiveTime())
+                .sixTime(classmateRequest.isSixTime())
+                .sevenTime(classmateRequest.isSevenTime())
+                .nineTime(classmateRequest.isNineTime())
+                .tenTime(classmateRequest.isTenTime())
                 .build();
+
         classTimeService.updateClassTime(classTimeUpdate);
-        response.sendRedirect("/admin/classtimes");
+
+        return "redirect:/admin/classtimes";
     }
 
     @GetMapping("/delete")

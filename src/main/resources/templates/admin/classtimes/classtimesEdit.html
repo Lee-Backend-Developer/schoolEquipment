@@ -11,20 +11,27 @@
         <div class="form-group">
             <label for="addClassname">추가할 수업명</label>
             <input type="text" class="form-control" id="addClassname" placeholder="수업이름" th:field="*{classname}">
+            <div th:if="${#fields.hasErrors('classname')}"
+                 th:errors="*{classname}"
+                 class="alert alert-danger mt-1"
+                 role="alert"></div>
         </div>
 
         <!-- 요일 선택 -->
         <div class="form-group">
-            <select class="form-control" name="dayOfWeekEnum">
-                <option>수업 요일 선택하세요.</option>
+            <select class="form-control" name="dayOfWeekEnum" th:field="*{dayOfWeekEnum}">
+                <option value="">수업 요일 선택하세요.</option>
                 <option
-                        th:each="day : ${dayofweek}"
+                        th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}"
                         th:text="${day.getWeek()}"
                         th:value="${day.name()}"
-                        th:attrappend="selected = ${day.equals(classtime.dayOfWeekEnum())}"
-                >금요일
+                        th:selected="*{currentDayOfWeekEnum}">금요일
                 </option>
             </select>
+            <div th:if="${#fields.hasErrors('dayOfWeekEnum')}"
+                 th:errors="*{dayOfWeekEnum}"
+                 class="alert alert-danger mt-1"
+                 role="alert"></div>
         </div>
 
         <!-- 교시 선택-->
