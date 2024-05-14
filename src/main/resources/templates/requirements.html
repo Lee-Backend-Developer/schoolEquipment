@@ -6,7 +6,7 @@
 <div class="container-fluid" th:insert="~{fragments/content :: content(~{::#card-deck}, '기자재')}">
 
     <div class="row row-cols-1 row-cols-md-3" id="card-deck">
-        <div class="card ml-1 mb-3" th:each="equipment : ${equipmentResponseList}"
+        <div class="card ml-1 mb-3" th:each="equipment : ${equipmentRequestList}"
              th:classappend="${equipmentStat.count % 4 == 0 } ? 'row' : ''">
             <img src="/mainPage/camara01.jpg" th:src="${equipment.img()}" width="200" height="200" class="card-img-top" alt="카메라">
             <div class="card-body">

@@ -7,7 +7,7 @@
 <!-- Page Content  -->
 <div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '기자재 추가')}">
     <!--    컨텐츠-->
-    <form th:replace="~{fragments/equipmentForm :: form(request, 'add')}"></form>
+    <form th:replace="~{fragments/equipmentForm :: createForm(${requestForm}, 'add')}"></form>
 </div>
 </body>
 </html>

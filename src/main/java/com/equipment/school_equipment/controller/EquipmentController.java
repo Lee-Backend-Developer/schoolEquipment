@@ -1,10 +1,7 @@
 package com.equipment.school_equipment.controller;
 
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.domain.Rental;
-import com.equipment.school_equipment.request.rental.RentalCreate;
-import com.equipment.school_equipment.request.rental.RentalReturn;
-import com.equipment.school_equipment.response.thymeleaf.EquipmentResponse;
+import com.equipment.school_equipment.response.thymeleaf.EquipmentRequest;
 import com.equipment.school_equipment.service.EquipmentService;
 import com.equipment.school_equipment.service.RentalService;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +27,10 @@ public class EquipmentController {
     // 응답: 장비이름, 대여 후 수량, 가지고 있던 주량
     @RequestMapping
     public String equipment(Model model) {
-        List<EquipmentResponse> responses = new ArrayList<>();
+        List<EquipmentRequest> responses = new ArrayList<>();
         for (Equipment equipment : equipmentService.findAll()) {
             String equipmentName = equipment.getName();
-            EquipmentResponse response = EquipmentResponse.builder()
+            EquipmentRequest response = EquipmentRequest.builder()
                     .equipmentName(equipmentName)
                     .content(equipment.getContent())
                     .img(PATH + equipment.getMainImg())

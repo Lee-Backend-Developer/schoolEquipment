@@ -5,15 +5,17 @@ import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
-import com.equipment.school_equipment.response.thymeleaf.EquipmentResponse;
+import com.equipment.school_equipment.response.thymeleaf.EquipmentRequest;
 import com.equipment.school_equipment.service.CategoryService;
 import com.equipment.school_equipment.service.EquipmentService;
 import com.equipment.school_equipment.service.RentalService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -38,8 +40,7 @@ public class AdminEquipmentController {
 
     @GetMapping
     public String adminEquipments(Model model) {
-        List<Equipment> equipments = equipmentService.findAll();
-        List<EquipmentResponse> equipmentResponseList = equipments.stream().map(equipment -> EquipmentResponse
+        List<EquipmentRequest> equipmentRequestList = equipmentService.findAll().stream().map(equipment -> EquipmentRequest
                         .builder()
                         .id(equipment.getId())
                         .equipmentName(equipment.getName())
@@ -48,7 +49,7 @@ public class AdminEquipmentController {
                         .build())
                 .toList();
 
-        model.addAttribute("equipments", equipmentResponseList);
+        model.addAttribute("equipments", equipmentRequestList);
         return "/admin/equipment/equipmentFindAll";
     }
 
@@ -75,10 +76,10 @@ public class AdminEquipmentController {
 
         EquipmentEditRequest request = EquipmentEditRequest.builder()
                 .id(equipmentId)
-                .mainImg(requestForm.imageName())
-                .count(requestForm.count())
-                .name(requestForm.name())
-                .content(requestForm.content())
+                .mainImg(requestForm.getImageName())
+                .count(requestForm.getCount())
+                .name(requestForm.getName())
+                .content(requestForm.getContent())
                 .categoryId(category.getId())
                 .build();
         log.info("request: {}", request);
@@ -89,32 +90,44 @@ public class AdminEquipmentController {
 
     @GetMapping("/add")
     public String add(Model model) {
-        EquipmentForm form = EquipmentForm.builder().categories(categoryService.findAll()).build();
+        EquipmentForm requestForm = EquipmentForm
+                .builder()
+                .categories(categoryService.findAll())
+                .build();
 
-        model.addAttribute("request", form);
+        model.addAttribute("requestForm", requestForm);
         return "/admin/equipment/equipmentAdd";
     }
 
     @PostMapping("add")
-    public void add(@ModelAttribute EquipmentForm addRequest, @ModelAttribute(name = "categorys") Category category, HttpServletResponse response) throws IOException {
+    public String add(@Valid @ModelAttribute("requestForm") EquipmentForm requestForm, BindingResult bindingResult, Model model) throws IOException {
+        log.info("formRequest1: {}", requestForm);
+        if (bindingResult.hasErrors()) {
+            requestForm.setCategories(categoryService.findAll());
+            model.addAttribute("requestForm", requestForm);
+            log.info("formRequest2: {}", requestForm);
+
+            return "/admin/equipment/equipmentAdd";
+        }
         // 이미지 파일 추가
-        String fileContentType = Objects.requireNonNull(addRequest.image().getOriginalFilename()).split("\\.")[1];
+        String fileContentType = Objects.requireNonNull(requestForm.getImage().getOriginalFilename()).split("\\.")[0];
         String fileName = UUID.randomUUID() + "." + fileContentType;
 
         Path path = Paths.get(UPLOAD_DIRECTORY, fileName);   // 절대경로, 이미지 저장할 이름
-        Files.write(path, addRequest.image().getBytes());   // path 경로에 이미지 저장
+        Files.write(path, requestForm.getImage().getBytes());   // path 경로에 이미지 저장
 
-        EquipmentCreate requestCreate = EquipmentCreate.builder().name(addRequest.name())
-                .count(addRequest.count()).equimentContent(addRequest.content())
-                .categoryId(category.getId()).image(fileName).build();
+        EquipmentCreate requestCreate = EquipmentCreate.builder().name(requestForm.getName())
+                .count(requestForm.getCount()).equimentContent(requestForm.getContent())
+                .categoryId(requestForm.getCategory().getId())
+                .image(fileName).build();
         equipmentService.save(requestCreate);
-        response.sendRedirect("/admin/equipment");
+        return "redirect:/admin/equipment";
     }
 
     @GetMapping("/delete")
     public String delete(Model model) {
         List<Equipment> equipments = equipmentService.findAll();
-        List<EquipmentResponse> equipmentResponseList = equipments.stream().map(equipment -> EquipmentResponse
+        List<EquipmentRequest> equipmentRequestList = equipments.stream().map(equipment -> EquipmentRequest
                         .builder()
                         .id(equipment.getId())
                         .equipmentName(equipment.getName())
@@ -123,7 +136,7 @@ public class AdminEquipmentController {
                         .build())
                 .toList();
 
-        model.addAttribute("equipments", equipmentResponseList);
+        model.addAttribute("equipments", equipmentRequestList);
         return "/admin/equipment/equipmentDelete";
     }
 
