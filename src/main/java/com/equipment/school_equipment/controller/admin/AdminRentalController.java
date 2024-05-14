@@ -59,7 +59,6 @@ public class AdminRentalController {
 
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute("rental") RentalAddRequest request, BindingResult bindingResult, Model model) throws IOException {
-        log.info("request = {}", request);
         if(bindingResult.hasErrors()){
             request.setCategories(categoryRepository.findAll());
             request.setEquipments(equipmentRepository.findAll());

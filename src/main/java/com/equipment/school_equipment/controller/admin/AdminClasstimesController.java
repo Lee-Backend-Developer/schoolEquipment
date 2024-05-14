@@ -54,7 +54,6 @@ public class AdminClasstimesController {
     @PostMapping("/add")
     public String adminClasstimesAdd(@Valid @ModelAttribute("classtimeRequest") ClassmateRequest request, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()){
-            log.info("request: {}", request);
             return "admin/classtimes/classtimesAdd";
         }
         ClassTimeCreate classTimeCreate = ClassTimeCreate.builder()

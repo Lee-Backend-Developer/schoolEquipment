@@ -78,13 +78,8 @@ public class AdminEquipmentController {
                     .getCategory()
                     .getId());
             model.addAttribute("requestForm", requestForm);
-            log.info("error: {}", requestForm);
             return "/admin/equipment/equipmentEdit";
         }
-
-        log.info("error: {}", requestForm);
-
-
 
         EquipmentEditRequest request = EquipmentEditRequest.builder()
                 .id(requestForm.getEquipmentId())
@@ -112,11 +107,9 @@ public class AdminEquipmentController {
 
     @PostMapping("add")
     public String add(@Valid @ModelAttribute("requestForm") EquipmentForm requestForm, BindingResult bindingResult, Model model) throws IOException {
-        log.info("formRequest1: {}", requestForm);
         if (bindingResult.hasErrors()) {
             requestForm.setCategories(categoryService.findAll());
             model.addAttribute("requestForm", requestForm);
-            log.info("formRequest2: {}", requestForm);
 
             return "/admin/equipment/equipmentAdd";
         }
