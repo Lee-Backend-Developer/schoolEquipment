@@ -8,10 +8,12 @@ import com.equipment.school_equipment.request.admin.RentalAddRequest;
 import com.equipment.school_equipment.response.thymeleaf.admin.RentalFindAllResponse;
 import com.equipment.school_equipment.service.RentalService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -24,7 +26,6 @@ import java.util.List;
 public class AdminRentalController {
     private final RentalService rentalService;
     private final CategoryRepository categoryRepository;
-    private final ClassTimeRepository classTimeRepository;
     private final EquipmentRepository equipmentRepository;
 
     @GetMapping
@@ -50,7 +51,6 @@ public class AdminRentalController {
         RentalAddRequest request = RentalAddRequest.builder()
                 .categories(categoryRepository.findAll())
                 .equipments(equipmentRepository.findAll())
-                .weekday(DayOfWeekEnum.values())
                 .build();
         model.addAttribute("rental", request);
 
@@ -58,9 +58,16 @@ public class AdminRentalController {
     }
 
     @PostMapping("/add")
-    public void add(@ModelAttribute("rental") RentalAddRequest request, HttpServletResponse response) throws IOException {
+    public String add(@Valid @ModelAttribute("rental") RentalAddRequest request, BindingResult bindingResult, Model model) throws IOException {
+        log.info("request = {}", request);
+        if(bindingResult.hasErrors()){
+            request.setCategories(categoryRepository.findAll());
+            request.setEquipments(equipmentRepository.findAll());
+            model.addAttribute("rental", request);
+            return "admin/rental/add";
+        }
         rentalService.rentalCreate(request);
-        response.sendRedirect("/admin/rental");
+        return "redirect:/admin/rental";
 
     }
 

@@ -16,4 +16,10 @@ public interface AdminErrorMessage {
     String CLASSTIMES_ADD_ERROR = "수업 이름을 입력하세요.";
     String CLASSTIMES_ADD_DAYOFWEEK_ERROR = "요일을 선택하세요.";
     String CLASSTIMES_ADD_TIME_ERROR = "수업 시간을 선택하세요.";
+
+    //Rental
+    String RENTAL_ADD_EQUIPMENT_ERROR = "장비를 선택하세요.";
+    String RENTAL_ADD_WEEKDAY_ERROR = "요일을 선택하세요.";
+    String RENTAL_ADD_CLASSROOM_ERROR = "수업을 선택하세요.";
+    String RENTAL_ADD_COUNT_ERROR = "대여 수량을 입력하세요.";
 }

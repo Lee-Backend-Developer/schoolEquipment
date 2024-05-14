@@ -4,18 +4,32 @@ import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.domain.Classtimes;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
+import com.equipment.school_equipment.message.error.AdminErrorMessage;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.Data;
 
 import java.util.List;
 
+import static com.equipment.school_equipment.message.error.AdminErrorMessage.*;
+
 @Builder
-public record RentalAddRequest(
-        Long equipmentId,
-        Long classroomId,
-        int retCnt,
-        List<Category> categories,
-        List<Equipment> equipments,
-        List<Classtimes> classtimes,
-        DayOfWeekEnum[] weekday
-) {
+@Data
+public class RentalAddRequest {
+
+        @NotNull(message = RENTAL_ADD_EQUIPMENT_ERROR)
+        private Long equipmentId;
+        @NotNull(message = RENTAL_ADD_WEEKDAY_ERROR)
+        private DayOfWeekEnum weekday;
+        @NotNull(message = RENTAL_ADD_CLASSROOM_ERROR)
+        private Long classroomId;
+        @Min(value = 1, message = RENTAL_ADD_COUNT_ERROR)
+        private int retCnt;
+
+        //response
+        private List<Category> categories;
+        private List<Equipment> equipments;
+        private List<Classtimes> classtime;
 }

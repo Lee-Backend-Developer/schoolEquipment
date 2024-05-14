@@ -63,16 +63,16 @@ public class RentalService {
      */
     @Transactional
     public void rentalCreate(RentalAddRequest request) {
-        Classtimes classtime = classTimeRepository.findById(request.classroomId()).orElseThrow(IllegalArgumentException::new);
-        Equipment equipment = equipmentRepository.findById(request.equipmentId()).orElseThrow(IllegalArgumentException::new);
+        Classtimes classtime = classTimeRepository.findById(request.getClassroomId()).orElseThrow(IllegalArgumentException::new);
+        Equipment equipment = equipmentRepository.findById(request.getEquipmentId()).orElseThrow(IllegalArgumentException::new);
 
         rentalRepository.findByClassIdAndEquipmentId(classtime.getId(), equipment.getId())
                 .ifPresentOrElse(rental1 ->  // 있다면
-                            rental1.updateRentalCnt(rental1.getRentalCnt() + request.retCnt()),
+                            rental1.updateRentalCnt(rental1.getRentalCnt() + request.getRetCnt()),
                         () -> { // 없다면
                             Rental rental = Rental.builder()
                                     .equipmentId(equipment).classtimesId(classtime)
-                                    .rentalCnt(request.retCnt()).rentalChk(true).build();
+                                    .rentalCnt(request.getRetCnt()).rentalChk(true).build();
                             rentalRepository.save(rental);
                         }
                 );
