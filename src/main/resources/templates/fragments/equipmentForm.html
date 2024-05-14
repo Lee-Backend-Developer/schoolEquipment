@@ -50,11 +50,13 @@
     <div class="form-group">
         <label for="category">장비 카테고리</label>
         <select class="form-control" name="category" id="category" th:field="*{category}">
-            <option th:attr="selected = ${flag.equals('add')}" value="">장비 카테고리 선택하세요.</option>
+            <option value="">장비 카테고리 선택하세요.</option>
             <option
                     th:each="categoryObj : ${requestForm.getCategories()}"
+                    th:value="${categoryObj.getId()}"
                     th:text="${categoryObj.getCategoryName()}"
-                    th:value="${categoryObj.getId()}">
+                    th:selected="${categoryObj.getId()} == ${requestForm.getCategoryId()}"
+            >
             </option>
         </select>
         <div th:if="${#fields.hasErrors('category')}"

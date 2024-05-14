@@ -1,9 +1,8 @@
 package com.equipment.school_equipment.controller.admin;
 
-import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
+import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import com.equipment.school_equipment.response.thymeleaf.EquipmentRequest;
 import com.equipment.school_equipment.service.CategoryService;
@@ -57,6 +56,7 @@ public class AdminEquipmentController {
     public String edit(@PathVariable("equipmentId") Long equipmentId, Model model) {
         Equipment equipment = equipmentService.findById(equipmentId);
         EquipmentForm form = EquipmentForm.builder()
+                .equipmentId(equipment.getId())
                 .name(equipment.getName())
                 .content(equipment.getContent())
                 .count(equipment.getCount())
@@ -65,27 +65,38 @@ public class AdminEquipmentController {
                 .categoryId(equipment.getCategory().getId())
                 .categories(categoryService.findAll()).build();
 
-
-        model.addAttribute("request", form);
+        model.addAttribute("requestForm", form);
 
         return "/admin/equipment/equipmentEdit";
     }
 
     @PostMapping("/edit/{equipmentId}")
-    public void edit(@PathVariable("equipmentId") Long equipmentId, @ModelAttribute EquipmentForm requestForm, @ModelAttribute(name = "categorys") Category category, HttpServletResponse response) throws IOException {
+    public String edit(@Valid @ModelAttribute("requestForm") EquipmentForm requestForm, BindingResult bindingResult, Model model) throws IOException {
+        if(bindingResult.hasErrors()) {
+            requestForm.setCategories(categoryService.findAll());
+            requestForm.setCategoryId(equipmentService.findById(requestForm.getEquipmentId())
+                    .getCategory()
+                    .getId());
+            model.addAttribute("requestForm", requestForm);
+            log.info("error: {}", requestForm);
+            return "/admin/equipment/equipmentEdit";
+        }
+
+        log.info("error: {}", requestForm);
+
+
 
         EquipmentEditRequest request = EquipmentEditRequest.builder()
-                .id(equipmentId)
+                .id(requestForm.getEquipmentId())
                 .mainImg(requestForm.getImageName())
                 .count(requestForm.getCount())
                 .name(requestForm.getName())
                 .content(requestForm.getContent())
-                .categoryId(category.getId())
+                .categoryId(requestForm.getCategory().getId())
                 .build();
-        log.info("request: {}", request);
-        equipmentService.updateEquipment(request);
-        response.sendRedirect("/admin/equipment");
 
+        equipmentService.updateEquipment(request);
+        return "redirect:/admin/equipment";
     }
 
     @GetMapping("/add")

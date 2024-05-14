@@ -5,11 +5,8 @@ import com.equipment.school_equipment.message.error.AdminErrorMessage;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -39,4 +36,5 @@ public class EquipmentForm {
     // 수정할 때 사용
     private String imageName;
     private Long categoryId;
+    private Long equipmentId;
 }

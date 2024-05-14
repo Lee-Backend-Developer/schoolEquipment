@@ -68,9 +68,9 @@ public class EquipmentService {
                 .findById(request.categoryId())
                 .orElseThrow(IllegalArgumentException::new);
 
-        Equipment updateEquipment = equipmentRepository
+        Equipment equipment = equipmentRepository
                 .equipmentAndCategory(request.id());
 
-        updateEquipment.editEquipment(request, category);
+        equipment.editEquipment(request, category);
     }
 }
