@@ -7,9 +7,9 @@
 <!-- Page Content  -->
 <div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '시간표 수정')}">
     <!--    컨텐츠-->
-    <form th:object="${classtime}" method="post" >
+    <form th:object="${classtime}" method="post">
         <div class="form-group">
-            <label for="addClassname">추가할 수업명</label>
+            <label for="addClassname">수업명</label>
             <input type="text" class="form-control" id="addClassname" placeholder="수업이름" th:field="*{classname}">
             <div th:if="${#fields.hasErrors('classname')}"
                  th:errors="*{classname}"
@@ -19,13 +19,13 @@
 
         <!-- 요일 선택 -->
         <div class="form-group">
-            <select class="form-control" name="dayOfWeekEnum" th:field="*{dayOfWeekEnum}">
+            <label for="dayOfWeekEnum">수업요일</label>
+            <select class="form-control" name="dayOfWeekEnum" th:field="*{dayOfWeekEnum}" id="dayOfWeekEnum">
                 <option value="">수업 요일 선택하세요.</option>
                 <option
                         th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}"
                         th:text="${day.getWeek()}"
-                        th:value="${day.name()}"
-                        th:selected="*{currentDayOfWeekEnum}">금요일
+                        th:value="${day.name()}">금요일
                 </option>
             </select>
             <div th:if="${#fields.hasErrors('dayOfWeekEnum')}"

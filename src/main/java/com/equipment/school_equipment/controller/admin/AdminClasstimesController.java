@@ -57,11 +57,9 @@ public class AdminClasstimesController {
             log.info("request: {}", request);
             return "admin/classtimes/classtimesAdd";
         }
-        List<String> list = Arrays.stream(request.getDayOfWeekEnum()).map(Enum::name).toList();
-        DayOfWeekEnum dayOfWeekEnum = DayOfWeekEnum.valueOf(list.get(0));
         ClassTimeCreate classTimeCreate = ClassTimeCreate.builder()
                 .className(request.getClassname())
-                .dayOfWeek(dayOfWeekEnum)
+                .dayOfWeek(DayOfWeekEnum.friday)
                 .oneTime(request.isOneTime())
                 .twoTime(request.isTwoTime())
                 .threeTime(request.isThreeTime())
@@ -84,7 +82,7 @@ public class AdminClasstimesController {
 
         ClassmateRequest classmateRequest = ClassmateRequest.builder()
                 .classname(classTimes.getClassName())
-                .currentDayOfWeekEnum(classTimes.getDayOfWeek())
+                .dayOfWeekEnum(classTimes.getDayOfWeek())
                 .oneTime(classTimes.isOneTime())
                 .twoTime(classTimes.isTwoTime())
                 .threeTime(classTimes.isThreeTime())
@@ -111,7 +109,7 @@ public class AdminClasstimesController {
 
         ClassTimeUpdate classTimeUpdate = ClassTimeUpdate.builder()
                 .updateClassname(findByClasstimes.getClassName(), classmateRequest.getClassname())
-                .dayOfWeek(classmateRequest.getCurrentDayOfWeekEnum())
+                .dayOfWeek(classmateRequest.getDayOfWeekEnum())
                 .oneTime(classmateRequest.isOneTime())
                 .twoTime(classmateRequest.isTwoTime())
                 .threeTime(classmateRequest.isThreeTime())

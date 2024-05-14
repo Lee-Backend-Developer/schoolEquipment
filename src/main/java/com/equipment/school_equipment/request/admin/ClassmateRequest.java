@@ -3,6 +3,7 @@ package com.equipment.school_equipment.request.admin;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,8 +16,8 @@ public class ClassmateRequest {
 
         @NotBlank(message = CLASSTIMES_ADD_ERROR)
         private String classname;
-        @NotEmpty(message = CLASSTIMES_ADD_DAYOFWEEK_ERROR)
-        private DayOfWeekEnum[] dayOfWeekEnum;
+        @NotNull(message = CLASSTIMES_ADD_DAYOFWEEK_ERROR)
+        private DayOfWeekEnum dayOfWeekEnum;
 
         private boolean oneTime;
         private boolean twoTime;
@@ -28,7 +29,4 @@ public class ClassmateRequest {
         private boolean eightTime;
         private boolean nineTime;
         private boolean tenTime;
-
-        //수정
-        private DayOfWeekEnum currentDayOfWeekEnum;
 }
