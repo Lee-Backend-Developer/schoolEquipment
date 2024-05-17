@@ -66,6 +66,10 @@ public class RentalService {
         Classtimes classtime = classTimeRepository.findById(request.getClassroomId()).orElseThrow(IllegalArgumentException::new);
         Equipment equipment = equipmentRepository.findById(request.getEquipmentId()).orElseThrow(IllegalArgumentException::new);
 
+        // 보관하고 있는 장비 수량보다 대여 수량이 더 많으면 에러
+        if(equipment.getCount() < request.getRetCnt()) throw new IllegalArgumentException("보관하고 있는 장비 수량보다 대여 수량이 더 많습니다.");
+
+        // 대여한 장비와 수업 시간이 똑같을 경우 처리하는 로직
         rentalRepository.findByClassIdAndEquipmentId(classtime.getId(), equipment.getId())
                 .ifPresentOrElse(rental1 ->  // 있다면
                             rental1.updateRentalCnt(rental1.getRentalCnt() + request.getRetCnt()),
