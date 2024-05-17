@@ -5,6 +5,7 @@ import lombok.Builder;
 @Builder
 public record RentalFindAllResponse(
         Long id,
+        String week,
         String className,
         String equipmentName,
         boolean rentalChk,

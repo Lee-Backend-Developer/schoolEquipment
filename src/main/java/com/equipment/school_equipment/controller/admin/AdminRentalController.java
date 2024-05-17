@@ -34,8 +34,9 @@ public class AdminRentalController {
         List<RentalFindAllResponse> responses = rentalService.findByAll().stream().map(rental ->
                 RentalFindAllResponse.builder()
                         .id(rental.getId())
-                        .equipmentName(rental.getEquipmentId().getName())
+                        .week(rental.getClasstimesId().getDayOfWeek().getWeek())
                         .className(rental.getClasstimesId().getClassName())
+                        .equipmentName(rental.getEquipmentId().getName())
                         .rentalChk(rental.isRentalChk())
                         .rentalCnt(rental.getRentalCnt())
                         .build()

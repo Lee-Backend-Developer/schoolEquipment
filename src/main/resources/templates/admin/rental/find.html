@@ -11,6 +11,7 @@
         <thead>
         <tr>
             <th scope="col">No</th>
+            <th scope="col">요일</th>
             <th scope="col">수업명</th>
             <th scope="col">장비명</th>
             <th scope="col">대여</th>
@@ -20,6 +21,7 @@
         <tbody th:each="rental : ${rentals}" th:object="${rental}">
         <tr>
             <td scope="row" th:text="${rentalStat.count}">1</td>
+            <td scope="row" th:text="*{week()}">수업요일</td>
             <td scope="row" th:text="*{className()}">수업이름</td>
             <td scope="row" th:text="*{equipmentName()}">장비이름</td>
             <td scope="row" th:text="*{rentalCnt()}">갯수</td>
