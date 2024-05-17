@@ -5,7 +5,7 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <!-- Page Content  -->
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table}, '장비')}">
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table}, '대여')}">
     <!--    컨텐츠-->
     <table class="table table-hover">
         <thead>
@@ -18,8 +18,8 @@
             <th><a th:href="@{/admin/rental/add}" type="button" class="btn btn-primary">추가</a></th>
 
         </tr>
-        <tbody th:each="rental : ${rentals}" th:object="${rental}">
-        <tr>
+        <tbody>
+        <tr th:each="rental : ${rentals}" th:object="${rental}">
             <td scope="row" th:text="${rentalStat.count}">1</td>
             <td scope="row" th:text="*{week()}">수업요일</td>
             <td scope="row" th:text="*{className()}">수업이름</td>
@@ -32,5 +32,23 @@
         </tbody>
     </table>
 </div>
+<script defer>
+    $(document).ready(function() {
+        $('tbody tr').click(function (e){
+            let clickTr = e.target.closest('tr').cells[4];
+            let deleteBtn = e.target.closest('tr').cells[5].querySelector('a');
+
+            // clickTr 이벤트
+            clickTr.setAttributeNode(document.createAttribute('contenteditable'));
+            // deleteBtn 이벤트
+            let attributeOldHref = deleteBtn.getAttribute('href');
+            let attributeChangeHref = attributeOldHref.replace('delete', 'update');
+            $(deleteBtn).text('수정');
+            $(deleteBtn).prop('href', attributeChangeHref);
+            $(deleteBtn).removeClass('btn-danger');
+            $(deleteBtn).addClass('btn btn-secondary');
+        })
+    })
+</script>
 </body>
 </html>
