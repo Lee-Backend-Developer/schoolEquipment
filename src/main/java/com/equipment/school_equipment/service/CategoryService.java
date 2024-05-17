@@ -16,12 +16,21 @@ public class CategoryService {
 
     @Transactional
     public Category addCategory(String name) {
-        Category category = Category.builder().categoryName(name).build();
-        return categoryRepository.save(category);
+        Category category = Category.builder()
+                .categoryName(name)
+                .build();
+
+        // 카테고리 중복 검증
+        categoryRepository.findByCategoryName(name)
+                .ifPresentOrElse(categoryAction -> {
+                            throw new RuntimeException("이미 존재하는 카테고리입니다.");
+                        },
+                        () -> categoryRepository.save(category));
+        return category;
     }
 
     public List<Category> findAll() {
-            return categoryRepository.findAll();
+        return categoryRepository.findAll();
     }
 
     public Category findById(Long id) {
@@ -37,7 +46,6 @@ public class CategoryService {
     }
 
     /**
-     *
      * @param categoryId 카테고리아이디
      * @return 삭제완료 0, 삭제 실패 1
      */
@@ -47,7 +55,7 @@ public class CategoryService {
         categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("입력하신 카테고리는 없습니다"));
 
-        if(categoryRepository.countEquipment(categoryId) > 0) {
+        if (categoryRepository.countEquipment(categoryId) > 0) {
             throw new RuntimeException("입력하신 카테고리에 장비가 들어있습니다.");
         }
 
