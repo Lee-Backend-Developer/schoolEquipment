@@ -34,9 +34,23 @@
 </div>
 <script defer>
     $(document).ready(function() {
+        let selectedTr;
+
+        //수정버튼
         $('tbody tr').click(function (e){
-            let clickTr = e.target.closest('tr').cells[4];
-            let deleteBtn = e.target.closest('tr').cells[5].querySelector('a');
+            if (selectedTr) {
+                let deleteBtn = selectedTr.cells[5].querySelector('a');
+                deleteBtn.removeAttribute('contenteditable');
+                let attributeOldHref = deleteBtn.getAttribute('href');
+                let attributeChangeHref = attributeOldHref.replace('update', 'delete');
+                $(deleteBtn).text('삭제');
+                $(deleteBtn).prop('href', attributeChangeHref);
+                $(deleteBtn).removeClass('btn-secondary');
+                $(deleteBtn).addClass('btn-danger');
+            }
+            selectedTr = e.target.closest('tr');
+            let clickTr = selectedTr.cells[4];
+            let deleteBtn = selectedTr.cells[5].querySelector('a');
 
             // clickTr 이벤트
             clickTr.setAttributeNode(document.createAttribute('contenteditable'));
@@ -47,7 +61,32 @@
             $(deleteBtn).prop('href', attributeChangeHref);
             $(deleteBtn).removeClass('btn-danger');
             $(deleteBtn).addClass('btn btn-secondary');
-        })
+            $(deleteBtn).click(function() {
+                $.post("admin/rental/edit/count",
+                    {
+                        rentalId: selectedTr.cells[0].innerText,
+                        rentalCnt: selectedTr.cells[4].innerText
+                    },
+                    function(data, status) {
+                        console.log(data);
+
+                    });
+            });
+        });
+        //삭제 버튼
+        $(document).click(function(e) {
+            if (selectedTr && !selectedTr.contains(e.target)) {
+                let deleteBtn = selectedTr.cells[5].querySelector('a');
+                deleteBtn.removeAttribute('contenteditable');
+                let attributeOldHref = deleteBtn.getAttribute('href');
+                let attributeChangeHref = attributeOldHref.replace('update', 'delete');
+                $(deleteBtn).text('삭제');
+                $(deleteBtn).prop('href', attributeChangeHref);
+                $(deleteBtn).removeClass('btn-secondary');
+                $(deleteBtn).addClass('btn-danger');
+                selectedTr = null;
+            }
+        });
     })
 </script>
 </body>
