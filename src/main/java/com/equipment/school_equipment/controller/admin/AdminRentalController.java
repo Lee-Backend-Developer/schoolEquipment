@@ -68,12 +68,6 @@ public class AdminRentalController {
 
     }
 
-    @PostMapping("/update/{id}")
-    public String cntUpdate(@PathVariable Long id, @RequestParam int rentalCnt) {
-        rentalService.rentalCntUpdate(id, rentalCnt);
-        return "redirect:/admin/rental";
-    }
-
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         rentalService.rentaldelete(id);
