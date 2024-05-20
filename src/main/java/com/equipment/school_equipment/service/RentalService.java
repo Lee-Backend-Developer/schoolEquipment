@@ -124,4 +124,13 @@ public class RentalService {
         Rental rental = rentalRepository.findById(id).orElseThrow(() -> new RuntimeException("해당 아이디가 없습니다."));
         rentalRepository.deleteById(rental.getId());
     }
+
+    @Transactional
+    public void rentalCntUpdate(Long id, int rentalCnt) {
+            Rental rental = rentalRepository.findById(id).orElseThrow(() -> new RuntimeException("해당 대여가 없습니다."));
+            if(rental.getEquipmentId().getCount() < rentalCnt) {
+                throw new IllegalArgumentException("보관하고 있는 장비 수량보다 대여 수량이 더 많습니다.");
+            }
+            rental.updateRentalCnt(rentalCnt);
+    }
 }

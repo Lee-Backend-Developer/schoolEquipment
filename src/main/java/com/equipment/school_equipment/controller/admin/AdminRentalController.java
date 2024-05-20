@@ -1,13 +1,10 @@
 package com.equipment.school_equipment.controller.admin;
 
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.CategoryRepository;
-import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.request.admin.RentalAddRequest;
 import com.equipment.school_equipment.response.thymeleaf.admin.RentalFindAllResponse;
 import com.equipment.school_equipment.service.RentalService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,8 +68,14 @@ public class AdminRentalController {
 
     }
 
+    @PostMapping("/update/{id}")
+    public String cntUpdate(@PathVariable Long id, @RequestParam int rentalCnt) {
+        rentalService.rentalCntUpdate(id, rentalCnt);
+        return "redirect:/admin/rental";
+    }
+
     @GetMapping("/delete/{id}")
-    public String edit(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) {
         rentalService.rentaldelete(id);
         return "redirect:/admin/rental";
     }
