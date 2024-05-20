@@ -37,7 +37,7 @@
     $(document).ready(function () {
         let selectedTr;
 
-        $('tbody tr td:eq(4)').click(function (e) {
+        $('tbody tr td').click(function (e) {
             // 삭제 버튼
             if (selectedTr) {
                 let deleteBtn = selectedTr.cells[5].querySelector('a');
@@ -63,8 +63,6 @@
             $(deleteBtn).prop('href', attributeChangeHref);
             $(deleteBtn).removeClass('btn-danger');
             $(deleteBtn).addClass('btn btn-secondary');
-            // e.preventDefault();
-            console.log('수정');
             $(deleteBtn).click(function (e) {
                 e.preventDefault();
                 $.ajax({
