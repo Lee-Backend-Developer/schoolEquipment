@@ -4,7 +4,7 @@ create table category
     category_name         varchar(255) not null unique,
 
     primary key (category_id)
-);
+) comment '물품 카테고리 테이블';
 
 create table equipment
 (
@@ -17,7 +17,7 @@ create table equipment
 
     foreign key (category_id) references category (category_id),
     primary key (equipment_id)
-);
+) comment '물품 테이블';
 
 create table classtimes
 (
@@ -36,18 +36,30 @@ create table classtimes
     ten_time           boolean default false,
 
     primary key (classtimelist_id)
-);
+) comment '수업명, 1~10 교시 테이블';
 
 
 create table rental
 (
-    rental_id          bigint auto_increment,
-    classtimelist_id bigint not null,
-    equipment_id       bigint not null,
-    rental_chk         boolean default true,
-    rental_cnt         int     default 0,
+    rental_id          bigint auto_increment comment '대여 id',
+    classtimelist_id bigint not null comment '수업 시간 테이블의 외래키',
+    equipment_id       bigint not null comment '물품 테이블의 외래키',
+    rental_chk         boolean default true comment '대여 가능 여부',
+    rental_cnt         int     default 0 comment '대여한 수량',
 
     foreign key (classtimelist_id) references classtimes (classtimelist_id),
     foreign key (equipment_id) references equipment (equipment_id),
     primary key (rental_id)
-);
+) comment '수업 시간에 대여한 물품';
+
+# rental 테이블에서 오늘이 월요일이면 월요일에 대한 대여목록 가져오기
+# 뷰로 만들어도 되지만 혹시 학생이 볼수있게 하게 되면 수량를 가릴수 있어야함
+create table today_rental
+(
+    today_id bigint auto_increment comment 'today table에 id',
+    rental_id      bigint not null comment 'rental table의 외래키',
+    rental_cnt     int    not null  comment '대여한 수량',
+
+    foreign key (rental_id) references rental (rental_id),
+    primary key (today_id)
+) COMMENT '오늘 대여 가능한 물품';
