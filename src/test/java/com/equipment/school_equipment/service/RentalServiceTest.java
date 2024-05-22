@@ -1,7 +1,7 @@
 package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.Category;
-import com.equipment.school_equipment.domain.Classtimes;
+import com.equipment.school_equipment.domain.Classes;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
@@ -10,7 +10,6 @@ import com.equipment.school_equipment.repository.CategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.RentalRepository;
 import com.equipment.school_equipment.request.rental.RentalCreate;
-import com.equipment.school_equipment.request.rental.RentalReturn;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -46,7 +45,7 @@ public class RentalServiceTest {
         equipmentRepository.save(equipment);
         equipment.addCategory(category);
 
-        classTimeRepository.save(Classtimes.builder()
+        classTimeRepository.save(Classes.builder()
                 .className("영상촬영실습").dayOfWeek(DayOfWeekEnum.monday)
                 .twoTime(true).threeTime(true).fourTime(true).build());
     }
@@ -99,7 +98,7 @@ public class RentalServiceTest {
         rentalRepository.save(rental);
         rentalRepository.save(rental2);
 
-        String equipmentName = rental.getEquipmentId().getName();
+        String equipmentName = rental.getEquipment().getName();
 
         //when
         int leftCnt = rentalService.findByEquipmentCnt(equipmentName); //남은 값
@@ -121,7 +120,7 @@ public class RentalServiceTest {
         int maxCount = 20;
         int inputCount = 10;
 
-        Classtimes saveClasstime = classTimeRepository.save(Classtimes.builder().className(classname)
+        Classes saveClasstime = classTimeRepository.save(Classes.builder().className(classname)
                 .dayOfWeek(DayOfWeekEnum.valueOf(monday))
                 .twoTime(true).build());
 
@@ -153,7 +152,7 @@ public class RentalServiceTest {
     void findByClassNameIdAndDayOfWeek() {
         //given
         String dayOfWeek = DayOfWeekEnum.monday.name();
-        String classNameId = Long.toString(getClassTimeList().getId());
+        String classNameId = Long.toString(getClassTimeList().getClassesId());
         Rental rental = Rental.builder().equipmentId(getEquipment()).classtimesId(getClassTimeList()).rentalCnt(3).build();
         rentalRepository.save(rental);
 
@@ -163,12 +162,12 @@ public class RentalServiceTest {
 
         //then
         assertThat(equipment.size()).isEqualTo(1);
-        assertThat(equipment).contains(rental.getEquipmentId());
+        assertThat(equipment).contains(rental.getEquipment());
         assertThat(rental.getRentalCnt()).isEqualTo(3);
 
     }
 
-    private Classtimes getClassTimeList() {
+    private Classes getClassTimeList() {
         return classTimeRepository.findAll().get(0);
     }
 

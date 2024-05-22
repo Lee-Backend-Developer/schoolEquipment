@@ -38,7 +38,7 @@ public class RentalService {
         Equipment equipment = equipmentRepository.findByName(request.equipmentName());
 
         Rental rental = Rental.builder().classes(classes)
-                .equipmentId(equipment)
+                .equipment(equipment)
                 .rentalCnt(request.equipmentCount())
                 .build();
         //가지고 있는 장비수, 요청받은 입력수 검증로직이 필요
@@ -69,12 +69,12 @@ public class RentalService {
         if(equipment.getCount() < request.getRetCnt()) throw new IllegalArgumentException("보관하고 있는 장비 수량보다 대여 수량이 더 많습니다.");
 
         // 대여한 장비와 수업 시간이 똑같을 경우 처리하는 로직
-        rentalRepository.findByClassIdAndEquipmentId(classtime.getClassesId(), equipment.getId())
+        rentalRepository.findByClassIdAndEquipmentId(classtime.getClassesId(), equipment.getEquipmentId())
                 .ifPresentOrElse(rental1 ->  // 있다면
                             rental1.updateRentalCnt(rental1.getRentalCnt() + request.getRetCnt()),
                         () -> { // 없다면
                             Rental rental = Rental.builder()
-                                    .equipmentId(equipment).classes(classtime)
+                                    .equipment(equipment).classes(classtime)
                                     .rentalCnt(request.getRetCnt()).rentalChk(true).build();
                             rentalRepository.save(rental);
                         }
@@ -89,7 +89,7 @@ public class RentalService {
         Classes classTime = classTimeRepository.findByClassNameEqualsAndDayOfWeek(classname, DayOfWeekEnum.valueOf(day))
                 .orElseThrow(() -> new RuntimeException("그런 수업은 없습니다."));
         Rental rental = rentalRepository.findByClassOfDay(classTime.getClassName(), day).orElseThrow(() -> new RuntimeException("수업 또는 요일이 잘못입력되었습니다"));
-        return rental.getEquipmentId();
+        return rental.getEquipment();
     }
 
     /**
@@ -121,13 +121,13 @@ public class RentalService {
     @Transactional
     public void rentaldelete(Long id) {
         Rental rental = rentalRepository.findById(id).orElseThrow(() -> new RuntimeException("해당 아이디가 없습니다."));
-        rentalRepository.deleteById(rental.getId());
+        rentalRepository.deleteById(rental.getRentalId());
     }
 
     @Transactional
     public void rentalCntUpdate(Long id, int rentalCnt) {
             Rental rental = rentalRepository.findById(id).orElseThrow(() -> new RuntimeException("해당 대여가 없습니다."));
-            if(rental.getEquipmentId().getCount() < rentalCnt) {
+            if(rental.getEquipment().getCount() < rentalCnt) {
                 throw new IllegalArgumentException("보관하고 있는 장비 수량보다 대여 수량이 더 많습니다.");
             }
             rental.updateRentalCnt(rentalCnt);

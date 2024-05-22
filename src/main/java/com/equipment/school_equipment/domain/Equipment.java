@@ -11,14 +11,12 @@ import static jakarta.persistence.GenerationType.*;
 @Getter
 public class Equipment {
     @Id
-    @Column(name = "equipment_id")
     @GeneratedValue(strategy = IDENTITY)
-    private Long id;      // 장비 아이디
+    private Long equipmentId;      // 장비 아이디
 
     private String name;    // 장비 이름
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
     private Category category = new Category();
 
     private String mainImg;

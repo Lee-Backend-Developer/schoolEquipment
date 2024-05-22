@@ -1,7 +1,7 @@
 package com.equipment.school_equipment.repository;
 
 
-import com.equipment.school_equipment.domain.Classtimes;
+import com.equipment.school_equipment.domain.Classes;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ public class ClassTimeRepositoryTest {
     public void create() {
         // given 무엇을 주어졌을때
 
-        Classtimes classTime = Classtimes.builder()
+        Classes classTime = Classes.builder()
                 .className("영상촬영실습")
                 .dayOfWeek(DayOfWeekEnum.monday)
                 .twoTime(true)
@@ -30,10 +30,10 @@ public class ClassTimeRepositoryTest {
                 .build();
 
         // when 이러한 행동을 할 때
-        Classtimes saveClassTime = classTimeRepository.save(classTime);
+        Classes saveClassTime = classTimeRepository.save(classTime);
 
         // then 결과는 이렇게 되야됨
-        Classtimes findByClassTime = classTimeRepository.findById(saveClassTime.getId()).get();
+        Classes findByClassTime = classTimeRepository.findById(saveClassTime.getClassesId()).get();
         assertThat("영상촬영실습").isEqualTo(findByClassTime.getClassName());
     }
 }

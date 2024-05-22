@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/classtimes")
-public class ClasstimeController {
+public class ClassesController {
     private final ClassTimeService classTimeService;
 
     @RequestMapping

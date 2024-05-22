@@ -29,20 +29,20 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
 
         return Optional.ofNullable(queryFactory.select(rental)
                 .from(rental)
-                .join(rental.equipmentId, equipment).fetchJoin().fetchOne());
+                .join(rental.equipment, equipment).fetchJoin().fetchOne());
 
     }
 
     @Override
     public List<Rental> findRentals(String equipmentName) {
         return queryFactory.selectFrom(rental)
-                .join(rental.equipmentId, equipment).fetchJoin().
+                .join(rental.equipment, equipment).fetchJoin().
                 where(equipment.name.eq(equipmentName), rental.rentalChk.isTrue()).fetch();
     }
 
     @Override
     public List<Equipment> findByClassnameIdAndDayOfWeek(String classNameId, String dayOfWeek) {
-        return queryFactory.select(rental.equipmentId)
+        return queryFactory.select(rental.equipment)
                 .from(rental)
                 .join(rental.classes, classes)
                 .where(classes.classesId.eq(Long.parseLong(classNameId)).and(classes.dayOfWeek.eq(DayOfWeekEnum.valueOf(dayOfWeek))))
@@ -52,7 +52,7 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
     @Override
     public Optional<Rental> findByClassIdAndEquipmentId(Long classId, Long equipmentId) {
         return Optional.ofNullable(queryFactory.selectFrom(rental)
-                .where(rental.classes.classesId.eq(classId).and(rental.equipmentId.id.eq(equipmentId)))
+                .where(rental.classes.classesId.eq(classId).and(rental.equipment.equipmentId.eq(equipmentId)))
                 .fetchOne());
     }
 

@@ -23,7 +23,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/classtimes")
+@RequestMapping("/admin/classes")
 public class AdminClasstimesController {
     private static final Logger log = LoggerFactory.getLogger(AdminClasstimesController.class);
     private final ClassTimeService classTimeService;

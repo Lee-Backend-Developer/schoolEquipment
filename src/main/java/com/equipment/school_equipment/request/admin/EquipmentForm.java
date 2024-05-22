@@ -30,7 +30,7 @@ public class EquipmentForm {
     @NotNull(message = AdminErrorMessage.EQUIPMENT_ADD_CATEGORY_ERROR)
     private Category category;
 
-    private List<Category> categories = new ArrayList<>();
+    private List<Category> categories;
     private String categoryName;
 
     // 수정할 때 사용
