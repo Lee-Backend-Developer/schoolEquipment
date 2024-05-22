@@ -58,7 +58,7 @@ create table today_rental
 (
     today_id bigint auto_increment comment 'today table에 id',
     rental_id      bigint not null comment 'rental table의 외래키',
-    rental_cnt     int    not null  comment '대여한 수량',
+    minusCount     int    not null  comment '대여한 수량',
 
     foreign key (rental_id) references rental (rental_id),
     primary key (today_id)
