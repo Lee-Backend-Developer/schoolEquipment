@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,28 +18,28 @@ import java.util.List;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/classes")
-public class ClassesController {
+@RequestMapping("/class-schedule")
+public class ClassPeriodController {
     private final ClassTimeService classTimeService;
 
-    @RequestMapping
-    public String classtimes(Model model) {
+    @GetMapping
+    public String viewWeek(Model model) {
         model.addAttribute(DayOfWeekEnum.values());
         return "classTimeList";
     }
 
-    @RequestMapping("/{dayofweek}")
-    public String dayofweek(@PathVariable String dayofweek, Model model){
-        List<ClassPeriod> classtimes = classTimeService.findByDay(dayofweek);
+    @GetMapping("/{schedule}")
+    public String findByWeekdayClassPeriod(@PathVariable String schedule, Model model){
+        List<ClassPeriod> classPeriodList = classTimeService.findByDay(schedule);
         List<ClasstimeResponse> responsesList = new ArrayList<>();
 
-        classtimes.iterator().forEachRemaining(
-                classtimetable -> {
-                    List<Boolean> times = getTimes(classtimetable); // 교시 가져오기
+        classPeriodList.iterator().forEachRemaining(
+                classperiod -> {
+                    List<Boolean> times = getTimes(classperiod); // 교시 가져오기
                     responsesList.add(ClasstimeResponse.builder()
-                            .id(classtimetable.getId())
-                            .classname(classtimetable.getClassName())
-                            .dayOfWeekEnum(classtimetable.getDayOfWeek())
+                            .id(classperiod.getId())
+                            .classname(classperiod.getClassName())
+                            .dayOfWeekEnum(classperiod.getDayOfWeek())
                             .times(times)
                             .build());
                 }

@@ -16,7 +16,7 @@
         <tbody th:each="day : ${dayOfWeekEnumList}">
         <tr>
             <td scope="row" th:text="${dayStat.count}">1</td>
-            <td><a href="#" th:text="${day.getWeek()}" th:href="@{/classPeriod/{dayofweek}(dayofweek = ${day.name()})}">요일</a>
+            <td><a href="#" th:text="${day.getWeek()}" th:href="@{/class-schedule/{schedule}(schedule = ${day.name()})}">요일</a>
             </td>
         </tr>
         </tbody>

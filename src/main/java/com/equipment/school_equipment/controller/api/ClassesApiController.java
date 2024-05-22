@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/classtimes")
+@RequestMapping("/api/class-period")
 public class ClassesApiController {
     private final ClassTimeService classTimeService;
 

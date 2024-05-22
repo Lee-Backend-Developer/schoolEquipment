@@ -23,21 +23,21 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/classes")
+@RequestMapping("/admin/class-period")
 public class AdminClassesController {
     private static final Logger log = LoggerFactory.getLogger(AdminClassesController.class);
     private final ClassTimeService classTimeService;
 
     @GetMapping
-    public String adminClasses(Model model) {
-        List<ClassPeriod> aClasses = classTimeService.findAll();
-        List<ClasstimesFindResponse> responses = aClasses.stream()
+    public String findByAll(Model model) {
+        List<ClassPeriod> classPeriodList = classTimeService.findAll();
+        List<ClasstimesFindResponse> converterResponseList = classPeriodList.stream()
                 .map((period -> ClasstimesFindResponse.builder()
                         .id(period.getId())
                         .name(period.getClassName())
                         .build())).toList();
 
-        model.addAttribute("classtimes", responses);
+        model.addAttribute("converterList", converterResponseList);
 
         return "admin/classes/find-all";
     }
@@ -70,7 +70,7 @@ public class AdminClassesController {
                 .build();
         classTimeService.save(classTimeCreate);
 
-        return "redirect:/admin/classtimes";
+        return "redirect:/admin/class-period";
     }
 
 
@@ -121,7 +121,7 @@ public class AdminClassesController {
 
         classTimeService.updateClassTime(classTimeUpdate);
 
-        return "redirect:/admin/classes";
+        return "redirect:/admin/class-period";
     }
 
     @GetMapping("/delete")
@@ -135,7 +135,7 @@ public class AdminClassesController {
     @GetMapping("/delete/{classtimesId}")
     public void adminClassesDelete(@PathVariable("classtimesId") Long classtimesId, HttpServletResponse response) throws IOException {
         classTimeService.delete(classtimesId);
-        response.sendRedirect("/admin/classes");
+        response.sendRedirect("/admin/class-period");
     }
 
 }
