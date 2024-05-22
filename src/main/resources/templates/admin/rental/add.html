@@ -72,7 +72,7 @@
     document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
         checkbox.addEventListener('change', function (e) {
             if (e.target.checked) {
-                fetch('/api/classtimes/' + e.target.id)
+                fetch('/api/classes/' + e.target.id)
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);

@@ -1,12 +1,10 @@
 package com.equipment.school_equipment.request.admin;
 
 import com.equipment.school_equipment.domain.Category;
-import com.equipment.school_equipment.domain.Classtimes;
+import com.equipment.school_equipment.domain.Classes;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
-import com.equipment.school_equipment.message.error.AdminErrorMessage;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
@@ -31,5 +29,5 @@ public class RentalAddRequest {
         //response
         private List<Category> categories;
         private List<Equipment> equipments;
-        private List<Classtimes> classtime;
+        private List<Classes> classtime;
 }

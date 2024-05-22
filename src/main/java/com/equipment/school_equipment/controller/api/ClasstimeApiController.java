@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.controller.api;
 
-import com.equipment.school_equipment.domain.Classtimes;
+import com.equipment.school_equipment.domain.Classes;
 import com.equipment.school_equipment.response.api.ClasstimeApiFindResponse;
 import com.equipment.school_equipment.service.ClassTimeService;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +23,9 @@ public class ClasstimeApiController {
 
     @GetMapping("{weekday}")
     public ResponseEntity<List<ClasstimeApiFindResponse>> classtimes(@PathVariable String weekday) {
-        List<Classtimes> classtimes = classTimeService.findByDay(weekday);
+        List<Classes> classtimes = classTimeService.findByDay(weekday);
         List<ClasstimeApiFindResponse> responseList = classtimes.stream().map(classtime -> ClasstimeApiFindResponse.builder()
-                .id(classtime.getId())
+                .id(classtime.getClassesId())
                 .classNames(classtime.getClassName())
                 .build()).toList();
         return new ResponseEntity<>(responseList, HttpStatus.OK);

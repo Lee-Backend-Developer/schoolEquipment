@@ -12,14 +12,14 @@
         <tr>
             <th scope="col">No</th>
             <th scope="col">수업명</th>
-            <th><a th:href="@{/admin/classtimes/add}" type="button" class="btn btn-primary">추가</a></th>
+            <th><a th:href="@{/admin/classes/add}" type="button" class="btn btn-primary">추가</a></th>
 
         </tr>
-        <tbody th:each="classtime : ${classtimes}">
+        <tbody th:each="classtime : ${classes}">
         <tr>
             <td scope="row" th:text="${classtimeStat.count}">1</td>
-            <td><a href="#" th:text="${classtime.name()}" th:href="@{/admin/classtimes/edit/{no} (no = ${classtime.id()})}">카메라</a></td>
-            <td><a th:href="@{/admin/classtimes/delete/{classtimeId} (classtimeId = ${classtime.id()})}" type="button" class="btn btn-danger">삭제</a></td>
+            <td><a href="#" th:text="${classtime.name()}" th:href="@{/admin/classes/edit/{no} (no = ${classtime.id()})}">카메라</a></td>
+            <td><a th:href="@{/admin/classes/delete/{classtimeId} (classtimeId = ${classtime.id()})}" type="button" class="btn btn-danger">삭제</a></td>
         </tr>
         </tbody>
     </table>

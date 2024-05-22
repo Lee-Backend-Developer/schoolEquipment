@@ -1,10 +1,9 @@
 package com.equipment.school_equipment.controller;
 
-import com.equipment.school_equipment.domain.Classtimes;
+import com.equipment.school_equipment.domain.Classes;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.response.thymeleaf.ClasstimeResponse;
 import com.equipment.school_equipment.service.ClassTimeService;
-import com.equipment.school_equipment.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -30,14 +29,14 @@ public class ClasstimeController {
 
     @RequestMapping("/{dayofweek}")
     public String dayofweek(@PathVariable String dayofweek, Model model){
-        List<Classtimes> classtimes = classTimeService.findByDay(dayofweek);
+        List<Classes> classtimes = classTimeService.findByDay(dayofweek);
         List<ClasstimeResponse> responsesList = new ArrayList<>();
 
         classtimes.iterator().forEachRemaining(
                 classtimetable -> {
                     List<Boolean> times = getTimes(classtimetable); // 교시 가져오기
                     responsesList.add(ClasstimeResponse.builder()
-                            .id(classtimetable.getId())
+                            .id(classtimetable.getClassesId())
                             .classname(classtimetable.getClassName())
                             .dayOfWeekEnum(classtimetable.getDayOfWeek())
                             .times(times)
@@ -49,7 +48,7 @@ public class ClasstimeController {
     }
 
 
-    private static List<Boolean> getTimes(Classtimes classTimeList) {
+    private static List<Boolean> getTimes(Classes classTimeList) {
         List<Boolean> times = new ArrayList<>();
         times.add(classTimeList.isOneTime());
         times.add(classTimeList.isTwoTime());

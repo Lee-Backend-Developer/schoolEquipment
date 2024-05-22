@@ -16,8 +16,7 @@ public class Rental {
     private Long id;          //렌탈_아이디
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "classtimelist_id")
-    private Classtimes classtimesId = new Classtimes();
+    private Classes classes = new Classes();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "equipment_id")
@@ -27,9 +26,9 @@ public class Rental {
     private boolean rentalChk = true; //렌탈 여부
 
     @Builder
-    public Rental(Long id, Classtimes classtimesId, Equipment equipmentId, int rentalCnt, boolean rentalChk) {
+    public Rental(Long id, Classes classes, Equipment equipmentId, int rentalCnt, boolean rentalChk) {
         this.id = id;
-        this.classtimesId = classtimesId;
+        this.classes = classes;
         this.equipmentId = equipmentId;
         this.rentalCnt = rentalCnt;
         this.rentalChk = rentalChk;

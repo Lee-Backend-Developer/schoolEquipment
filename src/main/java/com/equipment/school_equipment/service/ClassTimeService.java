@@ -1,7 +1,7 @@
 package com.equipment.school_equipment.service;
 
 
-import com.equipment.school_equipment.domain.Classtimes;
+import com.equipment.school_equipment.domain.Classes;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
@@ -19,10 +19,10 @@ public class ClassTimeService {
     private final ClassTimeRepository classTimeRepository;
 
     @Transactional
-    public Classtimes save(ClassTimeCreate request) throws RuntimeException {
+    public Classes save(ClassTimeCreate request) throws RuntimeException {
         if(request.dayOfWeek() == null) throw new RuntimeException("요일이 선택되지 않음.");
 
-        Classtimes classTime = Classtimes.builder()
+        Classes classTime = Classes.builder()
                 .className(request.className())
                 .dayOfWeek(request.dayOfWeek())
                 .oneTime(request.oneTime())
@@ -40,8 +40,8 @@ public class ClassTimeService {
     }
 
     @Transactional
-    public Classtimes updateClassTime(ClassTimeUpdate request) {
-        Classtimes findClassName = classTimeRepository.findByClassName(request.oldClassname()).orElseThrow(() -> new RuntimeException("접근에러"));
+    public Classes updateClassTime(ClassTimeUpdate request) {
+        Classes findClassName = classTimeRepository.findByClassName(request.oldClassname()).orElseThrow(() -> new RuntimeException("접근에러"));
 
         findClassName.setUpdate(request.newClassname(), request.dayOfWeekEnum(), request.oneTime(), request.twoTime(), request.threeTime(), request.fourTime(), request.fiveTime(), request.sixTime(), request.sevenTime(), request.eightTime(), request.nineTime(), request.tenTime());
         return findClassName;
@@ -52,7 +52,7 @@ public class ClassTimeService {
         classTimeRepository.deleteById(id);
     }
 
-    public List<Classtimes> findByDay(String week) throws RuntimeException {
+    public List<Classes> findByDay(String week) throws RuntimeException {
         try{
             DayOfWeekEnum.valueOf(week); // 월요일
         } catch (IllegalArgumentException e) {
@@ -61,13 +61,13 @@ public class ClassTimeService {
         return classTimeRepository.findByDayOfWeekEquals(DayOfWeekEnum.valueOf(week));
     }
 
-    public List<Classtimes> findAll() {
+    public List<Classes> findAll() {
         return classTimeRepository.findAll();
     }
 
-    public Classtimes findById(Long classnameId) {
-        Classtimes classtimes = classTimeRepository.findById(classnameId).orElseThrow(() -> new RuntimeException("잘못된 접근입니다."));
+    public Classes findById(Long classnameId) {
+        Classes classes = classTimeRepository.findById(classnameId).orElseThrow(() -> new RuntimeException("잘못된 접근입니다."));
 
-        return classtimes;
+        return classes;
     }
 }

@@ -17,7 +17,7 @@
         <tr>
             <td scope="row" th:text="${responseStat.count}">1</td>
             <td th:text="${response.classname()}">카메라</td>
-            <td><a th:href="@{/admin/classtimes/delete/{classtimesId} (classtimesId = ${response.id()})}" type="button" class="btn btn-danger">삭제</a></td>
+            <td><a th:href="@{/admin/classes/delete/{classesId} (classesId = ${response.id()})}" type="button" class="btn btn-danger">삭제</a></td>
         </tr>
         </tbody>
     </table>

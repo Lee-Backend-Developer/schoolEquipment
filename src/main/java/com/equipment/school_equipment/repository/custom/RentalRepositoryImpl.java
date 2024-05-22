@@ -1,6 +1,7 @@
 package com.equipment.school_equipment.repository.custom;
 
 import com.equipment.school_equipment.domain.Equipment;
+import com.equipment.school_equipment.domain.QClasses;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -9,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
-import static com.equipment.school_equipment.domain.QClasstimes.*;
+import static com.equipment.school_equipment.domain.QClasses.classes;
 import static com.equipment.school_equipment.domain.QEquipment.equipment;
 import static com.equipment.school_equipment.domain.QRental.rental;
 
@@ -43,15 +44,15 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
     public List<Equipment> findByClassnameIdAndDayOfWeek(String classNameId, String dayOfWeek) {
         return queryFactory.select(rental.equipmentId)
                 .from(rental)
-                .join(rental.classtimesId, classtimes)
-                .where(classtimes.id.eq(Long.parseLong(classNameId)).and(classtimes.dayOfWeek.eq(DayOfWeekEnum.valueOf(dayOfWeek))))
+                .join(rental.classes, classes)
+                .where(classes.classesId.eq(Long.parseLong(classNameId)).and(classes.dayOfWeek.eq(DayOfWeekEnum.valueOf(dayOfWeek))))
                 .fetch();
     }
 
     @Override
     public Optional<Rental> findByClassIdAndEquipmentId(Long classId, Long equipmentId) {
         return Optional.ofNullable(queryFactory.selectFrom(rental)
-                .where(rental.classtimesId.id.eq(classId).and(rental.equipmentId.id.eq(equipmentId)))
+                .where(rental.classes.classesId.eq(classId).and(rental.equipmentId.id.eq(equipmentId)))
                 .fetchOne());
     }
 

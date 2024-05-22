@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.controller.admin;
 
-import com.equipment.school_equipment.domain.Classtimes;
+import com.equipment.school_equipment.domain.Classes;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.request.admin.ClassmateRequest;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
@@ -19,7 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -31,10 +30,10 @@ public class AdminClasstimesController {
 
     @GetMapping
     public String adminClasstimes(Model model) {
-        List<Classtimes> classtimes = classTimeService.findAll();
+        List<Classes> classtimes = classTimeService.findAll();
         List<ClasstimesFindResponse> responses = classtimes.stream()
                 .map((classtime -> ClasstimesFindResponse.builder()
-                        .id(classtime.getId())
+                        .id(classtime.getClassesId())
                         .name(classtime.getClassName())
                         .build())).toList();
 
@@ -77,7 +76,7 @@ public class AdminClasstimesController {
 
     @GetMapping("/edit/{classnameId}")
     public String adminClasstimesEdit(@PathVariable Long classnameId, Model model) {
-        Classtimes classTimes = classTimeService.findById(classnameId);
+        Classes classTimes = classTimeService.findById(classnameId);
 
         ClassmateRequest classmateRequest = ClassmateRequest.builder()
                 .classname(classTimes.getClassName())
@@ -104,10 +103,10 @@ public class AdminClasstimesController {
         if(bindingResult.hasErrors()){
             return "admin/classtimes/classtimesEdit";
         }
-        Classtimes findByClasstimes = classTimeService.findById(classmateRequest.getClassnameId());
+        Classes findByClasses = classTimeService.findById(classmateRequest.getClassnameId());
 
         ClassTimeUpdate classTimeUpdate = ClassTimeUpdate.builder()
-                .updateClassname(findByClasstimes.getClassName(), classmateRequest.getClassname())
+                .updateClassname(findByClasses.getClassName(), classmateRequest.getClassname())
                 .dayOfWeek(classmateRequest.getDayOfWeekEnum())
                 .oneTime(classmateRequest.isOneTime())
                 .twoTime(classmateRequest.isTwoTime())
@@ -127,8 +126,8 @@ public class AdminClasstimesController {
 
     @GetMapping("/delete")
     public String adminClasstimesDelete(Model model) {
-        List<Classtimes> classTimesList = classTimeService.findAll();
-        List<ClasstimeResponse> responseList = classTimesList.stream().map(classtimes -> ClasstimeResponse.builder().id(classtimes.getId()).classname(classtimes.getClassName()).build()).toList();
+        List<Classes> classTimesList = classTimeService.findAll();
+        List<ClasstimeResponse> responseList = classTimesList.stream().map(classtimes -> ClasstimeResponse.builder().id(classtimes.getClassesId()).classname(classtimes.getClassName()).build()).toList();
         model.addAttribute("responses", responseList);
         return "admin/classtimes/classtimesDelete";
     }

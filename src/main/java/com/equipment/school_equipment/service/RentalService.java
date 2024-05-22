@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.Classtimes;
+import com.equipment.school_equipment.domain.Classes;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
@@ -9,7 +9,6 @@ import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.RentalRepository;
 import com.equipment.school_equipment.request.admin.RentalAddRequest;
 import com.equipment.school_equipment.request.rental.RentalCreate;
-import com.equipment.school_equipment.request.rental.RentalReturn;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,10 +34,10 @@ public class RentalService {
     @Transactional
     public int rentalCreate(RentalCreate request) {
 
-        Classtimes classTimeList = classTimeRepository.findByClassName(request.className()).orElseThrow(IllegalArgumentException::new);
+        Classes classes = classTimeRepository.findByClassName(request.className()).orElseThrow(IllegalArgumentException::new);
         Equipment equipment = equipmentRepository.findByName(request.equipmentName());
 
-        Rental rental = Rental.builder().classtimesId(classTimeList)
+        Rental rental = Rental.builder().classes(classes)
                 .equipmentId(equipment)
                 .rentalCnt(request.equipmentCount())
                 .build();
@@ -63,19 +62,19 @@ public class RentalService {
      */
     @Transactional
     public void rentalCreate(RentalAddRequest request) {
-        Classtimes classtime = classTimeRepository.findById(request.getClassroomId()).orElseThrow(IllegalArgumentException::new);
+        Classes classtime = classTimeRepository.findById(request.getClassroomId()).orElseThrow(IllegalArgumentException::new);
         Equipment equipment = equipmentRepository.findById(request.getEquipmentId()).orElseThrow(IllegalArgumentException::new);
 
         // 보관하고 있는 장비 수량보다 대여 수량이 더 많으면 에러
         if(equipment.getCount() < request.getRetCnt()) throw new IllegalArgumentException("보관하고 있는 장비 수량보다 대여 수량이 더 많습니다.");
 
         // 대여한 장비와 수업 시간이 똑같을 경우 처리하는 로직
-        rentalRepository.findByClassIdAndEquipmentId(classtime.getId(), equipment.getId())
+        rentalRepository.findByClassIdAndEquipmentId(classtime.getClassesId(), equipment.getId())
                 .ifPresentOrElse(rental1 ->  // 있다면
                             rental1.updateRentalCnt(rental1.getRentalCnt() + request.getRetCnt()),
                         () -> { // 없다면
                             Rental rental = Rental.builder()
-                                    .equipmentId(equipment).classtimesId(classtime)
+                                    .equipmentId(equipment).classes(classtime)
                                     .rentalCnt(request.getRetCnt()).rentalChk(true).build();
                             rentalRepository.save(rental);
                         }
@@ -87,7 +86,7 @@ public class RentalService {
     }
 
     public Equipment findByEquipment(String classname, String day) {
-        Classtimes classTime = classTimeRepository.findByClassNameEqualsAndDayOfWeek(classname, DayOfWeekEnum.valueOf(day))
+        Classes classTime = classTimeRepository.findByClassNameEqualsAndDayOfWeek(classname, DayOfWeekEnum.valueOf(day))
                 .orElseThrow(() -> new RuntimeException("그런 수업은 없습니다."));
         Rental rental = rentalRepository.findByClassOfDay(classTime.getClassName(), day).orElseThrow(() -> new RuntimeException("수업 또는 요일이 잘못입력되었습니다"));
         return rental.getEquipmentId();
