@@ -26,13 +26,13 @@ public class AdminCategoryController {
 
     @GetMapping("/add")
     public String addCategory(@ModelAttribute("category") CategoryAddRequest request) {
-        return "admin/category/categoryAdd";
+        return "admin/category/add";
     }
 
     @PostMapping("/add")
     public String createCategory(@Valid @ModelAttribute("category") CategoryAddRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "admin/category/categoryAdd";
+            return "admin/category/add";
         }
 
         categoryService.addCategory(request.name());
@@ -48,7 +48,7 @@ public class AdminCategoryController {
                 .toList();
 
         model.addAttribute("categorys", categoryRespons);
-        return "admin/category/categoryFindAll";
+        return "admin/category/find-all";
     }
 
     @GetMapping("/edit/{categoryId}")
@@ -57,13 +57,13 @@ public class AdminCategoryController {
 
         CategoryEditResponse request = CategoryEditResponse.builder().categoryId(category.getCategoryId()).oldClassname(category.getCategoryName()).build();
         model.addAttribute("category", request);
-        return "admin/category/categoryEdit";
+        return "admin/category/edit";
     }
 
     @PostMapping("/edit/{categoryId}")
     public String editCategory(@Valid @ModelAttribute("category") CategoryEditResponse request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "admin/category/categoryEdit";
+            return "admin/category/edit";
         }
         categoryService.findByIdAndName(request.categoryId(), request.oldClassname(), request.changeNameClassname());
         return "redirect:/admin/category";
@@ -77,7 +77,7 @@ public class AdminCategoryController {
                 .toList();
 
         model.addAttribute("categorys", categoryRespons);
-        return "admin/category/categoryDelete";
+        return "admin/category/delete";
     }
 
     @GetMapping("/delete/{categoryid}")

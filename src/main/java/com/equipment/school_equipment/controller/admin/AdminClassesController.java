@@ -24,36 +24,36 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/classes")
-public class AdminClasstimesController {
-    private static final Logger log = LoggerFactory.getLogger(AdminClasstimesController.class);
+public class AdminClassesController {
+    private static final Logger log = LoggerFactory.getLogger(AdminClassesController.class);
     private final ClassTimeService classTimeService;
 
     @GetMapping
-    public String adminClasstimes(Model model) {
-        List<Classes> classtimes = classTimeService.findAll();
-        List<ClasstimesFindResponse> responses = classtimes.stream()
-                .map((classtime -> ClasstimesFindResponse.builder()
-                        .id(classtime.getClassesId())
-                        .name(classtime.getClassName())
+    public String adminClasses(Model model) {
+        List<Classes> classes = classTimeService.findAll();
+        List<ClasstimesFindResponse> responses = classes.stream()
+                .map((period -> ClasstimesFindResponse.builder()
+                        .id(period.getClassesId())
+                        .name(period.getClassName())
                         .build())).toList();
 
         model.addAttribute("classtimes", responses);
 
-        return "admin/classtimes/classtimesFindAll";
+        return "admin/classes/find-all";
     }
 
     @GetMapping("/add")
-    public String adminClasstimesAdd(Model model) {
+    public String adminClassesAdd(Model model) {
         model.addAttribute("classtimeRequest",
                 ClassmateRequest.builder()
                         .build());
-        return "admin/classtimes/classtimesAdd";
+        return "admin/classes/add";
     }
 
     @PostMapping("/add")
-    public String adminClasstimesAdd(@Valid @ModelAttribute("classtimeRequest") ClassmateRequest request, BindingResult bindingResult, Model model) {
+    public String adminClassesAdd(@Valid @ModelAttribute("classtimeRequest") ClassmateRequest request, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()){
-            return "admin/classtimes/classtimesAdd";
+            return "admin/classes/add";
         }
         ClassTimeCreate classTimeCreate = ClassTimeCreate.builder()
                 .className(request.getClassname())
@@ -75,7 +75,7 @@ public class AdminClasstimesController {
 
 
     @GetMapping("/edit/{classnameId}")
-    public String adminClasstimesEdit(@PathVariable Long classnameId, Model model) {
+    public String adminClassesEdit(@PathVariable Long classnameId, Model model) {
         Classes classTimes = classTimeService.findById(classnameId);
 
         ClassmateRequest classmateRequest = ClassmateRequest.builder()
@@ -94,14 +94,14 @@ public class AdminClasstimesController {
 
         model.addAttribute("classtime", classmateRequest);
 
-        return "admin/classtimes/classtimesEdit";
+        return "admin/classes/edit";
     }
 
     @PostMapping("/edit/{classnameId}")
-    public String adminClasstimesAdd(@Valid @ModelAttribute(name = "classtime") ClassmateRequest classmateRequest, BindingResult bindingResult) {
+    public String adminClassesAdd(@Valid @ModelAttribute(name = "classtime") ClassmateRequest classmateRequest, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()){
-            return "admin/classtimes/classtimesEdit";
+            return "admin/classes/edit";
         }
         Classes findByClasses = classTimeService.findById(classmateRequest.getClassnameId());
 
@@ -121,21 +121,21 @@ public class AdminClasstimesController {
 
         classTimeService.updateClassTime(classTimeUpdate);
 
-        return "redirect:/admin/classtimes";
+        return "redirect:/admin/classes";
     }
 
     @GetMapping("/delete")
-    public String adminClasstimesDelete(Model model) {
+    public String adminClassesDelete(Model model) {
         List<Classes> classTimesList = classTimeService.findAll();
         List<ClasstimeResponse> responseList = classTimesList.stream().map(classtimes -> ClasstimeResponse.builder().id(classtimes.getClassesId()).classname(classtimes.getClassName()).build()).toList();
         model.addAttribute("responses", responseList);
-        return "admin/classtimes/classtimesDelete";
+        return "admin/classes/delete";
     }
 
     @GetMapping("/delete/{classtimesId}")
-    public void adminClasstimesDelete(@PathVariable("classtimesId") Long classtimesId, HttpServletResponse response) throws IOException {
+    public void adminClassesDelete(@PathVariable("classtimesId") Long classtimesId, HttpServletResponse response) throws IOException {
         classTimeService.delete(classtimesId);
-        response.sendRedirect("/admin/classtimes");
+        response.sendRedirect("/admin/classes");
     }
 
 }

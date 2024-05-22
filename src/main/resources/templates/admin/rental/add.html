@@ -15,7 +15,7 @@
                 <option value="">장비 선택</option>
                 <option th:each="equipment : ${rental.getEquipments()}"
                         th:text="${equipment.getName()}"
-                        th:value="${equipment.getId()}">test
+                        th:value="${equipment.getEquipmentId()}">test
                 </option>
             </select>
             <div th:if="${#fields.hasErrors('equipmentId')}"

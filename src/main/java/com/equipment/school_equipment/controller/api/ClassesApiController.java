@@ -18,15 +18,15 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/classtimes")
-public class ClasstimeApiController {
+public class ClassesApiController {
     private final ClassTimeService classTimeService;
 
     @GetMapping("{weekday}")
-    public ResponseEntity<List<ClasstimeApiFindResponse>> classtimes(@PathVariable String weekday) {
-        List<Classes> classtimes = classTimeService.findByDay(weekday);
-        List<ClasstimeApiFindResponse> responseList = classtimes.stream().map(classtime -> ClasstimeApiFindResponse.builder()
-                .id(classtime.getClassesId())
-                .classNames(classtime.getClassName())
+    public ResponseEntity<List<ClasstimeApiFindResponse>> findClassesByWeek(@PathVariable String weekday) {
+        List<Classes> classesList = classTimeService.findByDay(weekday);
+        List<ClasstimeApiFindResponse> responseList = classesList.stream().map(classes -> ClasstimeApiFindResponse.builder()
+                .id(classes.getClassesId())
+                .classNames(classes.getClassName())
                 .build()).toList();
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }

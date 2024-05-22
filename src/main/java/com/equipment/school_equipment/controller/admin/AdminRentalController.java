@@ -30,10 +30,10 @@ public class AdminRentalController {
 
         List<RentalFindAllResponse> responses = rentalService.findByAll().stream().map(rental ->
                 RentalFindAllResponse.builder()
-                        .id(rental.getId())
+                        .id(rental.getRentalId())
                         .week(rental.getClasses().getDayOfWeek().getWeek())
                         .className(rental.getClasses().getClassName())
-                        .equipmentName(rental.getEquipmentId().getName())
+                        .equipmentName(rental.getEquipment().getName())
                         .rentalChk(rental.isRentalChk())
                         .rentalCnt(rental.getRentalCnt())
                         .build()
@@ -41,7 +41,7 @@ public class AdminRentalController {
 
         model.addAttribute("rentals", responses);
 
-        return "admin/rental/find";
+        return "admin/rental/find-all";
     }
 
     @GetMapping("/add")

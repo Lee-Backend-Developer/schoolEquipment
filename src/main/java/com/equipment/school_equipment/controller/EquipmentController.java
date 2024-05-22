@@ -16,7 +16,7 @@ import java.util.List;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("requipment")
+@RequestMapping("equipment")
 public class EquipmentController {
     private final EquipmentService equipmentService;
     private final RentalService rentalService;

@@ -41,7 +41,7 @@ public class AdminEquipmentController {
     public String adminEquipments(Model model) {
         List<EquipmentRequest> equipmentRequestList = equipmentService.findAll().stream().map(equipment -> EquipmentRequest
                         .builder()
-                        .id(equipment.getId())
+                        .id(equipment.getEquipmentId())
                         .equipmentName(equipment.getName())
                         .leftCnt(equipment.getCount())
                         .retCnt(rentalService.findByEquipmentCnt(equipment.getName()))
@@ -49,14 +49,14 @@ public class AdminEquipmentController {
                 .toList();
 
         model.addAttribute("equipments", equipmentRequestList);
-        return "/admin/equipment/equipmentFindAll";
+        return "/admin/equipment/find-all";
     }
 
     @GetMapping("/edit/{equipmentId}")
     public String edit(@PathVariable("equipmentId") Long equipmentId, Model model) {
         Equipment equipment = equipmentService.findById(equipmentId);
         EquipmentForm form = EquipmentForm.builder()
-                .equipmentId(equipment.getId())
+                .equipmentId(equipment.getEquipmentId())
                 .name(equipment.getName())
                 .content(equipment.getContent())
                 .count(equipment.getCount())
@@ -67,7 +67,7 @@ public class AdminEquipmentController {
 
         model.addAttribute("requestForm", form);
 
-        return "/admin/equipment/equipmentEdit";
+        return "/admin/equipment/edit";
     }
 
     @PostMapping("/edit/{equipmentId}")
@@ -78,7 +78,7 @@ public class AdminEquipmentController {
                     .getCategory()
                     .getCategoryId());
             model.addAttribute("requestForm", requestForm);
-            return "/admin/equipment/equipmentEdit";
+            return "/admin/equipment/edit";
         }
 
         EquipmentEditRequest request = EquipmentEditRequest.builder()
@@ -102,7 +102,7 @@ public class AdminEquipmentController {
                 .build();
 
         model.addAttribute("requestForm", requestForm);
-        return "/admin/equipment/equipmentAdd";
+        return "/admin/equipment/add";
     }
 
     @PostMapping("add")
@@ -111,7 +111,7 @@ public class AdminEquipmentController {
             requestForm.setCategories(categoryService.findAll());
             model.addAttribute("requestForm", requestForm);
 
-            return "/admin/equipment/equipmentAdd";
+            return "/admin/equipment/add";
         }
         // 이미지 파일 추가
         String fileContentType = Objects.requireNonNull(requestForm.getImage().getOriginalFilename()).split("\\.")[0];
@@ -133,7 +133,7 @@ public class AdminEquipmentController {
         List<Equipment> equipments = equipmentService.findAll();
         List<EquipmentRequest> equipmentRequestList = equipments.stream().map(equipment -> EquipmentRequest
                         .builder()
-                        .id(equipment.getId())
+                        .id(equipment.getEquipmentId())
                         .equipmentName(equipment.getName())
                         .leftCnt(equipment.getCount())
                         .retCnt(rentalService.findByEquipmentCnt(equipment.getName()))
@@ -141,7 +141,7 @@ public class AdminEquipmentController {
                 .toList();
 
         model.addAttribute("equipments", equipmentRequestList);
-        return "/admin/equipment/equipmentDelete";
+        return "/admin/equipment/delete";
     }
 
     @GetMapping("/delete/{equipmentId}")
