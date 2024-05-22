@@ -15,7 +15,7 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
     public Long countEquipment(Long categoryId) {
         Long fetch = queryFactory.select(equipment.count())
                 .from(equipment).join(equipment.category, category)
-                .where(equipment.category.id.eq(categoryId))
+                .where(equipment.category.categoryId.eq(categoryId))
                 .fetchOne();
 
         return fetch;

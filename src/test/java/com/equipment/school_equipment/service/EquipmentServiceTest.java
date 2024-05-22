@@ -7,7 +7,6 @@ import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import com.equipment.school_equipment.request.equipment.EquipmentCount;
-import com.equipment.school_equipment.response.thymeleaf.admin.EquipmentResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -78,7 +77,7 @@ class EquipmentServiceTest {
         EquipmentCreate request = EquipmentCreate.builder()
                 .name("pmw-200")
                 .count(10)
-                .categoryId(category.getId())
+                .categoryId(category.getCategoryId())
                 .build();
 
         //when

@@ -5,7 +5,6 @@ import com.equipment.school_equipment.request.admin.CategoryAddRequest;
 import com.equipment.school_equipment.request.admin.CategoryEditResponse;
 import com.equipment.school_equipment.response.thymeleaf.admin.CategoryFindResponse;
 import com.equipment.school_equipment.service.CategoryService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -14,9 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -47,7 +44,7 @@ public class AdminCategoryController {
     public String findCategory(Model model) {
         List<Category> categoryList = categoryService.findAll();
         List<CategoryFindResponse> categoryRespons = categoryList.stream()
-                .map(category -> CategoryFindResponse.builder().id(category.getId()).name(category.getCategoryName()).build())
+                .map(category -> CategoryFindResponse.builder().id(category.getCategoryId()).name(category.getCategoryName()).build())
                 .toList();
 
         model.addAttribute("categorys", categoryRespons);
@@ -58,7 +55,7 @@ public class AdminCategoryController {
     public String editCategory(@PathVariable("categoryId") Long categoryId, Model model) {
         Category category = categoryService.findById(categoryId);
 
-        CategoryEditResponse request = CategoryEditResponse.builder().categoryId(category.getId()).oldClassname(category.getCategoryName()).build();
+        CategoryEditResponse request = CategoryEditResponse.builder().categoryId(category.getCategoryId()).oldClassname(category.getCategoryName()).build();
         model.addAttribute("category", request);
         return "admin/category/categoryEdit";
     }
@@ -76,7 +73,7 @@ public class AdminCategoryController {
     public String deleteCategory(Model model) {
         List<Category> categoryList = categoryService.findAll();
         List<CategoryFindResponse> categoryRespons = categoryList.stream()
-                .map(category -> CategoryFindResponse.builder().id(category.getId()).name(category.getCategoryName()).build())
+                .map(category -> CategoryFindResponse.builder().id(category.getCategoryId()).name(category.getCategoryName()).build())
                 .toList();
 
         model.addAttribute("categorys", categoryRespons);

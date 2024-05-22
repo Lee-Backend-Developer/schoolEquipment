@@ -62,7 +62,7 @@ public class AdminEquipmentController {
                 .count(equipment.getCount())
                 .imageName(equipment.getMainImg())
                 .categoryName(equipment.getCategory().getCategoryName())
-                .categoryId(equipment.getCategory().getId())
+                .categoryId(equipment.getCategory().getCategoryId())
                 .categories(categoryService.findAll()).build();
 
         model.addAttribute("requestForm", form);
@@ -76,7 +76,7 @@ public class AdminEquipmentController {
             requestForm.setCategories(categoryService.findAll());
             requestForm.setCategoryId(equipmentService.findById(requestForm.getEquipmentId())
                     .getCategory()
-                    .getId());
+                    .getCategoryId());
             model.addAttribute("requestForm", requestForm);
             return "/admin/equipment/equipmentEdit";
         }
@@ -87,7 +87,7 @@ public class AdminEquipmentController {
                 .count(requestForm.getCount())
                 .name(requestForm.getName())
                 .content(requestForm.getContent())
-                .categoryId(requestForm.getCategory().getId())
+                .categoryId(requestForm.getCategory().getCategoryId())
                 .build();
 
         equipmentService.updateEquipment(request);
@@ -122,7 +122,7 @@ public class AdminEquipmentController {
 
         EquipmentCreate requestCreate = EquipmentCreate.builder().name(requestForm.getName())
                 .count(requestForm.getCount()).equimentContent(requestForm.getContent())
-                .categoryId(requestForm.getCategory().getId())
+                .categoryId(requestForm.getCategory().getCategoryId())
                 .image(fileName).build();
         equipmentService.save(requestCreate);
         return "redirect:/admin/equipment";
