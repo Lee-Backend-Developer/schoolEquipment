@@ -41,7 +41,7 @@ public class AdminEquipmentController {
     public String adminEquipments(Model model) {
         List<EquipmentRequest> equipmentRequestList = equipmentService.findAll().stream().map(equipment -> EquipmentRequest
                         .builder()
-                        .id(equipment.getEquipmentId())
+                        .id(equipment.getId())
                         .equipmentName(equipment.getName())
                         .leftCnt(equipment.getCount())
                         .retCnt(rentalService.findByEquipmentCnt(equipment.getName()))
@@ -56,13 +56,13 @@ public class AdminEquipmentController {
     public String edit(@PathVariable("equipmentId") Long equipmentId, Model model) {
         Equipment equipment = equipmentService.findById(equipmentId);
         EquipmentForm form = EquipmentForm.builder()
-                .equipmentId(equipment.getEquipmentId())
+                .equipmentId(equipment.getId())
                 .name(equipment.getName())
                 .content(equipment.getContent())
                 .count(equipment.getCount())
                 .imageName(equipment.getMainImg())
                 .categoryName(equipment.getCategory().getCategoryName())
-                .categoryId(equipment.getCategory().getCategoryId())
+                .categoryId(equipment.getCategory().getId())
                 .categories(categoryService.findAll()).build();
 
         model.addAttribute("requestForm", form);
@@ -76,7 +76,7 @@ public class AdminEquipmentController {
             requestForm.setCategories(categoryService.findAll());
             requestForm.setCategoryId(equipmentService.findById(requestForm.getEquipmentId())
                     .getCategory()
-                    .getCategoryId());
+                    .getId());
             model.addAttribute("requestForm", requestForm);
             return "/admin/equipment/edit";
         }
@@ -87,7 +87,7 @@ public class AdminEquipmentController {
                 .count(requestForm.getCount())
                 .name(requestForm.getName())
                 .content(requestForm.getContent())
-                .categoryId(requestForm.getCategory().getCategoryId())
+                .categoryId(requestForm.getCategory().getId())
                 .build();
 
         equipmentService.updateEquipment(request);
@@ -122,7 +122,7 @@ public class AdminEquipmentController {
 
         EquipmentCreate requestCreate = EquipmentCreate.builder().name(requestForm.getName())
                 .count(requestForm.getCount()).equimentContent(requestForm.getContent())
-                .categoryId(requestForm.getCategory().getCategoryId())
+                .categoryId(requestForm.getCategory().getId())
                 .image(fileName).build();
         equipmentService.save(requestCreate);
         return "redirect:/admin/equipment";
@@ -133,7 +133,7 @@ public class AdminEquipmentController {
         List<Equipment> equipments = equipmentService.findAll();
         List<EquipmentRequest> equipmentRequestList = equipments.stream().map(equipment -> EquipmentRequest
                         .builder()
-                        .id(equipment.getEquipmentId())
+                        .id(equipment.getId())
                         .equipmentName(equipment.getName())
                         .leftCnt(equipment.getCount())
                         .retCnt(rentalService.findByEquipmentCnt(equipment.getName()))

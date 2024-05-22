@@ -12,13 +12,13 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 public class TodayRental {
 
-    @Id @Column(name = "today_id")
+    @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Rental rental;
 
-    private int minusCount;
+    private int rentalMinusCount;
 
 }

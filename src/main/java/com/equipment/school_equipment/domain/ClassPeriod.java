@@ -13,10 +13,10 @@ import static jakarta.persistence.GenerationType.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Classes {
+public class ClassPeriod {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long classesId;          //수업아이디
+    private Long id;          //수업아이디
 
     private String className;   //수업이름
 
@@ -35,7 +35,7 @@ public class Classes {
     private boolean tenTime;    //10교시(18:00 ~ 18:50)
 
     @Builder
-    public Classes(String className, DayOfWeekEnum dayOfWeek, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
+    public ClassPeriod(String className, DayOfWeekEnum dayOfWeek, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
         this.className = className;
         this.dayOfWeek = dayOfWeek;
         this.oneTime = oneTime;

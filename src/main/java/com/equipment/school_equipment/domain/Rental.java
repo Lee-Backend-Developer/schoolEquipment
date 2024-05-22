@@ -12,10 +12,10 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 public class Rental {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long rentalId;          //렌탈_아이디
+    private Long id;          //렌탈_아이디
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Classes classes = new Classes();
+    private ClassPeriod classPeriod = new ClassPeriod();
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Equipment equipment = new Equipment();
@@ -24,9 +24,9 @@ public class Rental {
     private boolean rentalChk = true; //렌탈 여부
 
     @Builder
-    public Rental(Long rentalId, Classes classes, Equipment equipment, int rentalCnt, boolean rentalChk) {
-        this.rentalId = rentalId;
-        this.classes = classes;
+    public Rental(Long id, ClassPeriod classPeriod, Equipment equipment, int rentalCnt, boolean rentalChk) {
+        this.id = id;
+        this.classPeriod = classPeriod;
         this.equipment = equipment;
         this.rentalCnt = rentalCnt;
         this.rentalChk = rentalChk;

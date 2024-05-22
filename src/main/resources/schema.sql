@@ -19,7 +19,7 @@ create table equipment
     primary key (equipment_id)
 );
 
-create table classes
+create table classPeriod
 (
     classtimelist_id bigint auto_increment,
     class_name         varchar(255)                                              not null,
@@ -47,7 +47,7 @@ create table rental
     rental_chk         boolean default true,
     rental_cnt         int     default 0,
 
-    foreign key (classtimelist_id) references classes (classtimelist_id),
+    foreign key (classtimelist_id) references classPeriod (classtimelist_id),
     foreign key (equipment_id) references equipment (equipment_id),
     primary key (rental_id)
 );

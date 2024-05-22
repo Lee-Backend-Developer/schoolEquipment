@@ -53,13 +53,13 @@ class CategoryRepositoryServiceTest {
         Category camara = Category.builder().categoryName("카메라").build();
         categoryRepository.save(camara);
 
-        Long id = camara.getCategoryId();
+        Long id = camara.getId();
 
         //when
         Category category = categoryService.findById(id);
 
         //then
-        assertThat(category.getCategoryId()).isEqualTo(id);
+        assertThat(category.getId()).isEqualTo(id);
 
     }
 
@@ -70,10 +70,10 @@ class CategoryRepositoryServiceTest {
         Category category = categoryRepository.save(Category.builder().categoryName("카메라").build());
 
         //when 실행
-        Category findCategory = categoryService.findByIdAndName(category.getCategoryId(), category.getCategoryName(), "마이크");
+        Category findCategory = categoryService.findByIdAndName(category.getId(), category.getCategoryName(), "마이크");
 
         //then or expect 검증
-        assertThat(findCategory.getCategoryId()).isEqualTo(category.getCategoryId());
+        assertThat(findCategory.getId()).isEqualTo(category.getId());
         assertThat(findCategory.getCategoryName()).isEqualTo("마이크");
     }
 
@@ -108,7 +108,7 @@ class CategoryRepositoryServiceTest {
         saveEquipment.addCategory(camara);
 
         //then 검증 <- 삭제 못하게 예외처리
-        assertThatRuntimeException().isThrownBy(() -> categoryService.deleteById(camara.getCategoryId()));
+        assertThatRuntimeException().isThrownBy(() -> categoryService.deleteById(camara.getId()));
 
     }
 
@@ -130,7 +130,7 @@ class CategoryRepositoryServiceTest {
         categoryRepository.save(camara);
 
         //then
-        categoryService.deleteById(camara.getCategoryId());
+        categoryService.deleteById(camara.getId());
 
         //then 검증 <- 삭제 못하게 예외처리
         assertThat(categoryRepository.findAll().size()).isEqualTo(0);

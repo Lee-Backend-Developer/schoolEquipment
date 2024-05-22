@@ -1,7 +1,7 @@
 package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.Category;
-import com.equipment.school_equipment.domain.Classes;
+import com.equipment.school_equipment.domain.ClassPeriod;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
@@ -45,7 +45,7 @@ public class RentalServiceTest {
         equipmentRepository.save(equipment);
         equipment.addCategory(category);
 
-        classTimeRepository.save(Classes.builder()
+        classTimeRepository.save(ClassPeriod.builder()
                 .className("영상촬영실습").dayOfWeek(DayOfWeekEnum.monday)
                 .twoTime(true).threeTime(true).fourTime(true).build());
     }
@@ -120,7 +120,7 @@ public class RentalServiceTest {
         int maxCount = 20;
         int inputCount = 10;
 
-        Classes saveClasstime = classTimeRepository.save(Classes.builder().className(classname)
+        ClassPeriod saveClasstime = classTimeRepository.save(ClassPeriod.builder().className(classname)
                 .dayOfWeek(DayOfWeekEnum.valueOf(monday))
                 .twoTime(true).build());
 
@@ -152,7 +152,7 @@ public class RentalServiceTest {
     void findByClassNameIdAndDayOfWeek() {
         //given
         String dayOfWeek = DayOfWeekEnum.monday.name();
-        String classNameId = Long.toString(getClassTimeList().getClassesId());
+        String classNameId = Long.toString(getClassTimeList().getId());
         Rental rental = Rental.builder().equipmentId(getEquipment()).classtimesId(getClassTimeList()).rentalCnt(3).build();
         rentalRepository.save(rental);
 
@@ -167,7 +167,7 @@ public class RentalServiceTest {
 
     }
 
-    private Classes getClassTimeList() {
+    private ClassPeriod getClassTimeList() {
         return classTimeRepository.findAll().get(0);
     }
 

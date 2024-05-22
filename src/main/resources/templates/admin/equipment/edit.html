@@ -54,8 +54,8 @@
                 <option
                         th:each="categoryObj : ${requestForm.getCategories()}"
                         th:text="${categoryObj.categoryName}"
-                        th:selected="${categoryObj.getCategoryId == requestForm.categoryId}"
-                        th:value="${categoryObj.getCategoryId}">
+                        th:selected="${categoryObj.getId == requestForm.categoryId}"
+                        th:value="${categoryObj.getId}">
                 </option>
             </select>
             <div th:if="${#fields.hasErrors('category')}"

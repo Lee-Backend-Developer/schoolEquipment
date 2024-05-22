@@ -58,7 +58,7 @@ class EquipmentServiceTest {
         equipmentRepository.save(saveEquipment);
 
         //when 실행
-        Equipment equipment = equipmentService.findById(saveEquipment.getEquipmentId());
+        Equipment equipment = equipmentService.findById(saveEquipment.getId());
 
         //then 검증
         assertThat(equipment.getName()).isEqualTo(saveEquipment.getName());
@@ -77,7 +77,7 @@ class EquipmentServiceTest {
         EquipmentCreate request = EquipmentCreate.builder()
                 .name("pmw-200")
                 .count(10)
-                .categoryId(category.getCategoryId())
+                .categoryId(category.getId())
                 .build();
 
         //when
@@ -144,9 +144,9 @@ class EquipmentServiceTest {
         equipmentRepository.save(equipment);
 
         //when
-        equipmentService.delete(equipment.getEquipmentId());
+        equipmentService.delete(equipment.getId());
         //then
-        assertThat(equipmentRepository.findById(equipment.getEquipmentId())).isEmpty();
+        assertThat(equipmentRepository.findById(equipment.getId())).isEmpty();
     }
 
     @DisplayName("기존에 있는 장비가 이름, 창고 수, 카테고리 등 모두 수정이 되어야함")
@@ -163,7 +163,7 @@ class EquipmentServiceTest {
         equipmentRepository.save(equipment);
 
         //when 실행
-        EquipmentEditRequest request = EquipmentEditRequest.builder().id(equipment.getEquipmentId()).name(changeName).build();
+        EquipmentEditRequest request = EquipmentEditRequest.builder().id(equipment.getId()).name(changeName).build();
         equipmentService.updateEquipment(request);
         //then 검증
         assertThat(equipment.getName()).isEqualTo(changeName);

@@ -15,7 +15,7 @@ public class EquipmentRepositoryImpl implements EquipmentRepositoryCustom {
     public Equipment equipmentAndCategory(Long id) {
         return queryFactory.selectFrom(equipment)
                 .join(equipment.category, category)
-                .where(equipment.equipmentId.eq(id))
+                .where(equipment.id.eq(id))
                 .fetchOne();
     }
 }

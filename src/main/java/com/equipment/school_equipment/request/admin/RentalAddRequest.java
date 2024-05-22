@@ -1,7 +1,7 @@
 package com.equipment.school_equipment.request.admin;
 
 import com.equipment.school_equipment.domain.Category;
-import com.equipment.school_equipment.domain.Classes;
+import com.equipment.school_equipment.domain.ClassPeriod;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import jakarta.validation.constraints.Min;
@@ -29,5 +29,5 @@ public class RentalAddRequest {
         //response
         private List<Category> categories;
         private List<Equipment> equipments;
-        private List<Classes> classtime;
+        private List<ClassPeriod> classtime;
 }

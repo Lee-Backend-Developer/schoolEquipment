@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.controller.admin;
 
-import com.equipment.school_equipment.domain.Classes;
+import com.equipment.school_equipment.domain.ClassPeriod;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.request.admin.ClassmateRequest;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
@@ -30,10 +30,10 @@ public class AdminClassesController {
 
     @GetMapping
     public String adminClasses(Model model) {
-        List<Classes> classes = classTimeService.findAll();
-        List<ClasstimesFindResponse> responses = classes.stream()
+        List<ClassPeriod> aClasses = classTimeService.findAll();
+        List<ClasstimesFindResponse> responses = aClasses.stream()
                 .map((period -> ClasstimesFindResponse.builder()
-                        .id(period.getClassesId())
+                        .id(period.getId())
                         .name(period.getClassName())
                         .build())).toList();
 
@@ -76,7 +76,7 @@ public class AdminClassesController {
 
     @GetMapping("/edit/{classnameId}")
     public String adminClassesEdit(@PathVariable Long classnameId, Model model) {
-        Classes classTimes = classTimeService.findById(classnameId);
+        ClassPeriod classTimes = classTimeService.findById(classnameId);
 
         ClassmateRequest classmateRequest = ClassmateRequest.builder()
                 .classname(classTimes.getClassName())
@@ -103,10 +103,10 @@ public class AdminClassesController {
         if(bindingResult.hasErrors()){
             return "admin/classes/edit";
         }
-        Classes findByClasses = classTimeService.findById(classmateRequest.getClassnameId());
+        ClassPeriod findByClassPeriod = classTimeService.findById(classmateRequest.getClassnameId());
 
         ClassTimeUpdate classTimeUpdate = ClassTimeUpdate.builder()
-                .updateClassname(findByClasses.getClassName(), classmateRequest.getClassname())
+                .updateClassname(findByClassPeriod.getClassName(), classmateRequest.getClassname())
                 .dayOfWeek(classmateRequest.getDayOfWeekEnum())
                 .oneTime(classmateRequest.isOneTime())
                 .twoTime(classmateRequest.isTwoTime())
@@ -126,8 +126,8 @@ public class AdminClassesController {
 
     @GetMapping("/delete")
     public String adminClassesDelete(Model model) {
-        List<Classes> classTimesList = classTimeService.findAll();
-        List<ClasstimeResponse> responseList = classTimesList.stream().map(classtimes -> ClasstimeResponse.builder().id(classtimes.getClassesId()).classname(classtimes.getClassName()).build()).toList();
+        List<ClassPeriod> classTimesList = classTimeService.findAll();
+        List<ClasstimeResponse> responseList = classTimesList.stream().map(classtimes -> ClasstimeResponse.builder().id(classtimes.getId()).classname(classtimes.getClassName()).build()).toList();
         model.addAttribute("responses", responseList);
         return "admin/classes/delete";
     }

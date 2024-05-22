@@ -40,7 +40,7 @@ public class CategoryService {
 
     @Transactional
     public Category findByIdAndName(Long id, String categoryName, String changeName) {
-        Category category = categoryRepository.findByCategoryIdAndCategoryName(id, categoryName).orElseThrow(() -> new RuntimeException("잘못된 접근입니다."));
+        Category category = categoryRepository.findByIdAndCategoryName(id, categoryName).orElseThrow(() -> new RuntimeException("잘못된 접근입니다."));
         category.updateName(changeName);
         return category;
     }

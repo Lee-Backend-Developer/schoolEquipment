@@ -17,11 +17,11 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 public class Category {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long categoryId;
+    private Long id;
 
     private String categoryName;
 
-    @OneToMany(mappedBy = "equipmentId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Equipment> equipmentList = new ArrayList<>();
 
     @Builder

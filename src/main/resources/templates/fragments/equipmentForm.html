@@ -53,9 +53,9 @@
             <option value="">장비 카테고리 선택하세요.</option>
             <option
                     th:each="categoryObj : ${requestForm.getCategories()}"
-                    th:value="${categoryObj.getCategoryId()}"
+                    th:value="${categoryObj.getId()}"
                     th:text="${categoryObj.getCategoryName()}"
-                    th:selected="${categoryObj.getCategoryId()} == ${requestForm.getCategoryId()}"
+                    th:selected="${categoryObj.getId()} == ${requestForm.getCategoryId()}"
             >
             </option>
         </select>

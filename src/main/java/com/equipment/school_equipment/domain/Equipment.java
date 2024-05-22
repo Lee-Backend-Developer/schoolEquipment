@@ -12,7 +12,7 @@ import static jakarta.persistence.GenerationType.*;
 public class Equipment {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long equipmentId;      // 장비 아이디
+    private Long id;      // 장비 아이디
 
     private String name;    // 장비 이름
 

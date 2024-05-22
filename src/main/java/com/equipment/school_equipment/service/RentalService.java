@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.Classes;
+import com.equipment.school_equipment.domain.ClassPeriod;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
@@ -34,10 +34,10 @@ public class RentalService {
     @Transactional
     public int rentalCreate(RentalCreate request) {
 
-        Classes classes = classTimeRepository.findByClassName(request.className()).orElseThrow(IllegalArgumentException::new);
+        ClassPeriod classPeriod = classTimeRepository.findByClassName(request.className()).orElseThrow(IllegalArgumentException::new);
         Equipment equipment = equipmentRepository.findByName(request.equipmentName());
 
-        Rental rental = Rental.builder().classes(classes)
+        Rental rental = Rental.builder().classPeriod(classPeriod)
                 .equipment(equipment)
                 .rentalCnt(request.equipmentCount())
                 .build();
@@ -62,19 +62,19 @@ public class RentalService {
      */
     @Transactional
     public void rentalCreate(RentalAddRequest request) {
-        Classes classtime = classTimeRepository.findById(request.getClassroomId()).orElseThrow(IllegalArgumentException::new);
+        ClassPeriod classtime = classTimeRepository.findById(request.getClassroomId()).orElseThrow(IllegalArgumentException::new);
         Equipment equipment = equipmentRepository.findById(request.getEquipmentId()).orElseThrow(IllegalArgumentException::new);
 
         // 보관하고 있는 장비 수량보다 대여 수량이 더 많으면 에러
         if(equipment.getCount() < request.getRetCnt()) throw new IllegalArgumentException("보관하고 있는 장비 수량보다 대여 수량이 더 많습니다.");
 
         // 대여한 장비와 수업 시간이 똑같을 경우 처리하는 로직
-        rentalRepository.findByClassIdAndEquipmentId(classtime.getClassesId(), equipment.getEquipmentId())
+        rentalRepository.findByClassIdAndEquipmentId(classtime.getId(), equipment.getId())
                 .ifPresentOrElse(rental1 ->  // 있다면
                             rental1.updateRentalCnt(rental1.getRentalCnt() + request.getRetCnt()),
                         () -> { // 없다면
                             Rental rental = Rental.builder()
-                                    .equipment(equipment).classes(classtime)
+                                    .equipment(equipment).classPeriod(classtime)
                                     .rentalCnt(request.getRetCnt()).rentalChk(true).build();
                             rentalRepository.save(rental);
                         }
@@ -86,7 +86,7 @@ public class RentalService {
     }
 
     public Equipment findByEquipment(String classname, String day) {
-        Classes classTime = classTimeRepository.findByClassNameEqualsAndDayOfWeek(classname, DayOfWeekEnum.valueOf(day))
+        ClassPeriod classTime = classTimeRepository.findByClassNameEqualsAndDayOfWeek(classname, DayOfWeekEnum.valueOf(day))
                 .orElseThrow(() -> new RuntimeException("그런 수업은 없습니다."));
         Rental rental = rentalRepository.findByClassOfDay(classTime.getClassName(), day).orElseThrow(() -> new RuntimeException("수업 또는 요일이 잘못입력되었습니다"));
         return rental.getEquipment();
@@ -121,7 +121,7 @@ public class RentalService {
     @Transactional
     public void rentaldelete(Long id) {
         Rental rental = rentalRepository.findById(id).orElseThrow(() -> new RuntimeException("해당 아이디가 없습니다."));
-        rentalRepository.deleteById(rental.getRentalId());
+        rentalRepository.deleteById(rental.getId());
     }
 
     @Transactional

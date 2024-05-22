@@ -15,7 +15,7 @@
                 <option value="">장비 선택</option>
                 <option th:each="equipment : ${rental.getEquipments()}"
                         th:text="${equipment.getName()}"
-                        th:value="${equipment.getEquipmentId()}">test
+                        th:value="${equipment.getId()}">test
                 </option>
             </select>
             <div th:if="${#fields.hasErrors('equipmentId')}"
@@ -72,7 +72,7 @@
     document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
         checkbox.addEventListener('change', function (e) {
             if (e.target.checked) {
-                fetch('/api/classes/' + e.target.id)
+                fetch('/api/classPeriod/' + e.target.id)
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
