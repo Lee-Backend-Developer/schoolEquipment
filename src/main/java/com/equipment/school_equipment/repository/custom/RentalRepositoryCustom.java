@@ -2,6 +2,7 @@ package com.equipment.school_equipment.repository.custom;
 
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
+import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,4 +13,5 @@ public interface RentalRepositoryCustom {
     List<Equipment> findByClassnameIdAndDayOfWeek(String classNameId, String dayOfWeek);
     Optional<Rental> findByClassIdAndEquipmentId(Long classId, Long equipmentId);
     List<Rental> findAllAndRentalChkTrue();
+    List<Rental> findByWeekday(DayOfWeekEnum weekday);
 }

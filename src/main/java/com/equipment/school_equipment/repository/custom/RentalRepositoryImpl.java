@@ -62,4 +62,13 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
                 .where(rental.rentalChk.isTrue())
                 .fetch();
     }
+
+    @Override
+    public List<Rental> findByWeekday(DayOfWeekEnum weekday) {
+        return queryFactory.selectFrom(rental)
+                .join(rental.classPeriod)
+                .fetchJoin()
+                .where(rental.classPeriod.dayOfWeek.eq(weekday))
+                .fetch();
+    }
 }
