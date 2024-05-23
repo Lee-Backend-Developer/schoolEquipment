@@ -2,6 +2,7 @@ package com.equipment.school_equipment.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,9 @@ public class TodayRental {
 
     private int rentalMinusCount;
 
+    @Builder
+    public TodayRental(Rental rental, int rentalMinusCount) {
+        this.rental = rental;
+        this.rentalMinusCount = rentalMinusCount;
+    }
 }
