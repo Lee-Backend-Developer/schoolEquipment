@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -23,9 +24,10 @@ public class EquipmentController {
     final String PATH = "/equipment/";
 
 
+
     // 대여후 수량(가지고 있던 수량 - 렌탈마다 장비 수)
     // 응답: 장비이름, 대여 후 수량, 가지고 있던 주량
-    @RequestMapping
+    @GetMapping
     public String equipment(Model model) {
         List<EquipmentRequest> responses = new ArrayList<>();
         for (Equipment equipment : equipmentService.findAll()) {
@@ -40,7 +42,7 @@ public class EquipmentController {
             responses.add(response);
         }
         model.addAttribute(responses);
-        return "requirements";
+        return "equipment";
     }
 
 }

@@ -3,7 +3,7 @@
 <head th:replace="~{fragments/head :: header(title='오늘 대여가능수량')}"></head>
 <body>
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::#card-deck}, '기자재')}">
+<div class="container-fluid" th:insert="~{fragments/content :: content(~{::#card-deck}, '오늘 대여 기자재')}">
 
     <div class="row row-cols-1 row-cols-md-3" id="card-deck">
         <div class="card ml-1 mb-3" th:each="equipment : ${equipmentRequestList}"
