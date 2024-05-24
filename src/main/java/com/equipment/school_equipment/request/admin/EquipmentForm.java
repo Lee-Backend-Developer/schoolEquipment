@@ -19,7 +19,6 @@ public class EquipmentForm {
     @NotBlank(message = AdminErrorMessage.EQUIPMENT_ADD_ERROR)
     private String name;
 
-    @NotBlank(message = AdminErrorMessage.EQUIPMENT_ADD_CONTENT_ERROR)
     private String content;
 
     private MultipartFile image;
