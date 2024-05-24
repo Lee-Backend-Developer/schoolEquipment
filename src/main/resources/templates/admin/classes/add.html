@@ -6,7 +6,7 @@
 <!-- Page Content  -->
 <div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '시간표 추가')}">
     <!--    컨텐츠-->
-    <form th:object="${classtimeRequest}" method="post">
+    <form th:object="${classmateRequest}" method="post">
         <div class="form-group">
             <label for="addClassname">추가할 수업명</label>
             <input type="text" class="form-control" id="addClassname" placeholder="수업이름" th:field="*{classname}">

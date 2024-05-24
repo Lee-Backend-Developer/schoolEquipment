@@ -44,29 +44,29 @@ public class AdminClassesController {
 
     @GetMapping("/add")
     public String adminClassesAdd(Model model) {
-        model.addAttribute("classtimeRequest",
-                ClassmateRequest.builder()
+        model.addAttribute("classmateRequest", ClassmateRequest.builder()
                         .build());
         return "admin/classes/add";
     }
 
     @PostMapping("/add")
-    public String adminClassesAdd(@Valid @ModelAttribute("classtimeRequest") ClassmateRequest request, BindingResult bindingResult, Model model) {
+    public String adminClassesAdd(@Valid @ModelAttribute("classmateRequest") ClassmateRequest classmateRequest, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()){
             return "admin/classes/add";
         }
         ClassTimeCreate classTimeCreate = ClassTimeCreate.builder()
-                .className(request.getClassname())
-                .dayOfWeek(DayOfWeekEnum.friday)
-                .oneTime(request.isOneTime())
-                .twoTime(request.isTwoTime())
-                .threeTime(request.isThreeTime())
-                .fourTime(request.isFourTime())
-                .fiveTime(request.isFiveTime())
-                .sixTime(request.isSixTime())
-                .sevenTime(request.isSevenTime())
-                .nineTime(request.isNineTime())
-                .tenTime(request.isTenTime())
+                .className(classmateRequest.getClassname())
+                .dayOfWeek(classmateRequest.getDayOfWeekEnum())
+                .oneTime(classmateRequest.isOneTime())
+                .twoTime(classmateRequest.isTwoTime())
+                .threeTime(classmateRequest.isThreeTime())
+                .fourTime(classmateRequest.isFourTime())
+                .fiveTime(classmateRequest.isFiveTime())
+                .sixTime(classmateRequest.isSixTime())
+                .sevenTime(classmateRequest.isSevenTime())
+                .eightTime(classmateRequest.isEightTime())
+                .nineTime(classmateRequest.isNineTime())
+                .tenTime(classmateRequest.isTenTime())
                 .build();
         classTimeService.save(classTimeCreate);
 
@@ -88,6 +88,7 @@ public class AdminClassesController {
                 .fiveTime(classTimes.isFiveTime())
                 .sixTime(classTimes.isSixTime())
                 .sevenTime(classTimes.isSevenTime())
+                .eightTime(classTimes.isEightTime())
                 .nineTime(classTimes.isNineTime())
                 .tenTime(classTimes.isTenTime())
                 .build();
