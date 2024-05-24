@@ -1,42 +1,20 @@
--- 카테고리 추가
-insert into category (category_name)
-values ('카메라');
-
--- 장비 추가
-insert into equipment (name, count, category_id, content, main_img)
-values ('pmw-100', 30, 1, '이 카메라는 엄청나게 좋습니다.', '/mainPage/camara01.jpg');
-
 -- 수업시간 추가
---      월요일
-insert into class_period (class_name, day_of_week, TWO_TIME, THREE_TIME, FOUR_TIME)
-values ('배우연기연출', 'Monday', true, true, true);
-
-insert into class_period (class_name, day_of_week, TWO_TIME, THREE_TIME, FOUR_TIME)
-values ('영상촬영실습', 'Monday', true, true, true);
-
-insert into class_period (class_name, day_of_week, TWO_TIME, THREE_TIME, FOUR_TIME)
-values ('영상제작개론및실습', 'Monday', true, true, true);
-
---     화요일
-insert into class_period (class_name, day_of_week, ONE_TIME, TWO_TIME, THREE_TIME)
-values ('스튜디오제작기초', 'Tuesday', true, true, true);
-
-insert into class_period (class_name, day_of_week, ONE_TIME, TWO_TIME, THREE_TIME, FOUR_TIME, FIVE_TIME)
-values ('다큐멘터리제작', 'Tuesday', true, true, true, true, true);
-
---     수요일
-insert into class_period (class_name, day_of_week, ONE_TIME, TWO_TIME, THREE_TIME)
-values ('촬영이론및실습', 'Wednesday', true, true, true);
-
---     목요일
-insert into class_period (class_name, day_of_week, ONE_TIME, TWO_TIME, THREE_TIME, FOUR_TIME, FIVE_TIME, SIX_TIME)
-values ('영화예술과', 'Thursday', true, true, true, true, true, true);
-
---     금요일
-insert into class_period (class_name, day_of_week, ONE_TIME, TWO_TIME, THREE_TIME)
-values ('방송음향', 'Friday', true, true, true);
-
+INSERT INTO dima.class_period (class_name, day_of_week, one_time, two_time, three_time, four_time, five_time, six_time, seven_time, eight_time, nine_time, ten_time) VALUES ('배우연기연출', 'monday', 0, 1, 1, 1, 0, 0, 0, 0, 0, 0);
+INSERT INTO dima.class_period (class_name, day_of_week, one_time, two_time, three_time, four_time, five_time, six_time, seven_time, eight_time, nine_time, ten_time) VALUES ('영상제작개론및실습', 'monday', 0, 1, 1, 1, 0, 0, 0, 0, 0, 0);
+INSERT INTO dima.class_period (class_name, day_of_week, one_time, two_time, three_time, four_time, five_time, six_time, seven_time, eight_time, nine_time, ten_time) VALUES ('환경음향', 'monday', 0, 0, 1, 1, 0, 0, 0, 0, 0, 0);
+INSERT INTO dima.class_period (class_name, day_of_week, one_time, two_time, three_time, four_time, five_time, six_time, seven_time, eight_time, nine_time, ten_time) VALUES ('스튜디오제작기초', 'tuesday', 1, 1, 1, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO dima.class_period (class_name, day_of_week, one_time, two_time, three_time, four_time, five_time, six_time, seven_time, eight_time, nine_time, ten_time) VALUES ('다큐멘터리제작', 'tuesday', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0);
+INSERT INTO dima.class_period (class_name, day_of_week, one_time, two_time, three_time, four_time, five_time, six_time, seven_time, eight_time, nine_time, ten_time) VALUES ('촬영이론및실습', 'wednesday', 1, 1, 1, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO dima.class_period (class_name, day_of_week, one_time, two_time, three_time, four_time, five_time, six_time, seven_time, eight_time, nine_time, ten_time) VALUES ('영상제작개론및실습', 'wednesday', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+INSERT INTO dima.class_period (class_name, day_of_week, one_time, two_time, three_time, four_time, five_time, six_time, seven_time, eight_time, nine_time, ten_time) VALUES ('숏폼콘텐츠제작/촬영', 'thursday', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0);
+INSERT INTO dima.class_period (class_name, day_of_week, one_time, two_time, three_time, four_time, five_time, six_time, seven_time, eight_time, nine_time, ten_time) VALUES ('카메라연기중급1', 'thursday', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0);
+INSERT INTO dima.class_period (class_name, day_of_week, one_time, two_time, three_time, four_time, five_time, six_time, seven_time, eight_time, nine_time, ten_time) VALUES ('방송음향', 'friday', 1, 1, 1, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO dima.class_period (class_name, day_of_week, one_time, two_time, three_time, four_time, five_time, six_time, seven_time, eight_time, nine_time, ten_time) VALUES ('사진예술', 'friday', 0, 1, 1, 1, 0, 0, 0, 0, 0, 0);
 
 -- 장비대여
 insert into rental(class_period_id, equipment_id, rental_cnt) VALUES (1,1,4);
 insert into rental(class_period_id, equipment_id, rental_cnt) VALUES (1,1,4);
+
+select * from equipment;
+
+select * from class_period;
