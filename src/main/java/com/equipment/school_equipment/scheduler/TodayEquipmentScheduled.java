@@ -18,7 +18,7 @@ public class TodayEquipmentScheduled {
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("E");
 	private final TodayRentalService todayRentalService;
 
-	@Scheduled(fixedDelay = DelayTime.MINUTE, zone = "Asia/Seoul")
+//	@Scheduled(fixedDelay = DelayTime.MINUTE, zone = "Asia/Seoul")
 	public void reportCurrentTime() {
 		String currentWeekday = dateFormat.format(new Date()) + "요일";
 		DayOfWeekEnum weekday = DayOfWeekEnum.getName(currentWeekday);

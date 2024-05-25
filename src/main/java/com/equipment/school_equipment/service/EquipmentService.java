@@ -9,6 +9,9 @@ import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.equipment.EquipmentCount;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,8 +57,10 @@ public class EquipmentService {
         equipmentRepository.deleteById(id);
     }
 
-    public List<Equipment> findAll() {
-        return equipmentRepository.findAll();
+    public Page<Equipment> findAll(int pageNumber) {
+        int pageSize = 10;
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        return equipmentRepository.findAll(pageRequest);
     }
 
     public Equipment findById(Long id) {

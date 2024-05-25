@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="~{fragments/head :: header(title='장비')}"></head>
+<head th:replace="~{fragments/head :: header(title='장비')}">
+    <title>장비</title>
+</head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <!-- Page Content  -->
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table}, '장비')}">
+<div class="container-fluid">
+    <div id="content" th:replace="~{fragments/content :: content(~{::table}, '장비')}">
     <!--    컨텐츠-->
     <table class="table table-hover">
         <thead>
@@ -29,6 +32,35 @@
         </tr>
         </tbody>
     </table>
+    </div>
+
+    <nav aria-label="Page navigation" th:object="${pages}"
+         th:with="start=${(pages.getNumber()/10)*10 + 0},
+            last=(${start + 9 < pages.getTotalPages() ? start + 9 : pages.getTotalPages()})">
+
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" th:href="${pages.isFirst()} ? '#' : @{/admin/equipment(page=${pages.getNumber() - 1})}" aria-label="Previous">
+                    이전
+                </a>
+            </li>
+            <li class="page-item"
+                th:each="num : ${#numbers.sequence(start, last)}"
+                th:classappend="${param.page eq pages.getNumber()} ? 'active'"
+            >
+                <a class="page-link"
+                   href="#"
+                   th:href="@{/admin/equipment(page=${num})}"
+                   th:text="${num + 1}">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:href="${pages.isLast()} ? '#' : @{/admin/equipment(page=${pages.getNumber() + 1})}" aria-label="Next">
+                    다음
+                </a>
+            </li>
+        </ul>
+    </nav>
+
 </div>
 </body>
 </html>

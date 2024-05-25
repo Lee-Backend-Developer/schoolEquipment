@@ -30,7 +30,7 @@ public class EquipmentController {
     @GetMapping
     public String equipment(Model model) {
         List<EquipmentRequest> responses = new ArrayList<>();
-        for (Equipment equipment : equipmentService.findAll()) {
+        for (Equipment equipment : equipmentService.findAll(0).toList()) {
             String equipmentName = equipment.getName();
             EquipmentRequest response = EquipmentRequest.builder()
                     .equipmentName(equipmentName)

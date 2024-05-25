@@ -4,6 +4,7 @@ import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
+import com.equipment.school_equipment.response.PagingResponse;
 import com.equipment.school_equipment.response.thymeleaf.EquipmentRequest;
 import com.equipment.school_equipment.service.CategoryService;
 import com.equipment.school_equipment.service.EquipmentService;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,8 +40,9 @@ public class AdminEquipmentController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public String adminEquipments(Model model) {
-        List<EquipmentRequest> equipmentRequestList = equipmentService.findAll().stream().map(equipment -> EquipmentRequest
+    public String adminEquipments(Model model, @RequestParam(defaultValue = "0", required = false) int page) {
+        Page<Equipment> equipmentPage = equipmentService.findAll(page);
+        List<EquipmentRequest> equipmentRequestList = equipmentPage.stream().map(equipment -> EquipmentRequest
                         .builder()
                         .id(equipment.getId())
                         .equipmentName(equipment.getName())
@@ -47,7 +50,7 @@ public class AdminEquipmentController {
                         .retCnt(rentalService.findByEquipmentCnt(equipment.getName()))
                         .build())
                 .toList();
-
+        model.addAttribute("pages", equipmentPage);
         model.addAttribute("equipments", equipmentRequestList);
         return "/admin/equipment/find-all";
     }
@@ -130,7 +133,7 @@ public class AdminEquipmentController {
 
     @GetMapping("/delete")
     public String delete(Model model) {
-        List<Equipment> equipments = equipmentService.findAll();
+        List<Equipment> equipments = equipmentService.findAll(1).toList();
         List<EquipmentRequest> equipmentRequestList = equipments.stream().map(equipment -> EquipmentRequest
                         .builder()
                         .id(equipment.getId())
