@@ -2,7 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/main_fragment :: header(title='시간표')}"></head>
 <body>
-<nav th:replace="~{fragments/main_fragment :: navbar}"></nav>
+<!-- 왼쪽 사이드 바-->
+<div class="wrapper d-flex align-items-stretch">
+    <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
 <div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::table}, '수업반출시간표')}">
     <table class="table table-Danger table-hover" >
         <thead>
@@ -29,7 +31,6 @@
         </tbody>
     </table>
 </div>
-<script>
-</script>
+</div>
 </body>
 </html>
