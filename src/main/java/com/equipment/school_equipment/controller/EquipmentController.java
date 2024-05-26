@@ -32,7 +32,7 @@ public class EquipmentController {
     @GetMapping
     public String equipment(Model model, @RequestParam(defaultValue = "0", required = false) int page) {
         List<EquipmentRequest> responses = new ArrayList<>();
-        Page<Equipment> equipmentPage = equipmentService.findAll(page);
+        Page<Equipment> equipmentPage = equipmentService.findAll(page, 15);
         for (Equipment equipment : equipmentPage.toList()) {
             String equipmentName = equipment.getName();
             EquipmentRequest response = EquipmentRequest.builder()
@@ -46,7 +46,7 @@ public class EquipmentController {
         }
 
         model.addAttribute("pages", equipmentPage);
-        model.addAttribute(responses);
+        model.addAttribute("equipmentList", responses);
         return "equipment";
     }
 

@@ -4,7 +4,6 @@ import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
-import com.equipment.school_equipment.response.PagingResponse;
 import com.equipment.school_equipment.response.thymeleaf.EquipmentRequest;
 import com.equipment.school_equipment.service.CategoryService;
 import com.equipment.school_equipment.service.EquipmentService;
@@ -41,7 +40,7 @@ public class AdminEquipmentController {
 
     @GetMapping
     public String adminEquipments(Model model, @RequestParam(defaultValue = "0", required = false) int page) {
-        Page<Equipment> equipmentPage = equipmentService.findAll(page);
+        Page<Equipment> equipmentPage = equipmentService.findAll(page, 10);
         List<EquipmentRequest> equipmentRequestList = equipmentPage.stream().map(equipment -> EquipmentRequest
                         .builder()
                         .id(equipment.getId())
@@ -133,7 +132,7 @@ public class AdminEquipmentController {
 
     @GetMapping("/delete")
     public String delete(Model model) {
-        List<Equipment> equipments = equipmentService.findAll(1).toList();
+        List<Equipment> equipments = equipmentService.findAll(1, 10).toList();
         List<EquipmentRequest> equipmentRequestList = equipments.stream().map(equipment -> EquipmentRequest
                         .builder()
                         .id(equipment.getId())

@@ -57,8 +57,7 @@ public class EquipmentService {
         equipmentRepository.deleteById(id);
     }
 
-    public Page<Equipment> findAll(int pageNumber) {
-        int pageSize = 10;
+    public Page<Equipment> findAll(int pageNumber, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         return equipmentRepository.findAll(pageRequest);
     }
