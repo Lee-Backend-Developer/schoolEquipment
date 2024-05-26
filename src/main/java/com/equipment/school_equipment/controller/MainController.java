@@ -12,9 +12,4 @@ public class MainController {
     public String MainHomePage() {
         return "mainHome";
     }
-
-    @GetMapping("test")
-    public String test() {
-        return "fragments2/equipment";
-    }
 }
