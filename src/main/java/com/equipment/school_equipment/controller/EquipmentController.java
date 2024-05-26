@@ -47,7 +47,7 @@ public class EquipmentController {
 
         model.addAttribute("pages", equipmentPage);
         model.addAttribute("equipmentList", responses);
-        return "fragments2/equipment";
+        return "fragments/equipment";
     }
 
 }
