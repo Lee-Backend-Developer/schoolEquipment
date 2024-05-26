@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,12 +43,13 @@ public class AdminCategoryController {
     }
 
     @GetMapping
-    public String findCategory(Model model) {
-        List<Category> categoryList = categoryService.findAll();
-        List<CategoryFindResponse> categoryRespons = categoryList.stream()
+    public String findCategory(Model model, @RequestParam(defaultValue = "0", required = false) int page) {
+        Page<Category> categoryPage = categoryService.findAll(page);
+        List<CategoryFindResponse> categoryRespons = categoryPage.stream()
                 .map(category -> CategoryFindResponse.builder().id(category.getId()).name(category.getCategoryName()).build())
                 .toList();
 
+        model.addAttribute("pages", categoryPage);
         model.addAttribute("categorys", categoryRespons);
         return "admin/category/find-all";
     }
@@ -71,7 +74,7 @@ public class AdminCategoryController {
 
     @GetMapping("/delete")
     public String deleteCategory(Model model) {
-        List<Category> categoryList = categoryService.findAll();
+        List<Category> categoryList = categoryService.findAll(1).toList();
         List<CategoryFindResponse> categoryRespons = categoryList.stream()
                 .map(category -> CategoryFindResponse.builder().id(category.getId()).name(category.getCategoryName()).build())
                 .toList();

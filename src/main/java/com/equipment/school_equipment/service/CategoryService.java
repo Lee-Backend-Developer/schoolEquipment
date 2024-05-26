@@ -3,6 +3,8 @@ package com.equipment.school_equipment.service;
 import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,10 @@ public class CategoryService {
                         },
                         () -> categoryRepository.save(category));
         return category;
+    }
+
+    public Page<Category> findAll(int pageNumber) {
+        return categoryRepository.findAll(PageRequest.of(pageNumber, 10));
     }
 
     public List<Category> findAll() {
