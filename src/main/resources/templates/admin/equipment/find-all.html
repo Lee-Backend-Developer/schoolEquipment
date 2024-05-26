@@ -8,8 +8,37 @@
 
 <!-- Page Content  -->
 <div class="container-fluid">
-    <div id="content" th:replace="~{fragments/content :: content(~{::table}, '장비')}">
-    <!--    컨텐츠-->
+        <div id="content" class="p-4 p-md-5">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fa fa-bars"></i>
+                        <span class="sr-only">Toggle Menu</span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">전체</a>
+                            </li><li class="nav-item">
+                                <a class="nav-link" href="#">카메라</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">조명</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">음향</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <h2>장비</h2>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -40,7 +69,7 @@
 
         <ul class="pagination justify-content-center">
             <li class="page-item">
-                <a class="page-link" th:href="${pages.isFirst()} ? '#' : @{/admin/equipment(page=${pages.getNumber() - 1})}" aria-label="Previous">
+                <a class="page-link" th:href="${pages.isFirst()} ?  @{/admin/equipment(page=${pages.getNumber()})} : @{/admin/equipment(page=${pages.getNumber() - 1})}" aria-label="Previous">
                     이전
                 </a>
             </li>
@@ -62,5 +91,8 @@
     </nav>
 
 </div>
+<script src="/js/popper.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
 </body>
 </html>
