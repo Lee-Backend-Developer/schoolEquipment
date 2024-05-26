@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: header(title='오늘 대여가능수량')}"></head>
+<head th:replace="~{fragments/main_fragment :: header(title='오늘 대여가능수량')}"></head>
 <body>
-<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<nav th:replace="~{fragments/main_fragment :: navbar}"></nav>
 <div class="container-fluid">
-    <div id="content" th:insert="~{fragments/content :: content(~{::#card-deck}, '오늘 대여 기자재')}">
+    <div id="content" th:insert="~{fragments/main_fragment :: content(~{::#card-deck}, '오늘 대여 기자재')}">
 
         <div class="row justify-content-center" id="card-deck">
             <th:block th:each="equipment : ${equipmentList}">

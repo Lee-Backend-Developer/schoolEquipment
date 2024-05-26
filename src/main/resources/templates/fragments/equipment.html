@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="~{fragments/all_fragements :: header (title = '제목')}">
+<head th:replace="~{fragments/main_fragment :: header (title = '제목')}">
     <title>타이틀</title>
 </head>
 <body>
 <!-- 왼쪽 사이드 바-->
 <div class="wrapper d-flex align-items-stretch">
-    <nav th:replace="~{fragments/all_fragements :: sidebar}"></nav>
+    <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
 
     <!-- 위쪽 사이드 바-->
     <div class="container-fluid">
-        <div th:insert="~{fragments/all_fragements :: content(~{::#card-deck}, '오늘 대여 기자재')}">
+        <div th:insert="~{fragments/main_fragment :: content(~{::#card-deck}, '오늘 대여 기자재')}">
             <!-- 콘텐츠 -->
             <div class="row justify-content-center" id="card-deck">
                 <th:block th:each="equipment : ${equipmentList}">

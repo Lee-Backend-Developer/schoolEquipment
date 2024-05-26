@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="~{fragments/all_fragements :: header(title='장비')}">
+<head th:replace="~{fragments/main_fragment :: header(title='장비')}">
     <title>장비</title>
 </head>
 <body>
 <!-- 왼쪽 사이드 바-->
 <div class="wrapper d-flex align-items-stretch">
-    <nav th:replace="~{fragments/all_fragements :: sidebar}"></nav>
+    <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
 
     <!-- 위쪽 사이드 바-->
     <div class="container-fluid">
-        <div th:insert="~{fragments/all_fragements :: content(~{::#table}, '장비목록')}">
+        <div th:insert="~{fragments/main_fragment :: content(~{::#table}, '장비목록')}">
             <!-- 콘텐츠 -->
             <table class="table table-hover" id="table">
                 <thead>

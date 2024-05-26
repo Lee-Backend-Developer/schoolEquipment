@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="~{fragments/head :: header(title='수업시간표')}"></head>
+<head th:replace="~{fragments/main_fragment :: header(title='수업시간표')}"></head>
 <body>
-<div th:replace="~{fragments/navbar :: navbar}"></div>
-
+<!-- 왼쪽 사이드 바-->
+<div class="wrapper d-flex align-items-stretch">
+    <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
 <!-- Page Content  -->
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '시간표 수정')}">
+<div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::form}, '시간표 수정')}">
     <!--    컨텐츠-->
     <form th:object="${classtime}" method="post">
         <div class="form-group">

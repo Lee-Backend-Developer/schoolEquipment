@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="~{fragments/head :: header(title='수업시간표')}"></head>
+<head th:replace="~{fragments/main_fragment :: header(title='수업시간표')}"></head>
 <body>
-<div th:replace="~{fragments/navbar :: navbar}"></div>
+<!-- 왼쪽 사이드 바-->
+<div class="wrapper d-flex align-items-stretch">
+    <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
 
-<!-- Page Content  -->
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table}, '카테고리')}">
-    <!--    컨텐츠-->
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">No</th>
-            <th scope="col">카테고리 명</th>
-            <th><a th:href="@{/admin/category/add}" type="button" class="btn btn-primary">추가</a></th>
-        </tr>
-        <tbody th:each="category : ${categorys}">
-        <tr>
-            <td scope="row" th:text="${categoryStat.count}">1</td>
-            <td><a href="#" th:text="${category.name()}" th:href="@{/admin/category/edit/{no} (no = ${category.id()})}">카메라</a></td>
-            <td><a th:href="@{/admin/category/delete/{categoryid} (categoryid = ${category.id()})}" type="button" class="btn btn-danger">삭제</a></td>
-        </tr>
-        </tbody>
-    </table>
+    <!-- Page Content  -->
+    <div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::table}, '카테고리')}">
+        <!--    컨텐츠-->
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">카테고리 명</th>
+                <th><a th:href="@{/admin/category/add}" type="button" class="btn btn-primary">추가</a></th>
+            </tr>
+            <tbody th:each="category : ${categorys}">
+            <tr>
+                <td scope="row" th:text="${categoryStat.count}">1</td>
+                <td><a href="#" th:text="${category.name()}"
+                       th:href="@{/admin/category/edit/{no} (no = ${category.id()})}">카메라</a></td>
+                <td><a th:href="@{/admin/category/delete/{categoryid} (categoryid = ${category.id()})}" type="button"
+                       class="btn btn-danger">삭제</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

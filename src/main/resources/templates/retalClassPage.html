@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: header(title='수업장비확인')}"></head>
+<head th:replace="~{fragments/main_fragment :: header(title='수업장비확인')}"></head>
 <body>
-<div th:replace="~{fragments/navbar :: navbar}"></div>
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table}, '수업 장비대여')}">
+<!-- 왼쪽 사이드 바-->
+<div class="wrapper d-flex align-items-stretch">
+    <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
+<div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::table}, '수업 장비대여')}">
     <table class="table">
         <thead>
         <tr>

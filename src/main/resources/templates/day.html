@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: header(title='시간표')}"></head>
+<head th:replace="~{fragments/main_fragment :: header(title='시간표')}"></head>
 <body>
-<nav th:replace="~{fragments/navbar :: navbar}"></nav>
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::table}, '수업반출시간표')}">
+<nav th:replace="~{fragments/main_fragment :: navbar}"></nav>
+<div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::table}, '수업반출시간표')}">
     <table class="table table-Danger table-hover" >
         <thead>
         <tr class="table-danger">

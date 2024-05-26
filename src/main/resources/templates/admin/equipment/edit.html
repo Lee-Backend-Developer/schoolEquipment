@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="~{fragments/head :: header(title='기자재')}"></head>
+<head th:replace="~{fragments/main_fragment :: header(title='기자재')}"></head>
 <body>
-<div th:replace="~{fragments/navbar :: navbar}"></div>
+<!-- 왼쪽 사이드 바-->
+<div class="wrapper d-flex align-items-stretch">
+    <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
 
 <!-- Page Content  -->
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::form}, '기자재 수정')}">
+<div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::form}, '기자재 수정')}">
     <form th:object="${requestForm}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="addEquipment">기자재명</label>
