@@ -1,98 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="~{fragments/head :: header(title='장비')}">
+<head th:replace="~{fragments/all_fragements :: header(title='장비')}">
     <title>장비</title>
 </head>
 <body>
-<div th:replace="~{fragments/navbar :: navbar}"></div>
+<!-- 왼쪽 사이드 바-->
+<div class="wrapper d-flex align-items-stretch">
+    <nav th:replace="~{fragments/all_fragements :: sidebar}"></nav>
 
-<!-- Page Content  -->
-<div class="container-fluid">
-        <div id="content" class="p-4 p-md-5">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
-                        <i class="fa fa-bars"></i>
-                        <span class="sr-only">Toggle Menu</span>
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <i class="fa fa-bars"></i>
-                    </button>
+    <!-- 위쪽 사이드 바-->
+    <div class="container-fluid">
+        <div th:insert="~{fragments/all_fragements :: content(~{::#table}, '장비목록')}">
+            <!-- 콘텐츠 -->
+            <table class="table table-hover" id="table">
+                <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">장비명</th>
+                    <th scope="col">남은수량/창고수량</th>
+                    <th><a th:href="@{/admin/equipment/add}" type="button" class="btn btn-primary">추가</a></th>
+                </tr>
+                <tbody th:each="equipment : ${equipments}">
+                <tr>
+                    <td scope="row" th:text="${equipmentStat.count}">1</td>
+                    <td>
+                        <a href="#" th:text="${equipment.equipmentName()}"
+                           th:href="@{/admin/equipment/edit/{no} (no = ${equipment.id()})}">카메라</a>
+                    </td>
+                    <td>
+                        <p>[[${equipment.retCnt()}]]/[[${equipment.leftCnt()}]]</p>
+                    </td>
+                    <td><a th:href="@{/admin/equipment/delete/{equipmentId} (equipmentId = ${equipment.id()})}"
+                           type="button" class="btn btn-danger">삭제</a></td>
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">전체</a>
-                            </li><li class="nav-item">
-                                <a class="nav-link" href="#">카메라</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">조명</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">음향</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            <h2>장비</h2>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">No</th>
-            <th scope="col">장비명</th>
-            <th scope="col">남은수량/창고수량</th>
-            <th><a th:href="@{/admin/equipment/add}" type="button" class="btn btn-primary">추가</a></th>
-        </tr>
-        <tbody th:each="equipment : ${equipments}">
-        <tr>
-            <td scope="row" th:text="${equipmentStat.count}">1</td>
-            <td>
-                <a href="#" th:text="${equipment.equipmentName()}" th:href="@{/admin/equipment/edit/{no} (no = ${equipment.id()})}">카메라</a>
-            </td>
-            <td>
-                <p>[[${equipment.retCnt()}]]/[[${equipment.leftCnt()}]]</p>
-            </td>
-            <td><a th:href="@{/admin/equipment/delete/{equipmentId} (equipmentId = ${equipment.id()})}" type="button" class="btn btn-danger">삭제</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <nav th:replace="fragments/page :: page(pages=${pages}, url='admin/equipment')"></nav>
 
-        </tr>
-        </tbody>
-    </table>
     </div>
-
-    <nav aria-label="Page navigation" th:object="${pages}"
-         th:with="start=${(pages.getNumber()/10)*10 + 0},
-            last=(${start + 9 < pages.getTotalPages() ? start + 9 : pages.getTotalPages()})">
-
-        <ul class="pagination justify-content-center">
-            <li class="page-item">
-                <a class="page-link" th:href="${pages.isFirst()} ?  @{/admin/equipment(page=${pages.getNumber()})} : @{/admin/equipment(page=${pages.getNumber() - 1})}" aria-label="Previous">
-                    이전
-                </a>
-            </li>
-            <li class="page-item"
-                th:each="num : ${#numbers.sequence(start, last)}"
-                th:classappend="${pages.getNumber() == num} ? 'active' : ''"
-            >
-                <a class="page-link"
-                   href="#"
-                   th:href="@{/admin/equipment(page=${num})}"
-                   th:text="${num + 1}">1</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" th:href="${pages.isLast()} ? '#' : @{/admin/equipment(page=${pages.getNumber() + 1})}" aria-label="Next">
-                    다음
-                </a>
-            </li>
-        </ul>
-    </nav>
-
-</div>
-<script src="/js/popper.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/main.js"></script>
 </body>
 </html>
