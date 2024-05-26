@@ -6,10 +6,12 @@ import com.equipment.school_equipment.service.EquipmentService;
 import com.equipment.school_equipment.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +30,10 @@ public class EquipmentController {
     // 대여후 수량(가지고 있던 수량 - 렌탈마다 장비 수)
     // 응답: 장비이름, 대여 후 수량, 가지고 있던 주량
     @GetMapping
-    public String equipment(Model model) {
+    public String equipment(Model model, @RequestParam(defaultValue = "0", required = false) int page) {
         List<EquipmentRequest> responses = new ArrayList<>();
-        for (Equipment equipment : equipmentService.findAll(0).toList()) {
+        Page<Equipment> equipmentPage = equipmentService.findAll(page);
+        for (Equipment equipment : equipmentPage.toList()) {
             String equipmentName = equipment.getName();
             EquipmentRequest response = EquipmentRequest.builder()
                     .equipmentName(equipmentName)
@@ -41,6 +44,8 @@ public class EquipmentController {
                     .build();
             responses.add(response);
         }
+
+        model.addAttribute("pages", equipmentPage);
         model.addAttribute(responses);
         return "equipment";
     }

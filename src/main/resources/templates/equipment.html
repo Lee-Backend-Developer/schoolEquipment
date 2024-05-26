@@ -3,7 +3,8 @@
 <head th:replace="~{fragments/head :: header(title='오늘 대여가능수량')}"></head>
 <body>
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
-<div class="container-fluid" th:insert="~{fragments/content :: content(~{::#card-deck}, '오늘 대여 기자재')}">
+<div class="container-fluid">
+    <div id="content" th:insert="~{fragments/content :: content(~{::#card-deck}, '오늘 대여 기자재')}">
 
     <div class="row row-cols-1 row-cols-md-3" id="card-deck">
         <div class="card ml-1 mb-3" th:each="equipment : ${equipmentRequestList}"
@@ -20,7 +21,33 @@
             </div>
         </div>
     </div>
+    </div>
+    <nav aria-label="Page navigation" th:object="${pages}"
+         th:with="start=${(pages.getNumber()/10)*10 + 0},
+            last=(${start + 9 < pages.getTotalPages() ? start + 9 : pages.getTotalPages()})">
 
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" th:href="${pages.isFirst()} ? '#' : @{/equipment(page=${pages.getNumber() - 1})}" aria-label="Previous">
+                    이전
+                </a>
+            </li>
+            <li class="page-item"
+                th:each="num : ${#numbers.sequence(start, last)}"
+                th:classappend="${pages.getNumber() == num} ? 'active' : ''"
+            >
+                <a class="page-link"
+                   href="#"
+                   th:href="@{/equipment(page=${num})}"
+                   th:text="${num + 1}">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:href="${pages.isLast()} ? '#' : @{/equipment(page=${pages.getNumber() + 1})}" aria-label="Next">
+                    다음
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>
