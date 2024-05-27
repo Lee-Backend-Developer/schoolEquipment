@@ -78,7 +78,21 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto">
+                    <ul class="nav navbar-nav ml-auto" th:if="${subject eq '장비목록'}">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#" th:href="@{/admin/equipment(page=0)}">전체</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" th:href="@{/admin/equipment(category='카메라')}">카메라</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" th:href="@{/admin/equipment(category='조명')}">조명</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" th:href="@{/admin/equipment(category='음향')}">음향</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav ml-auto" th:unless="${subject eq '장비목록'}">
                         <li class="nav-item active">
                             <a class="nav-link" href="#"></a>
                         </li>

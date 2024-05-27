@@ -39,8 +39,17 @@ public class AdminEquipmentController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public String adminEquipments(Model model, @RequestParam(defaultValue = "0", required = false) int page) {
-        Page<Equipment> equipmentPage = equipmentService.findAll(page, 10);
+    public String adminEquipments(Model model,
+                                  @RequestParam(defaultValue = "0", required = false) int page,
+                                  @RequestParam(defaultValue ="", required = false) String category) {
+        Page<Equipment> equipmentPage;
+
+        if(Objects.isNull(category)){
+            equipmentPage = equipmentService.findAll(page, 10);
+        } else {
+            equipmentPage = equipmentService.findByCategoryId(category, page);
+        }
+
         List<EquipmentRequest> equipmentRequestList = equipmentPage.stream().map(equipment -> EquipmentRequest
                         .builder()
                         .id(equipment.getId())
@@ -49,6 +58,7 @@ public class AdminEquipmentController {
                         .retCnt(rentalService.findByEquipmentCnt(equipment.getName()))
                         .build())
                 .toList();
+
         model.addAttribute("pages", equipmentPage);
         model.addAttribute("equipments", equipmentRequestList);
         return "/admin/equipment/find-all";

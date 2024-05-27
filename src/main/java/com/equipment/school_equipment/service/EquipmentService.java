@@ -62,6 +62,15 @@ public class EquipmentService {
         return equipmentRepository.findAll(pageRequest);
     }
 
+    public Page<Equipment> findByCategoryId(String category, int pageNumber) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, 10);
+
+        if(category.isEmpty()) {
+            return equipmentRepository.findAll(pageRequest);
+        }
+        return equipmentRepository.findByCategory(category, pageRequest);
+    }
+
     public Equipment findById(Long id) {
         return equipmentRepository.findById(id).orElseThrow(IllegalArgumentException::new);
     }
