@@ -1,5 +1,5 @@
 -- 카테고리 추가
-insert into category (category_name)
+insert into secondaryCategory (category_name)
 values ('카메라');
 
 -- 장비 추가

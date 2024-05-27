@@ -51,8 +51,8 @@
 
         <!-- 수정일 경우 카테고리 선택 아닐 경우 선택안함 -->
         <div class="form-group">
-            <label for="category">장비 카테고리</label>
-            <select class="form-control" name="category" id="category">
+            <label for="secondaryCategory">장비 카테고리</label>
+            <select class="form-control" name="secondaryCategory" id="secondaryCategory">
                 <option
                         th:each="categoryObj : ${requestForm.getCategories()}"
                         th:text="${categoryObj.categoryName}"
@@ -60,8 +60,8 @@
                         th:value="${categoryObj.getId}">
                 </option>
             </select>
-            <div th:if="${#fields.hasErrors('category')}"
-                 th:errors="*{category}"
+            <div th:if="${#fields.hasErrors('secondaryCategory')}"
+                 th:errors="*{secondaryCategory}"
                  class="alert alert-danger mt-1"
                  role="alert"></div>
         </div>

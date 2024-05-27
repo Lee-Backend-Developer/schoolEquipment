@@ -6,10 +6,10 @@
             last=(${start + 9 < pages.getTotalPages() ? start + 9 : pages.getTotalPages()})">
 
     <!--카테고리 값이 있을 경우-->
-    <ul class="pagination justify-content-center" th:if="${param.category != null}">
+    <ul class="pagination justify-content-center" th:if="${param.secondaryCategory != null}">
         <li class="page-item">
             <a class="page-link"
-               th:href="${pages.isFirst()} ? '#' : @{/{url}(url=${url}, page=${pages.getNumber() - 1}, category=${param.category})}"
+               th:href="${pages.isFirst()} ? '#' : @{/{url}(url=${url}, page=${pages.getNumber() - 1}, secondaryCategory=${param.secondaryCategory})}"
                aria-label="Previous">
                 이전
             </a>
@@ -20,19 +20,19 @@
         >
             <a class="page-link"
                href="#"
-               th:href="@{/{url}(url=${url}, page=${num}, category=${param.category})}"
+               th:href="@{/{url}(url=${url}, page=${num}, secondaryCategory=${param.secondaryCategory})}"
                th:text="${num + 1}">1</a>
         </li>
         <li class="page-item">
             <a class="page-link"
-               th:href="${pages.isLast()} ? '#' : @{/{url}(url=${url}, page=${pages.getNumber() + 1}, category=${param.category})}"
+               th:href="${pages.isLast()} ? '#' : @{/{url}(url=${url}, page=${pages.getNumber() + 1}, secondaryCategory=${param.secondaryCategory})}"
                aria-label="Next">
                 다음
             </a>
         </li>
     </ul>
     <!-- 카테고리 값이 없을경우-->
-    <ul class="pagination justify-content-center" th:if="${param.category == null}">
+    <ul class="pagination justify-content-center" th:if="${param.secondaryCategory == null}">
         <li class="page-item">
             <a class="page-link"
                th:href="${pages.isFirst()} ? '#' : @{/{url}(page=${pages.getNumber() - 1}, url=${url})}"

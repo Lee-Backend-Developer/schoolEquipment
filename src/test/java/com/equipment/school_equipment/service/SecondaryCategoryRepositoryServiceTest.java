@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.Category;
+import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.repository.CategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class CategoryRepositoryServiceTest {
+class SecondaryCategoryRepositoryServiceTest {
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -41,8 +41,8 @@ class CategoryRepositoryServiceTest {
         categoryService.addCategory(name);
 
         //then
-        Category category = categoryRepository.findByCategoryName(name).get();
-        assertThat(category.getCategoryName()).isEqualTo(name);
+        SecondaryCategory secondaryCategory = categoryRepository.findByCategoryName(name).get();
+        assertThat(secondaryCategory.getCategoryName()).isEqualTo(name);
 
     }
 
@@ -50,16 +50,16 @@ class CategoryRepositoryServiceTest {
     @Test
     void findById_O() {
         //given
-        Category camara = Category.builder().categoryName("카메라").build();
+        SecondaryCategory camara = SecondaryCategory.builder().categoryName("카메라").build();
         categoryRepository.save(camara);
 
         Long id = camara.getId();
 
         //when
-        Category category = categoryService.findById(id);
+        SecondaryCategory secondaryCategory = categoryService.findById(id);
 
         //then
-        assertThat(category.getId()).isEqualTo(id);
+        assertThat(secondaryCategory.getId()).isEqualTo(id);
 
     }
 
@@ -67,31 +67,31 @@ class CategoryRepositoryServiceTest {
     @Test
     void findByIdAndName_O() throws Exception {
         //given 준비 과정
-        Category category = categoryRepository.save(Category.builder().categoryName("카메라").build());
+        SecondaryCategory secondaryCategory = categoryRepository.save(SecondaryCategory.builder().categoryName("카메라").build());
 
         //when 실행
-        Category findCategory = categoryService.findByIdAndName(category.getId(), category.getCategoryName(), "마이크");
+        SecondaryCategory findSecondaryCategory = categoryService.findByIdAndName(secondaryCategory.getId(), secondaryCategory.getCategoryName(), "마이크");
 
         //then or expect 검증
-        assertThat(findCategory.getId()).isEqualTo(category.getId());
-        assertThat(findCategory.getCategoryName()).isEqualTo("마이크");
+        assertThat(findSecondaryCategory.getId()).isEqualTo(secondaryCategory.getId());
+        assertThat(findSecondaryCategory.getCategoryName()).isEqualTo("마이크");
     }
 
     @DisplayName("카메라, 마이크 이 두개가 조회가 되어야 한다")
     @Test
     void findCategory_O(){
         //given
-        Category camara = Category.builder().categoryName("카메라").build();
-        Category mic = Category.builder().categoryName("마이크").build();
+        SecondaryCategory camara = SecondaryCategory.builder().categoryName("카메라").build();
+        SecondaryCategory mic = SecondaryCategory.builder().categoryName("마이크").build();
         categoryRepository.save(camara);
         categoryRepository.save(mic);
 
         //when
 
-        List<Category> categoryList = categoryService.findAll();
+        List<SecondaryCategory> secondaryCategoryList = categoryService.findAll();
         //then
-        assertThat(categoryList).hasSize(2);
-        assertThat(categoryList).contains(camara, mic);
+        assertThat(secondaryCategoryList).hasSize(2);
+        assertThat(secondaryCategoryList).contains(camara, mic);
 
     }
 
@@ -99,7 +99,7 @@ class CategoryRepositoryServiceTest {
     @Test
     void catetory_delete_X() throws Exception {
         //given 준비 과정
-        Category camara = Category.builder().categoryName("카메라").build();
+        SecondaryCategory camara = SecondaryCategory.builder().categoryName("카메라").build();
         categoryRepository.save(camara);
 
         Equipment saveEquipment = Equipment.builder().name("캐논").count(10)
@@ -126,7 +126,7 @@ class CategoryRepositoryServiceTest {
     @Test
     void catetory_delete_O() throws Exception {
         //given 준비 과정
-        Category camara = Category.builder().categoryName("카메라").build();
+        SecondaryCategory camara = SecondaryCategory.builder().categoryName("카메라").build();
         categoryRepository.save(camara);
 
         //then

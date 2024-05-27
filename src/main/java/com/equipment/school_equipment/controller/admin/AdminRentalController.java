@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.controller.admin;
 
-import com.equipment.school_equipment.repository.CategoryRepository;
+import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.request.admin.RentalAddRequest;
 import com.equipment.school_equipment.response.thymeleaf.admin.RentalFindAllResponse;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/admin/rental")
 public class AdminRentalController {
     private final RentalService rentalService;
-    private final CategoryRepository categoryRepository;
+    private final SecondaryCategoryRepository secondaryCategoryRepository;
     private final EquipmentRepository equipmentRepository;
 
     @GetMapping
@@ -47,7 +47,7 @@ public class AdminRentalController {
     @GetMapping("/add")
     public String add(Model model) {
         RentalAddRequest request = RentalAddRequest.builder()
-                .categories(categoryRepository.findAll())
+                .categories(secondaryCategoryRepository.findAll())
                 .equipments(equipmentRepository.findAll())
                 .build();
         model.addAttribute("rental", request);
@@ -58,7 +58,7 @@ public class AdminRentalController {
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute("rental") RentalAddRequest request, BindingResult bindingResult, Model model) throws IOException {
         if(bindingResult.hasErrors()){
-            request.setCategories(categoryRepository.findAll());
+            request.setCategories(secondaryCategoryRepository.findAll());
             request.setEquipments(equipmentRepository.findAll());
             model.addAttribute("rental", request);
             return "admin/rental/add";

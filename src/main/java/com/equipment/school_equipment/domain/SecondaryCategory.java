@@ -14,7 +14,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Category {
+public class SecondaryCategory {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -24,8 +24,11 @@ public class Category {
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Equipment> equipmentList = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PrimaryCategory primaryCategory;
+
     @Builder
-    public Category(String categoryName) {
+    public SecondaryCategory(String categoryName) {
         this.categoryName = categoryName;
     }
 

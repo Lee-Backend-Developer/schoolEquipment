@@ -1,4 +1,4 @@
-create table category
+create table secondaryCategory
 (
     category_id bigint auto_increment,
     category_name         varchar(255) not null unique,
@@ -15,7 +15,7 @@ create table equipment
     content           text null,
     count             integer      not null,
 
-    foreign key (category_id) references category (category_id),
+    foreign key (category_id) references secondaryCategory (category_id),
     primary key (equipment_id)
 );
 

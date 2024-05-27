@@ -1,21 +1,31 @@
-create table category
+create table primary_category
 (
     id            bigint auto_increment,
     category_name varchar(255) not null unique,
 
     primary key (id)
-) comment '물품 카테고리 테이블';
+) comment '물품 상위 카테고리 테이블';
+
+create table secondary_category
+(
+    id            bigint auto_increment,
+    category_name varchar(255) not null unique,
+    primary_category_id bigint not null,
+
+    primary key (id),
+    foreign key (primary_category_id) references primary_category(id)
+) comment '물품 하위 카테고리 테이블';
 
 create table equipment
 (
     id bigint auto_increment,
     name         varchar(40)  not null unique,
-    category_id  bigint       not null,
+    secondary_category_id  bigint       not null,
     main_img     varchar(100) null,
     content      text         null,
     count        integer      not null,
 
-    foreign key (category_id) references category (id),
+    foreign key (secondary_category_id) references secondary_category (id),
     primary key (id)
 ) comment '물품 테이블';
 

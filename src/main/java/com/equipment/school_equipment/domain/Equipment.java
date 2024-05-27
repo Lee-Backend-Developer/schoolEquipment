@@ -17,7 +17,7 @@ public class Equipment {
     private String name;    // 장비 이름
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Category category = new Category();
+    private SecondaryCategory secondaryCategory = new SecondaryCategory();
 
     private String mainImg;
     private String content;
@@ -36,16 +36,16 @@ public class Equipment {
         this.count = count;
     }
 
-    public void editEquipment(EquipmentEditRequest equipment, Category category) {
+    public void editEquipment(EquipmentEditRequest equipment, SecondaryCategory secondaryCategory) {
         this.name = equipment.name();
         this.mainImg = equipment.mainImg() == null ? "none.jpg" : equipment.mainImg();
         this.content = equipment.content();
         this.count = equipment.count();
-        this.category = category;
+        this.secondaryCategory = secondaryCategory;
     }
 
-    public void addCategory(Category category) {
-        this.category = category;
-        category.getEquipmentList().add(this);
+    public void addCategory(SecondaryCategory secondaryCategory) {
+        this.secondaryCategory = secondaryCategory;
+        secondaryCategory.getEquipmentList().add(this);
     }
 }

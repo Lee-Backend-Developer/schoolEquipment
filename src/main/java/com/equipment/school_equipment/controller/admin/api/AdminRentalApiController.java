@@ -1,17 +1,10 @@
 package com.equipment.school_equipment.controller.admin.api;
 
-import com.equipment.school_equipment.repository.CategoryRepository;
-import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.request.admin;
 
-import com.equipment.school_equipment.domain.Category;
+import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.message.error.AdminErrorMessage;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -27,9 +26,9 @@ public class EquipmentForm {
     private int count;
 
     @NotNull(message = AdminErrorMessage.EQUIPMENT_ADD_CATEGORY_ERROR)
-    private Category category;
+    private SecondaryCategory secondaryCategory;
 
-    private List<Category> categories;
+    private List<SecondaryCategory> categories;
     private String categoryName;
 
     // 수정할 때 사용

@@ -3,7 +3,7 @@
 <body>
 <!--/*@thymesVar id="requestForm" type="com.equipment.school_equipment.request.admin.EquipmentForm"*/-->
 <!--/*@thymesVar id="flag" type="java.lang.String"*/-->
-<!--/*@thymesVar id="categoryObj" type="com.equipment.school_equipment.domain.Category"*/-->
+<!--/*@thymesVar id="categoryObj" type="com.equipment.school_equipment.domain.SecondaryCategory"*/-->
 <form th:fragment="createForm(requestForm, flag)" th:object="${requestForm}" method="post" enctype="multipart/form-data" >
     <div class="form-group">
         <label for="addEquipment">기자재명</label>
@@ -48,8 +48,8 @@
 
     <!-- 수정일 경우 카테고리 선택 아닐 경우 선택안함 -->
     <div class="form-group">
-        <label for="category">장비 카테고리</label>
-        <select class="form-control" name="category" id="category" th:field="*{category}">
+        <label for="secondaryCategory">장비 카테고리</label>
+        <select class="form-control" name="secondaryCategory" id="secondaryCategory" th:field="*{secondaryCategory}">
             <option value="">장비 카테고리 선택하세요.</option>
             <option
                     th:each="categoryObj : ${requestForm.getCategories()}"
@@ -59,8 +59,8 @@
             >
             </option>
         </select>
-        <div th:if="${#fields.hasErrors('category')}"
-             th:errors="*{category}"
+        <div th:if="${#fields.hasErrors('secondaryCategory')}"
+             th:errors="*{secondaryCategory}"
              class="alert alert-danger mt-1"
              role="alert"></div>
     </div>

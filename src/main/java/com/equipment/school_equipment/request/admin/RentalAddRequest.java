@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.request.admin;
 
-import com.equipment.school_equipment.domain.Category;
+import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.domain.ClassPeriod;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
@@ -27,7 +27,7 @@ public class RentalAddRequest {
         private int retCnt;
 
         //response
-        private List<Category> categories;
+        private List<SecondaryCategory> categories;
         private List<Equipment> equipments;
         private List<ClassPeriod> classtime;
 }

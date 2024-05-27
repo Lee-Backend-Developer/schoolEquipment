@@ -1,9 +1,9 @@
-package com.equipment.school_equipment.repository.custom;
+package com.equipment.school_equipment.repository.custom.impl;
 
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.domain.QClassPeriod;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
+import com.equipment.school_equipment.repository.custom.RentalRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 

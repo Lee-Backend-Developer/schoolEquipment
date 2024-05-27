@@ -1,6 +1,7 @@
-package com.equipment.school_equipment.repository.custom;
+package com.equipment.school_equipment.repository.custom.impl;
 
 import com.equipment.school_equipment.domain.Equipment;
+import com.equipment.school_equipment.repository.custom.EquipmentRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -10,8 +11,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Objects;
 
-import static com.equipment.school_equipment.domain.QCategory.category;
 import static com.equipment.school_equipment.domain.QEquipment.equipment;
+import static com.equipment.school_equipment.domain.QSecondaryCategory.secondaryCategory;
 
 @RequiredArgsConstructor
 public class EquipmentRepositoryImpl implements EquipmentRepositoryCustom {
@@ -20,7 +21,7 @@ public class EquipmentRepositoryImpl implements EquipmentRepositoryCustom {
     @Override
     public Equipment equipmentAndCategory(Long id) {
         return queryFactory.selectFrom(equipment)
-                .join(equipment.category, category)
+                .join(equipment.secondaryCategory, secondaryCategory)
                 .where(equipment.id.eq(id))
                 .fetchOne();
     }
@@ -28,15 +29,15 @@ public class EquipmentRepositoryImpl implements EquipmentRepositoryCustom {
     @Override
     public Page<Equipment> findByCategory(String category, Pageable pageable) {
         List<Equipment> fetch = queryFactory.selectFrom(equipment)
-                .join(equipment.category)
-                .where(equipment.category.categoryName.eq(category))
+                .join(equipment.secondaryCategory)
+                .where(equipment.secondaryCategory.categoryName.eq(category))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         Long total = queryFactory.select(equipment.count())
                 .from(equipment)
-                .where(equipment.category.categoryName.eq(category))
+                .where(equipment.secondaryCategory.categoryName.eq(category))
                 .fetchOne();
 
         if(Objects.isNull(total)) total = 0L;
