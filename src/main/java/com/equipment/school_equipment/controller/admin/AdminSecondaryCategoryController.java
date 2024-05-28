@@ -19,10 +19,10 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/category")
-public class AdminCategoryController {
+@RequestMapping("/admin/category/{primaryCategory}")
+public class AdminSecondaryCategoryController {
 
-    private static final Logger log = LoggerFactory.getLogger(AdminCategoryController.class);
+    private static final Logger log = LoggerFactory.getLogger(AdminSecondaryCategoryController.class);
     private final CategoryService categoryService;
 
     @GetMapping("/add")

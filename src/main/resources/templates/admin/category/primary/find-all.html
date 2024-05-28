@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/main_fragment :: header(title='기자재 카테고리')}">
+    <title>기자재 카테고리</title>
+</head>
+<body>
+<!-- 왼쪽 사이드 바-->
+<div class="wrapper d-flex align-items-stretch">
+    <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
+
+    <!-- 위쪽 사이드 바-->
+    <div class="container-fluid">
+    <div th:replace="~{fragments/main_fragment :: content(~{::table}, '카테고리')}">
+        <!--    컨텐츠-->
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">카테고리 명</th>
+                <th><a th:href="@{/admin/category/add}" type="button" class="btn btn-primary">추가</a></th>
+            </tr>
+            <tbody th:each="category : ${primaryCategoryList}">
+            <tr>
+                <td scope="row" th:text="${categoryStat.count}">1</td>
+                <td><a href="#" th:text="${category.getCategoryName()}"
+                       th:href="@{/admin/category/edit/{no} (no = ${category.getId()})}">카메라</a></td>
+                <td><a th:href="@{/admin/category/delete/{categoryid} (categoryid = ${category.getId()})}" type="button"
+                       class="btn btn-danger">삭제</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<!--        <nav th:replace="/fragments/page :: page(pages=${null}, url='admin/category')"></nav>-->
+</div>
+</body>
+</html>
