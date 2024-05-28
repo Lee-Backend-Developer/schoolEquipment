@@ -22,4 +22,9 @@ public class PrimaryCategory {
         this.id = id;
         this.categoryName = categoryName;
     }
+
+    // 비즈니스 로직
+    public void updateChangeName(String changeName){
+        this.categoryName = changeName;
+    }
 }

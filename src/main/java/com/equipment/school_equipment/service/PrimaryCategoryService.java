@@ -30,4 +30,14 @@ public class PrimaryCategoryService {
         PrimaryCategory findPrimaryCategory = primaryCategoryRepository.findById(primaryCategoryId).orElseThrow(IllegalAccessError::new);
         primaryCategoryRepository.delete(findPrimaryCategory);
     }
+
+    public PrimaryCategory findById(long primaryCategoryId) {
+        return primaryCategoryRepository.findById(primaryCategoryId).orElseThrow(IllegalAccessError::new);
+    }
+
+    @Transactional
+    public void changeCategoryName(Long id, String changeNameClassname) {
+        PrimaryCategory findPrimaryCategory = primaryCategoryRepository.findById(id).orElseThrow(IllegalAccessError::new);
+        findPrimaryCategory.updateChangeName(changeNameClassname);
+    }
 }

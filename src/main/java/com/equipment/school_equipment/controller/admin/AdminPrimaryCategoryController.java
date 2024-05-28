@@ -1,16 +1,17 @@
 package com.equipment.school_equipment.controller.admin;
 
 import com.equipment.school_equipment.domain.PrimaryCategory;
-import com.equipment.school_equipment.repository.PrimaryCategoryRepository;
 import com.equipment.school_equipment.request.admin.CategoryAddRequest;
+import com.equipment.school_equipment.request.admin.CategoryEditResponse;
 import com.equipment.school_equipment.service.PrimaryCategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,6 +37,30 @@ public class AdminPrimaryCategoryController {
         PrimaryCategory primaryCategoryBuild = PrimaryCategory.builder().categoryName(formRequest.name()).build();
         primaryCategoryService.add(primaryCategoryBuild);
         return "redirect:/admin/category";
+    }
+
+    @GetMapping("/edit/{primary_category_id}")
+    private String getEditPrimaryCategory(
+            @PathVariable(name = "primary_category_id") Long primaryCategoryId, Model model){
+        PrimaryCategory primaryCategory = primaryCategoryService.findById(primaryCategoryId);
+
+        CategoryEditResponse categoryEditResponse = CategoryEditResponse.builder()
+                .categoryId(primaryCategory.getId())
+                .oldClassname(primaryCategory.getCategoryName())
+                .build();
+
+        model.addAttribute("category", categoryEditResponse);
+
+        return "admin/category/primary/edit";
+    }
+
+    @PostMapping("/edit/{categoryId}")
+    private String postEditPrimaryCategory(@Valid @ModelAttribute("category") CategoryEditResponse categoryEditResponse, BindingResult bindingResult, Model model){
+        if(bindingResult.hasFieldErrors()) {return "admin/category/primary/edit";}
+        primaryCategoryService.changeCategoryName(categoryEditResponse.categoryId(), categoryEditResponse.changeNameClassname());
+
+        return "redirect:/admin/category";
+
     }
 
     @GetMapping("/delete/{primary_category_id}")
