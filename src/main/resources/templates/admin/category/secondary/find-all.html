@@ -8,14 +8,14 @@
 
     <!-- 위쪽 사이드 바-->
     <div class="container-fluid">
-    <div th:replace="~{fragments/main_fragment :: content(~{::table}, '카테고리')}">
+    <div th:replace="~{fragments/main_fragment :: content(~{::table}, '하위 카테고리')}">
         <!--    컨텐츠-->
         <table class="table table-hover">
             <thead>
             <tr>
                 <th scope="col">No</th>
                 <th scope="col">카테고리 명</th>
-                <th><a th:href="@{/admin/secondaryCategory/add}" type="button" class="btn btn-primary">추가</a></th>
+                <th><a th:href="@{/admin/category/{secondaryCategory}/add (secondaryCategory = ${secondaryCategory})}" type="button" class="btn btn-primary">추가</a></th>
             </tr>
             <tbody th:each="secondaryCategory : ${categorys}">
             <tr>
