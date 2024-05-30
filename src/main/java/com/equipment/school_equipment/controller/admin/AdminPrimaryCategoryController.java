@@ -32,11 +32,11 @@ public class AdminPrimaryCategoryController {
         return "admin/category/primary/add";
     }
 
-    @PostMapping("/add")
+    @PostMapping("add")
     private String postAddPrimaryCategory(@ModelAttribute("form") CategoryAddRequest formRequest) {
         PrimaryCategory primaryCategoryBuild = PrimaryCategory.builder().categoryName(formRequest.name()).build();
         primaryCategoryService.add(primaryCategoryBuild);
-        return "redirect:/admin/category";
+        return "redirect:/admin/category/";
     }
 
     @GetMapping("/edit/{primary_category_id}")

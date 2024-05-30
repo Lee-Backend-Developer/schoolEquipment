@@ -8,7 +8,7 @@
 
     <!-- 위쪽 사이드 바-->
     <div class="container-fluid">
-    <div th:replace="~{fragments/main_fragment :: content(~{::table}, '하위 카테고리')}">
+    <div th:replace="~{fragments/main_fragment :: content(~{::table}, ${primaryCategory} + ' 상위 카테고리')}">
         <!--    컨텐츠-->
         <table class="table table-hover">
             <thead>
@@ -21,8 +21,8 @@
             <tr>
                 <td scope="row" th:text="${categoryStat.count}">1</td>
                 <td><a href="#" th:text="*{name()}"
-                       th:href="@{/admin/secondaryCategory/edit/{no} (no = *{id()})}">카메라</a></td>
-                <td><a th:href="@{/admin/secondaryCategory/delete/{categoryid} (categoryid = *{id()})}" type="button"
+                       th:href="@{/admin/category/{primaryCategory}/edit/{no} (primaryCategory = ${primaryCategory}, no = *{id()})}">카메라</a></td>
+                <td><a th:href="@{/admin/category/{primaryCategory}/delete/{categoryid} (primaryCategory = ${primaryCategory},categoryid = *{id()})}" type="button"
                        class="btn btn-danger">삭제</a></td>
             </tr>
             </tbody>

@@ -1,6 +1,5 @@
 package com.equipment.school_equipment.controller.admin;
 
-import com.equipment.school_equipment.domain.PrimaryCategory;
 import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.request.admin.CategoryAddRequest;
 import com.equipment.school_equipment.request.admin.CategoryEditResponse;
@@ -39,7 +38,7 @@ public class AdminSecondaryCategoryController {
 
         secondaryCategoryService.addCategory(primaryCategory, request.name());
 
-        return "redirect:/admin/category";
+        return "redirect:/admin/category/{primaryCategory}";
     }
 
     @GetMapping
@@ -75,21 +74,10 @@ public class AdminSecondaryCategoryController {
         return "redirect:/admin/category";
     }
 
-    @GetMapping("/delete")
-    public String deleteCategory(Model model) {
-        List<SecondaryCategory> secondaryCategoryList = secondaryCategoryService.findAll(1).toList();
-        List<CategoryFindResponse> categoryRespons = secondaryCategoryList.stream()
-                .map(category -> CategoryFindResponse.builder().id(category.getId()).name(category.getCategoryName()).build())
-                .toList();
-
-        model.addAttribute("categorys", categoryRespons);
-        return "admin/category/delete";
-    }
-
     @GetMapping("/delete/{categoryid}")
-    public String deleteCategory(@PathVariable("categoryid") Long categoryId) {
+    public String getDeleteCategory(@PathVariable("categoryid") Long categoryId) {
         secondaryCategoryService.deleteById(categoryId);
 
-        return "redirect:/admin/category";
+        return "redirect:/admin/category/{primaryCategory}";
     }
 }
