@@ -1,6 +1,8 @@
 package com.equipment.school_equipment.service;
 
+import com.equipment.school_equipment.domain.PrimaryCategory;
 import com.equipment.school_equipment.domain.SecondaryCategory;
+import com.equipment.school_equipment.repository.PrimaryCategoryRepository;
 import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,12 +15,17 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class CategoryService {
+public class SecondaryCategoryService {
     private final SecondaryCategoryRepository secondaryCategoryRepository;
+    private final PrimaryCategoryRepository primaryCategoryRepository;
 
     @Transactional
-    public SecondaryCategory addCategory(String name) {
+    public SecondaryCategory addCategory(String primaryCategoryName, String name) {
+
+        PrimaryCategory primaryCategory = primaryCategoryRepository.findByCategoryName(primaryCategoryName).orElseThrow(NullPointerException::new);
+
         SecondaryCategory secondaryCategory = SecondaryCategory.builder()
+                .primaryCategory(primaryCategory)
                 .categoryName(name)
                 .build();
 
@@ -67,5 +74,10 @@ public class CategoryService {
 
         secondaryCategoryRepository.deleteById(categoryId);
         return 0;
+    }
+
+    public List<SecondaryCategory> findByPrimaryCategory(String primaryCategory) {
+        List<SecondaryCategory> findSecondaryCategory = secondaryCategoryRepository.findByPrimaryCategories(primaryCategory);
+        return findSecondaryCategory;
     }
 }

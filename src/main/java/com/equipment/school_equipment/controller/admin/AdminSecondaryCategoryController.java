@@ -1,15 +1,14 @@
 package com.equipment.school_equipment.controller.admin;
 
+import com.equipment.school_equipment.domain.PrimaryCategory;
 import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.request.admin.CategoryAddRequest;
 import com.equipment.school_equipment.request.admin.CategoryEditResponse;
 import com.equipment.school_equipment.response.thymeleaf.admin.CategoryFindResponse;
-import com.equipment.school_equipment.service.CategoryService;
+import com.equipment.school_equipment.service.SecondaryCategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,45 +16,50 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/category/{primaryCategory}")
 public class AdminSecondaryCategoryController {
 
-    private static final Logger log = LoggerFactory.getLogger(AdminSecondaryCategoryController.class);
-    private final CategoryService categoryService;
+    private final SecondaryCategoryService secondaryCategoryService;
 
     @GetMapping("/add")
-    public String addCategory(@ModelAttribute("category") CategoryAddRequest request) {
-        return "admin/category/add";
+    public String getAddCategory(@ModelAttribute("category") CategoryAddRequest request, @PathVariable String primaryCategory) {
+        return "admin/category/secondary/add";
     }
 
     @PostMapping("/add")
-    public String createCategory(@Valid @ModelAttribute("category") CategoryAddRequest request, BindingResult bindingResult) {
+    public String postAddCategory(@Valid @ModelAttribute("category") CategoryAddRequest request,
+                                  BindingResult bindingResult,
+                                  @PathVariable String primaryCategory) {
         if (bindingResult.hasErrors()) {
-            return "admin/category/add";
+            return "admin/category/secondary/add";
         }
 
-        categoryService.addCategory(request.name());
+        secondaryCategoryService.addCategory(primaryCategory, request.name());
 
         return "redirect:/admin/category";
     }
 
     @GetMapping
-    public String findCategory(Model model, @RequestParam(defaultValue = "0", required = false) int page) {
-        Page<SecondaryCategory> categoryPage = categoryService.findAll(page);
-        List<CategoryFindResponse> categoryRespons = categoryPage.stream()
+    public String findCategory(@PathVariable String primaryCategory, //@RequestParam(defaultValue = "0", required = false) int page
+                               Model model) {
+
+        List<SecondaryCategory> byPrimaryCategory = secondaryCategoryService.findByPrimaryCategory(primaryCategory);
+        List<CategoryFindResponse> categoryRespons = byPrimaryCategory.stream()
                 .map(category -> CategoryFindResponse.builder().id(category.getId()).name(category.getCategoryName()).build())
                 .toList();
 
-        model.addAttribute("pages", categoryPage);
+        model.addAttribute("secondaryCategory", primaryCategory);
+//        model.addAttribute("pages", categoryPage);
         model.addAttribute("categorys", categoryRespons);
-        return "admin/category/find-all";
+        return "admin/category/secondary/find-all";
     }
 
     @GetMapping("/edit/{categoryId}")
     public String editCategory(@PathVariable("categoryId") Long categoryId, Model model) {
-        SecondaryCategory secondaryCategory = categoryService.findById(categoryId);
+        SecondaryCategory secondaryCategory = secondaryCategoryService.findById(categoryId);
 
         CategoryEditResponse request = CategoryEditResponse.builder().categoryId(secondaryCategory.getId()).oldClassname(secondaryCategory.getCategoryName()).build();
         model.addAttribute("category", request);
@@ -67,13 +71,13 @@ public class AdminSecondaryCategoryController {
         if (bindingResult.hasErrors()) {
             return "admin/category/edit";
         }
-        categoryService.findByIdAndName(request.categoryId(), request.oldClassname(), request.changeNameClassname());
+        secondaryCategoryService.findByIdAndName(request.categoryId(), request.oldClassname(), request.changeNameClassname());
         return "redirect:/admin/category";
     }
 
     @GetMapping("/delete")
     public String deleteCategory(Model model) {
-        List<SecondaryCategory> secondaryCategoryList = categoryService.findAll(1).toList();
+        List<SecondaryCategory> secondaryCategoryList = secondaryCategoryService.findAll(1).toList();
         List<CategoryFindResponse> categoryRespons = secondaryCategoryList.stream()
                 .map(category -> CategoryFindResponse.builder().id(category.getId()).name(category.getCategoryName()).build())
                 .toList();
@@ -84,7 +88,7 @@ public class AdminSecondaryCategoryController {
 
     @GetMapping("/delete/{categoryid}")
     public String deleteCategory(@PathVariable("categoryid") Long categoryId) {
-        categoryService.deleteById(categoryId);
+        secondaryCategoryService.deleteById(categoryId);
 
         return "redirect:/admin/category";
     }

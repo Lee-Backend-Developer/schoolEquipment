@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="~{fragments/main_fragment :: header(title='수업시간표')}"></head>
+<head th:replace="~{fragments/main_fragment :: header(title='기자재 카테고리')}"></head>
 <body>
 <!-- 왼쪽 사이드 바-->
 <div class="wrapper d-flex align-items-stretch">
     <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
 
-<div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::form}, '카테고리 추가')}">
+<div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::form}, '하위 카테고리 추가')}">
     <!--    컨텐츠-->
-    <form method="post" action="/admin/secondaryCategory/add" th:object="${secondaryCategory}">
+    <form method="post" action="/admin/secondaryCategory/add" th:object="${category}">
         <div class="form-group">
             <label for="categoryInput">카테고리 명</label>
             <input type="text" class="form-control" id="categoryInput" placeholder="카메라" th:field="*{name}">

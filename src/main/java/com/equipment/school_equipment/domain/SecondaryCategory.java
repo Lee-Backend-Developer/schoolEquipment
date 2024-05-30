@@ -28,10 +28,10 @@ public class SecondaryCategory {
     private PrimaryCategory primaryCategory;
 
     @Builder
-    public SecondaryCategory(String categoryName) {
+    public SecondaryCategory(String categoryName, PrimaryCategory primaryCategory) {
         this.categoryName = categoryName;
+        this.primaryCategory = primaryCategory;
     }
-
 
     // 비즈니스 로직
     public void updateName(String changeName) {
