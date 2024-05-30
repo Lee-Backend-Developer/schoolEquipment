@@ -53,7 +53,7 @@ public class AdminSecondaryCategoryController {
 
         model.addAttribute("secondaryCategory", primaryCategory);
 //        model.addAttribute("pages", categoryPage);
-        model.addAttribute("categorys", categoryRespons);
+        model.addAttribute("categories", categoryRespons);
         return "admin/category/secondary/find-all";
     }
 

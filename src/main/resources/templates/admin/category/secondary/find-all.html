@@ -17,12 +17,12 @@
                 <th scope="col">카테고리 명</th>
                 <th><a th:href="@{/admin/category/{primaryCategory}/add (primaryCategory = ${primaryCategory})}" type="button" class="btn btn-primary">추가</a></th>
             </tr>
-            <tbody th:each="secondaryCategory : ${categorys}">
+            <tbody th:each="category : ${categories}" th:object="${category}">
             <tr>
                 <td scope="row" th:text="${categoryStat.count}">1</td>
-                <td><a href="#" th:text="${primaryCategory.name()}"
-                       th:href="@{/admin/secondaryCategory/edit/{no} (no = ${primaryCategory.id()})}">카메라</a></td>
-                <td><a th:href="@{/admin/secondaryCategory/delete/{categoryid} (categoryid = ${primaryCategory.id()})}" type="button"
+                <td><a href="#" th:text="*{name()}"
+                       th:href="@{/admin/secondaryCategory/edit/{no} (no = *{id()})}">카메라</a></td>
+                <td><a th:href="@{/admin/secondaryCategory/delete/{categoryid} (categoryid = *{id()})}" type="button"
                        class="btn btn-danger">삭제</a></td>
             </tr>
             </tbody>
