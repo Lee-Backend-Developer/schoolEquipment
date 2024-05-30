@@ -39,20 +39,20 @@ public class AdminClassesController {
 
         model.addAttribute("converterList", converterResponseList);
 
-        return "admin/classes/find-all";
+        return "admin/classPeriod/find-all";
     }
 
     @GetMapping("/add")
     public String adminClassesAdd(Model model) {
         model.addAttribute("classmateRequest", ClassmateRequest.builder()
                         .build());
-        return "admin/classes/add";
+        return "admin/classPeriod/add";
     }
 
     @PostMapping("/add")
     public String adminClassesAdd(@Valid @ModelAttribute("classmateRequest") ClassmateRequest classmateRequest, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()){
-            return "admin/classes/add";
+            return "admin/classPeriod/add";
         }
         ClassTimeCreate classTimeCreate = ClassTimeCreate.builder()
                 .className(classmateRequest.getClassname())
@@ -95,14 +95,14 @@ public class AdminClassesController {
 
         model.addAttribute("classtime", classmateRequest);
 
-        return "admin/classes/edit";
+        return "admin/classPeriod/edit";
     }
 
     @PostMapping("/edit/{classnameId}")
     public String adminClassesAdd(@Valid @ModelAttribute(name = "classtime") ClassmateRequest classmateRequest, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()){
-            return "admin/classes/edit";
+            return "admin/classPeriod/edit";
         }
         ClassPeriod findByClassPeriod = classTimeService.findById(classmateRequest.getClassnameId());
 
@@ -130,7 +130,7 @@ public class AdminClassesController {
         List<ClassPeriod> classTimesList = classTimeService.findAll();
         List<ClasstimeResponse> responseList = classTimesList.stream().map(classtimes -> ClasstimeResponse.builder().id(classtimes.getId()).classname(classtimes.getClassName()).build()).toList();
         model.addAttribute("responses", responseList);
-        return "admin/classes/delete";
+        return "admin/classPeriod/delete";
     }
 
     @GetMapping("/delete/{classtimesId}")
