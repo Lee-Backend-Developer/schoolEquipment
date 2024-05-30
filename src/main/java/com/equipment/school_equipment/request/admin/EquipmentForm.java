@@ -1,5 +1,6 @@
 package com.equipment.school_equipment.request.admin;
 
+import com.equipment.school_equipment.domain.PrimaryCategory;
 import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.message.error.AdminErrorMessage;
 import jakarta.validation.constraints.Min;
@@ -28,7 +29,12 @@ public class EquipmentForm {
     @NotNull(message = AdminErrorMessage.EQUIPMENT_ADD_CATEGORY_ERROR)
     private SecondaryCategory secondaryCategory;
 
-    private List<SecondaryCategory> categories;
+    @NotNull(message = AdminErrorMessage.EQUIPMENT_ADD_CATEGORY_ERROR)
+    private PrimaryCategory primaryCategory;
+
+    private List<SecondaryCategory> secondaryCategoryList;
+    private List<PrimaryCategory> primaryCategories;
+
     private String categoryName;
 
     // 수정할 때 사용

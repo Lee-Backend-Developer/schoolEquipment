@@ -54,7 +54,7 @@
             <label for="secondaryCategory">장비 카테고리</label>
             <select class="form-control" name="secondaryCategory" id="secondaryCategory">
                 <option
-                        th:each="categoryObj : ${requestForm.getCategories()}"
+                        th:each="categoryObj : ${requestForm.getPrimaryCategories()}"
                         th:text="${categoryObj.categoryName}"
                         th:selected="${categoryObj.getId == requestForm.categoryId}"
                         th:value="${categoryObj.getId}">

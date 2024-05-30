@@ -5,6 +5,7 @@ import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import com.equipment.school_equipment.response.thymeleaf.EquipmentRequest;
+import com.equipment.school_equipment.service.PrimaryCategoryService;
 import com.equipment.school_equipment.service.SecondaryCategoryService;
 import com.equipment.school_equipment.service.EquipmentService;
 import com.equipment.school_equipment.service.RentalService;
@@ -37,6 +38,7 @@ public class AdminEquipmentController {
     private final EquipmentService equipmentService;
     private final RentalService rentalService;
     private final SecondaryCategoryService secondaryCategoryService;
+    private final PrimaryCategoryService primaryCategoryService;
 
     @GetMapping
     public String adminEquipments(Model model,
@@ -75,7 +77,7 @@ public class AdminEquipmentController {
                 .imageName(equipment.getMainImg())
                 .categoryName(equipment.getSecondaryCategory().getCategoryName())
                 .categoryId(equipment.getSecondaryCategory().getId())
-                .categories(secondaryCategoryService.findAll()).build();
+                .primaryCategories(primaryCategoryService.findAll()).build();
 
         model.addAttribute("requestForm", form);
 
@@ -85,7 +87,7 @@ public class AdminEquipmentController {
     @PostMapping("/edit/{equipmentId}")
     public String edit(@Valid @ModelAttribute("requestForm") EquipmentForm requestForm, BindingResult bindingResult, Model model) throws IOException {
         if(bindingResult.hasErrors()) {
-            requestForm.setCategories(secondaryCategoryService.findAll());
+            requestForm.setPrimaryCategories(primaryCategoryService.findAll());
             requestForm.setCategoryId(equipmentService.findById(requestForm.getEquipmentId())
                     .getSecondaryCategory()
                     .getId());
@@ -110,7 +112,7 @@ public class AdminEquipmentController {
     public String add(Model model) {
         EquipmentForm requestForm = EquipmentForm
                 .builder()
-                .categories(secondaryCategoryService.findAll())
+                .primaryCategories(primaryCategoryService.findAll())
                 .build();
 
         model.addAttribute("requestForm", requestForm);
@@ -120,7 +122,7 @@ public class AdminEquipmentController {
     @PostMapping("add")
     public String add(@Valid @ModelAttribute("requestForm") EquipmentForm requestForm, BindingResult bindingResult, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
-            requestForm.setCategories(secondaryCategoryService.findAll());
+            requestForm.setPrimaryCategories(primaryCategoryService.findAll());
             model.addAttribute("requestForm", requestForm);
 
             return "/admin/equipment/add";
