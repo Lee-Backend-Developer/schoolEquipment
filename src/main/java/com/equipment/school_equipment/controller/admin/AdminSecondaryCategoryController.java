@@ -57,21 +57,24 @@ public class AdminSecondaryCategoryController {
     }
 
     @GetMapping("/edit/{categoryId}")
-    public String editCategory(@PathVariable("categoryId") Long categoryId, Model model) {
+    public String getEditCategory(@PathVariable("categoryId") Long categoryId, Model model) {
         SecondaryCategory secondaryCategory = secondaryCategoryService.findById(categoryId);
 
-        CategoryEditResponse request = CategoryEditResponse.builder().categoryId(secondaryCategory.getId()).oldClassname(secondaryCategory.getCategoryName()).build();
-        model.addAttribute("category", request);
-        return "admin/category/edit";
+        CategoryEditResponse form = CategoryEditResponse
+                .builder().categoryId(secondaryCategory.getId())
+                .oldClassname(secondaryCategory.getCategoryName()).build();
+        model.addAttribute("categoryForm", form);
+        return "admin/category/secondary/edit";
     }
 
     @PostMapping("/edit/{categoryId}")
-    public String editCategory(@Valid @ModelAttribute("category") CategoryEditResponse request, BindingResult bindingResult) {
+    public String getEditCategory(@Valid @ModelAttribute("category") CategoryEditResponse request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "admin/category/edit";
+            return "admin/category/secondary/edit";
         }
         secondaryCategoryService.findByIdAndName(request.categoryId(), request.oldClassname(), request.changeNameClassname());
-        return "redirect:/admin/category";
+        return "redirect:/admin/category/{primaryCategory}";
+
     }
 
     @GetMapping("/delete/{categoryid}")
