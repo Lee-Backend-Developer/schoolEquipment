@@ -16,7 +16,7 @@
             <div class="form-group">
                 <label for="primaryCategory">상위 카테고리</label>
                 <select class="form-control" name="primaryCategory" id="primaryCategory" th:field="*{primaryCategory}">
-                    <option value="">카테고리 선택</option>
+                    <option value="" selected>카테고리 선택</option>
                     <option
                             th:each="category : *{getPrimaryCategories()}"
                             th:value="${category.getId()}"
@@ -34,7 +34,6 @@
                 <label for="secondaryCategory">하위 카테고리</label>
                 <select class="form-control" name="secondaryCategory" id="secondaryCategory"
                         th:field="*{secondaryCategory}">
-                    <option value="">카테고리 선택하세요.</option>
                 </select>
                 <div th:if="${#fields.hasErrors('secondaryCategory')}"
                      th:errors="*{secondaryCategory}"
@@ -77,5 +76,24 @@
         </form>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#primaryCategory').change(function (e) {
+            const selectedText = $(this).find('option:selected').text();
+            $.get("/admin/category/api/"+selectedText)
+                .done(function(response) {
+                    if(response.length == 0 ) {
+                        alert("하위 카테고리에 아무것도 없음");
+                        $("#primaryCategory option:eq(0)").attr("selected", "true")
+                    }
+                    response.forEach(category =>{
+                        /* 태그 생성 */
+                        let createOptionTag = $('<option></option>').text(category.categoryName).val(category.id);
+                        $("#secondaryCategory").append(createOptionTag);
+                        console.log(category)});
+            }).fail(() => alert("서버 연결안됨"));
+        })
+    });
+</script>
 </body>
 </html>
