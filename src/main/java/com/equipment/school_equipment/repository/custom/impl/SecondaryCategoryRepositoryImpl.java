@@ -1,6 +1,7 @@
 package com.equipment.school_equipment.repository.custom.impl;
 
 
+import com.equipment.school_equipment.domain.QPrimaryCategory;
 import com.equipment.school_equipment.domain.QSecondaryCategory;
 import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.repository.custom.SecondaryCategoryRepositoryCustom;

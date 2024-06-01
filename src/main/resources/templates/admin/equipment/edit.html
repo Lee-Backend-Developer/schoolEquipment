@@ -9,6 +9,39 @@
 <!-- Page Content  -->
 <div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::form}, '기자재 수정')}">
     <form th:object="${requestForm}" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="primaryCategory">상위 카테고리</label>
+            <select class="form-control" name="primaryCategory" id="primaryCategory">
+                <option
+                        th:each="categoryObj : ${requestForm.getPrimaryCategories()}"
+                        th:text="${categoryObj.categoryName}"
+                        th:selected="${categoryObj.getId == requestForm.categoryId}"
+                        th:value="${categoryObj.getId}">
+                </option>
+            </select>
+            <div th:if="${#fields.hasErrors('primaryCategory')}"
+                 th:errors="*{primaryCategory}"
+                 class="alert alert-danger mt-1"
+                 role="alert"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="secondaryCategory">하위 카테고리</label>
+            <select class="form-control" name="secondaryCategory" id="secondaryCategory">
+                <option
+                        th:each="categoryObj : ${requestForm.getSecondaryCategoryList()}"
+                        th:text="${categoryObj.categoryName}"
+                        th:selected="${categoryObj.getId == requestForm.categoryId}"
+                        th:value="${categoryObj.getId}">
+                </option>
+            </select>
+            <div th:if="${#fields.hasErrors('secondaryCategory')}"
+                 th:errors="*{secondaryCategory}"
+                 class="alert alert-danger mt-1"
+                 role="alert"></div>
+        </div>
+
         <div class="form-group">
             <label for="addEquipment">기자재명</label>
             <input type="text" class="form-control" id="addEquipment" placeholder="기자재 명" th:field="*{name}">
@@ -47,26 +80,32 @@
                  class="alert alert-danger mt-1"
                  role="alert"></div>
         </div>
-
-
-        <!-- 수정일 경우 카테고리 선택 아닐 경우 선택안함 -->
-        <div class="form-group">
-            <label for="secondaryCategory">장비 카테고리</label>
-            <select class="form-control" name="secondaryCategory" id="secondaryCategory">
-                <option
-                        th:each="categoryObj : ${requestForm.getPrimaryCategories()}"
-                        th:text="${categoryObj.categoryName}"
-                        th:selected="${categoryObj.getId == requestForm.categoryId}"
-                        th:value="${categoryObj.getId}">
-                </option>
-            </select>
-            <div th:if="${#fields.hasErrors('secondaryCategory')}"
-                 th:errors="*{secondaryCategory}"
-                 class="alert alert-danger mt-1"
-                 role="alert"></div>
-        </div>
         <button type="submit" class="btn btn-primary">수정</button>
     </form>
 </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#primaryCategory').change(function () {
+            const selectedText = $(this).find('option:selected').text();
+            $.get("/admin/category/api/" + selectedText)
+                .done(function (response) {
+                    $("#secondaryCategory").empty();
+
+                    if (response.length === 0) {
+                        alert("하위 카테고리에 아무것도 없음");
+                        $("#primaryCategory option:eq(0)").attr("selected", "true")
+                    }
+
+                    response.forEach(category => {
+                        /* 태그 생성 */
+                        let createOptionTag = $('<option></option>').text(category.categoryName).val(category.id);
+                        $("#secondaryCategory").append(createOptionTag);
+                    }) // foreach End
+                }).fail(e => alert("서버 연결안됨"))
+        }) // change End
+    }) // ready End
+
+</script>
 </body>
 </html>

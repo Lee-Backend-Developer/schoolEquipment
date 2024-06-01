@@ -1,6 +1,10 @@
 package com.equipment.school_equipment.controller.admin;
 
 import com.equipment.school_equipment.domain.Equipment;
+import com.equipment.school_equipment.domain.PrimaryCategory;
+import com.equipment.school_equipment.domain.SecondaryCategory;
+import com.equipment.school_equipment.repository.PrimaryCategoryRepository;
+import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
@@ -39,6 +43,8 @@ public class AdminEquipmentController {
     private final RentalService rentalService;
     private final SecondaryCategoryService secondaryCategoryService;
     private final PrimaryCategoryService primaryCategoryService;
+    private final PrimaryCategoryRepository primaryCategoryRepository;
+    private final SecondaryCategoryRepository secondaryCategoryRepository;
 
     @GetMapping
     public String adminEquipments(Model model,
@@ -69,6 +75,9 @@ public class AdminEquipmentController {
     @GetMapping("/edit/{equipmentId}")
     public String edit(@PathVariable("equipmentId") Long equipmentId, Model model) {
         Equipment equipment = equipmentService.findById(equipmentId);
+        String categoryName = equipment.getSecondaryCategory().getPrimaryCategory().getCategoryName();
+        List<SecondaryCategory> secondaryCategories = secondaryCategoryService.findByPrimaryCategory(categoryName);
+
         EquipmentForm form = EquipmentForm.builder()
                 .equipmentId(equipment.getId())
                 .name(equipment.getName())
@@ -77,7 +86,9 @@ public class AdminEquipmentController {
                 .imageName(equipment.getMainImg())
                 .categoryName(equipment.getSecondaryCategory().getCategoryName())
                 .categoryId(equipment.getSecondaryCategory().getId())
-                .primaryCategories(primaryCategoryService.findAll()).build();
+                .primaryCategories(primaryCategoryService.findAll())
+                .secondaryCategoryList(secondaryCategories).build();
+
 
         model.addAttribute("requestForm", form);
 
