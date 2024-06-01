@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+### QueryDsl QClass 제외 ###
+/src/main/generated/
