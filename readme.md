@@ -1,6 +1,6 @@
 <h3>개발 요구사항</h3>
 <ol>
-    <li>spring framework 3.2.4</li>
+    <li>spring boot 3.2.4</li>
     <li>JDK 17</li>
     <li>java 커맨드를 통해서 서버가 실행이 되어야함</li>
     <li>서비스로직 테스트코드 작성 필수</li>
@@ -115,7 +115,7 @@
     </ul>
     <ul>
         <li>
-            렌탈 삭제
+            <s>렌탈 삭제</s>
             <ul>
                 <li>
                     기능: 렌탈 삭제
