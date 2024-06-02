@@ -30,7 +30,7 @@ public class EquipmentRepositoryImpl implements EquipmentRepositoryCustom {
     public Page<Equipment> findByCategory(String category, Pageable pageable) {
         List<Equipment> fetch = queryFactory.selectFrom(equipment)
                 .join(equipment.secondaryCategory)
-                .where(equipment.secondaryCategory.categoryName.eq(category))
+                .where(equipment.secondaryCategory.primaryCategory.categoryName.eq(category))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
