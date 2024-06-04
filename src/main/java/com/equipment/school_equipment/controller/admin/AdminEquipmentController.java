@@ -68,6 +68,7 @@ public class AdminEquipmentController {
                 .toList();
 
         model.addAttribute("pages", equipmentPage);
+        model.addAttribute("primaryCategories", primaryCategoryRepository.findAll());
         model.addAttribute("equipments", equipmentRequestList);
         return "/admin/equipment/find-all";
     }

@@ -8,9 +8,40 @@
 <div class="wrapper d-flex align-items-stretch">
     <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
 
-    <!-- 위쪽 사이드 바-->
     <div class="container-fluid">
-        <div th:insert="~{fragments/main_fragment :: content(~{::#table}, '장비목록')}">
+        <div id="content" class="p-4 p-md-5">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fa fa-bars"></i>
+                        <span class="sr-only">Toggle Menu</span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#" th:href="@{/admin/equipment(page=0)}">전체</a>
+                            </li>
+                            <li class="nav-item" th:each="primaryCategory : ${primaryCategories}">
+                                <a href="#"
+                                   class="nav-link"
+                                   th:href="@{/admin/equipment(category=${primaryCategory.getCategoryName()})}"
+                                   th:text="${primaryCategory.getCategoryName()}"
+                                >카테고리 이름</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <h2>장비목록</h2>
+
+            <!--컨텐츠-->
             <!-- 콘텐츠 -->
             <table class="table table-hover" id="table">
                 <thead>
@@ -36,9 +67,15 @@
                 </tr>
                 </tbody>
             </table>
-        </div>
-        <nav th:replace="fragments/page :: page(pages=${pages}, url='admin/equipment')"></nav>
 
+        </div>
+    <nav th:replace="fragments/page :: page(pages=${pages}, url='admin/equipment')"></nav>
     </div>
+
+</div>
+<!--자바 스크립트-->
+<script src="/js/popper.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
 </body>
 </html>
