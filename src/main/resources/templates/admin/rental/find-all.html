@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head th:replace="~{/fragments/main_fragment :: header(title='대여')}">
+<head th:replace="~{fragments/main_fragment :: header(title='대여')}">
     <title>제목</title>
 </head>
 <body>
@@ -9,7 +9,7 @@
     <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
 
     <!-- Page Content  -->
-    <div class="container-fluid" th:insert="~{/fragments/main_fragment :: content(~{::table}, '대여')}">
+    <div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::table}, '대여')}">
         <!-- 위쪽 사이드 바-->
         <div class="container-fluid">
             <div th:insert="~{fragments/main_fragment :: content(~{::#table}, '오늘 대여 가능 기자재')}">

@@ -70,7 +70,7 @@ public class AdminEquipmentController {
         model.addAttribute("pages", equipmentPage);
         model.addAttribute("primaryCategories", primaryCategoryRepository.findAll());
         model.addAttribute("equipments", equipmentRequestList);
-        return "/admin/equipment/find-all";
+        return "admin/equipment/find-all";
     }
 
     @GetMapping("/edit/{equipmentId}")
@@ -93,7 +93,7 @@ public class AdminEquipmentController {
 
         model.addAttribute("requestForm", form);
 
-        return "/admin/equipment/edit";
+        return "admin/equipment/edit";
     }
 
     @PostMapping("/edit/{equipmentId}")
@@ -104,7 +104,7 @@ public class AdminEquipmentController {
                     .getSecondaryCategory()
                     .getId());
             model.addAttribute("requestForm", requestForm);
-            return "/admin/equipment/edit";
+            return "admin/equipment/edit";
         }
 
         EquipmentEditRequest request = EquipmentEditRequest.builder()
@@ -128,7 +128,7 @@ public class AdminEquipmentController {
                 .build();
 
         model.addAttribute("requestForm", requestForm);
-        return "/admin/equipment/add";
+        return "admin/equipment/add";
     }
 
     @PostMapping("add")
@@ -137,7 +137,7 @@ public class AdminEquipmentController {
             requestForm.setPrimaryCategories(primaryCategoryService.findAll());
             model.addAttribute("requestForm", requestForm);
 
-            return "/admin/equipment/add";
+            return "admin/equipment/add";
         }
         // 이미지 파일 추가
         String fileContentType = Objects.requireNonNull(requestForm.getImage().getOriginalFilename()).split("\\.")[0];
@@ -167,7 +167,7 @@ public class AdminEquipmentController {
                 .toList();
 
         model.addAttribute("equipments", equipmentRequestList);
-        return "/admin/equipment/delete";
+        return "admin/equipment/delete";
     }
 
     @GetMapping("/delete/{equipmentId}")
