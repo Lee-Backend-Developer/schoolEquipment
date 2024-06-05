@@ -39,3 +39,6 @@ out/
 
 ### QueryDsl QClass 제외 ###
 /src/main/generated/
+
+### 운영서버 DB 설정 제외 ###
+/src/main/resources/aws.properties

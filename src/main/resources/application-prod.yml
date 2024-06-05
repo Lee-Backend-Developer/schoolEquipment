@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: "school_equipment"
+
+  datasource: #mysql 설정
+    url: ${url}
+    username: ${username}
+    password: ${password}
+    driver-class-name: ${driverName}

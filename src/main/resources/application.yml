@@ -5,19 +5,16 @@ spring:
   jpa:
     generate-ddl: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
 
 
-  datasource: #mysql 설정
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dima?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: 1234
-#  mvc:
-#    static-path-pattern: /static/**
+  profiles:
+    active: prod
+
 server:
   error:
     whitelabel:
       enabled: false
+  port: 80
