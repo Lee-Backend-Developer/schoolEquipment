@@ -1,9 +1,11 @@
 package com.equipment.school_equipment.controller.admin;
 
+import com.equipment.school_equipment.repository.PrimaryCategoryRepository;
 import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.request.admin.RentalAddRequest;
 import com.equipment.school_equipment.response.thymeleaf.admin.RentalFindAllResponse;
+import com.equipment.school_equipment.service.PrimaryCategoryService;
 import com.equipment.school_equipment.service.RentalService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,8 @@ public class AdminRentalController {
     private final RentalService rentalService;
     private final SecondaryCategoryRepository secondaryCategoryRepository;
     private final EquipmentRepository equipmentRepository;
+    private final PrimaryCategoryService primaryCategoryService;
+    private final PrimaryCategoryRepository primaryCategoryRepository;
 
     @GetMapping
     public String find(Model model) {
@@ -46,11 +50,10 @@ public class AdminRentalController {
 
     @GetMapping("/add")
     public String add(Model model) {
-        RentalAddRequest request = RentalAddRequest.builder()
-                .categories(secondaryCategoryRepository.findAll())
-                .equipments(equipmentRepository.findAll())
+        RentalAddRequest form = RentalAddRequest.builder()
+                .primaryCategoryList(primaryCategoryService.findAll())
                 .build();
-        model.addAttribute("rental", request);
+        model.addAttribute("rental", form);
 
         return "admin/rental/add";
     }
@@ -58,7 +61,7 @@ public class AdminRentalController {
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute("rental") RentalAddRequest request, BindingResult bindingResult, Model model) throws IOException {
         if(bindingResult.hasErrors()){
-            request.setCategories(secondaryCategoryRepository.findAll());
+            request.setPrimaryCategoryList(primaryCategoryRepository.findAll());
             request.setEquipments(equipmentRepository.findAll());
             model.addAttribute("rental", request);
             return "admin/rental/add";
