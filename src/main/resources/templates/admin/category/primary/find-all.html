@@ -19,7 +19,7 @@
                 <th scope="col">카테고리 명</th>
                 <th><a th:href="@{/admin/category/add}" type="button" class="btn btn-primary">추가</a></th>
             </tr>
-            <tbody th:each="category : ${primaryCategoryList}">
+            <tbody th:each="category : ${primaryCategoryPage.getContent()}">
             <tr>
                 <td scope="row" th:text="${categoryStat.count}">1</td>
                 <td>
@@ -34,7 +34,8 @@
             </tbody>
         </table>
     </div>
-<!--        <nav th:replace="/fragments/page :: page(pages=${null}, url='admin/category')"></nav>-->
+        <nav th:replace="/fragments/page :: page(pages=${primaryCategoryPage}, url='admin/category')"></nav>
+</div>
 </div>
 </body>
 </html>

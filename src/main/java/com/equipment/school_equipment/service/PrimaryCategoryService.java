@@ -3,6 +3,8 @@ package com.equipment.school_equipment.service;
 import com.equipment.school_equipment.domain.PrimaryCategory;
 import com.equipment.school_equipment.repository.PrimaryCategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,11 @@ public class PrimaryCategoryService {
 
     public List<PrimaryCategory> findAll() {
         return primaryCategoryRepository.findAll();
+    }
+
+    public Page<PrimaryCategory> findAllPage(int page){
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        return primaryCategoryRepository.findAll(pageRequest);
     }
 
     @Transactional

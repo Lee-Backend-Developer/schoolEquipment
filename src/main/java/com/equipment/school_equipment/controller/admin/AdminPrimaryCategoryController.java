@@ -6,6 +6,7 @@ import com.equipment.school_equipment.request.admin.CategoryEditResponse;
 import com.equipment.school_equipment.service.PrimaryCategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,9 +22,10 @@ public class AdminPrimaryCategoryController {
     private final PrimaryCategoryService primaryCategoryService;
 
     @GetMapping
-    private String findAllPaging(Model model) {
-        List<PrimaryCategory> primaryCategoryList = primaryCategoryService.findAll();
-        model.addAttribute("primaryCategoryList", primaryCategoryList);
+    private String findAllPaging(Model model,
+                                 @RequestParam(defaultValue = "0", required = false) int page) {
+        Page<PrimaryCategory> primaryCategoryPage = primaryCategoryService.findAllPage(page);
+        model.addAttribute("primaryCategoryPage", primaryCategoryPage);
         return "admin/category/primary/find-all";
     }
 
@@ -36,7 +38,7 @@ public class AdminPrimaryCategoryController {
     private String postAddPrimaryCategory(@ModelAttribute("form") CategoryAddRequest formRequest) {
         PrimaryCategory primaryCategoryBuild = PrimaryCategory.builder().categoryName(formRequest.name()).build();
         primaryCategoryService.add(primaryCategoryBuild);
-        return "redirect:/admin/category/";
+        return "redirect:/admin/category";
     }
 
     @GetMapping("/edit/{primary_category_id}")
