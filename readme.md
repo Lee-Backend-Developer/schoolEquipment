@@ -23,14 +23,19 @@ GIF Images
 
 ### 백엔드
 
-| Spring-Boot  |  Spring-Data   |  Querydsl   |
-|:------------:|:--------------:|:-----------:|
-| ![spring-boot] | ![spring-data] | ![querydsl] |
+| Spring-Boot  |  Spring-Data   |  Querydsl   | mysql    |
+|:------------:|:--------------:|:-----------:|----------|
+| ![spring-boot] | ![spring-data] | ![querydsl] | ![mysql] |
 
 ### 프론트엔드
 | Html    | JavaScript |  jQuery   |
 |---------| :--------: |:---------:|
 | ![html] |   ![js]    | ![jquery] |
+
+### 배포
+| docker    | amazon-ec2    | amazon-rds    |
+|-----------|---------------|---------------|
+| ![docker] | ![amazon-ec2] | ![amazon-rds] |
 
 
 <br>
@@ -86,3 +91,8 @@ MIT &copy; [NoHack](mailto:lbjp114@gmail.com)
 [spring-boot]: /images/stack/backend/spring-boot.svg
 [spring-data]: /images/stack/backend/spring-data.svg
 [querydsl]: /images/stack/backend/querydsl.png
+[mysql]: /images/stack/backend/mysql.png
+
+[docker]: /images/stack/docker.png
+[amazon-ec2]: /images/stack/amazon-ec2.png
+[amazon-rds]: /images/stack/amazon-rds.png
