@@ -116,6 +116,24 @@
                         console.log(category)});
                 }).fail(() => alert("서버 연결안됨"));
         })// change End
+        $('#secondaryCategory').click(function (e) {
+            const primaryCategoryId=$("#primaryCategory option:selected").val();
+            const secondaryCategoryId=$("#secondaryCategory option:selected").val();
+            $.get("/admin/equipment/api?primaryCategoryId="+primaryCategoryId+"&secondaryCategoryId="+secondaryCategoryId)
+                .done(function(response) {
+                    $("#equipment").empty();
+
+                    if(response.length === 0 ) {
+                        alert("하위 카테고리에 아무것도 없음");
+                        $("#primaryCategory option:eq(0)").attr("selected", "true")
+                    }
+                    response.forEach(category =>{
+                        /* 태그 생성 */
+                        let createOptionTag = $('<option></option>').text(category.name).val(category.id);
+                        $("#equipment").append(createOptionTag);
+                        console.log(category)});
+                }).fail(() => alert("서버 연결안됨"));
+        })// change End
         document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
             checkbox.addEventListener('change', function (e) {
                 if (e.target.checked) {
