@@ -2,11 +2,9 @@
 
 <p align="center">
   <br>
-  <img src="./images/common/logo-sample.jpeg">
+  <img src="./images/common/main-page-info.gif">
   <br>
 </p>
-
-목차
 
 ## 프로젝트 소개
 
