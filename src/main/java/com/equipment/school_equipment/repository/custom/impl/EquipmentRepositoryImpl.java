@@ -1,6 +1,7 @@
 package com.equipment.school_equipment.repository.custom.impl;
 
 import com.equipment.school_equipment.domain.Equipment;
+import com.equipment.school_equipment.domain.QPrimaryCategory;
 import com.equipment.school_equipment.repository.custom.EquipmentRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.equipment.school_equipment.domain.QEquipment.equipment;
+import static com.equipment.school_equipment.domain.QPrimaryCategory.*;
 import static com.equipment.school_equipment.domain.QSecondaryCategory.secondaryCategory;
 
 @RequiredArgsConstructor
@@ -43,6 +45,16 @@ public class EquipmentRepositoryImpl implements EquipmentRepositoryCustom {
         if(Objects.isNull(total)) total = 0L;
 
         return new PageImpl<>(fetch, pageable, total);
+    }
 
+    @Override
+    public List<Equipment> findByEquipmentAndPrimaryCategoryAndSecondaryCategory(Long primaryCategoryId, Long secondaryCategoryId) {
+        return queryFactory.selectFrom(equipment)
+                .join(equipment.secondaryCategory, secondaryCategory)
+                .fetchJoin()
+                .join(secondaryCategory.primaryCategory, primaryCategory)
+                .fetchJoin()
+                .where(primaryCategory.id.eq(primaryCategoryId).and(secondaryCategory.id.eq(secondaryCategoryId)))
+                .fetch();
     }
 }

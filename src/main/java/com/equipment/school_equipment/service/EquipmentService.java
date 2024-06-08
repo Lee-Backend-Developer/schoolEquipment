@@ -14,6 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -82,5 +85,13 @@ public class EquipmentService {
                 .equipmentAndCategory(request.id());
 
         equipment.editEquipment(request, secondaryCategory);
+    }
+
+    public List<Equipment> findByEquipmentAndPrimaryCategoryAndSecondaryCategory(Long primaryCategoryId, Long secondaryCategoryId) {
+        Objects.requireNonNull(primaryCategoryId);
+        Objects.requireNonNull(secondaryCategoryId);
+        List<Equipment> equipmentList = equipmentRepository.findByEquipmentAndPrimaryCategoryAndSecondaryCategory(primaryCategoryId, secondaryCategoryId);
+        if(equipmentList.isEmpty()) throw new NullPointerException("없습니다");
+        return equipmentList;
     }
 }
