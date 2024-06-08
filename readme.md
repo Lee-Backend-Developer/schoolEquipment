@@ -21,9 +21,17 @@ GIF Images
 
 ## 기술 스택
 
-| JavaScript | TypeScript |  React   |  Node   |
-| :--------: | :--------: | :------: | :-----: |
-|   ![js]    |   ![ts]    | ![react] | ![node] |
+### 백엔드
+
+| Spring-Boot  |  Spring-Data   |  Querydsl   |
+|:------------:|:--------------:|:-----------:|
+| ![spring-boot] | ![spring-data] | ![querydsl] |
+
+### 프론트엔드
+| Html    | JavaScript |  jQuery   |
+|---------| :--------: |:---------:|
+| ![html] |   ![js]    | ![jquery] |
+
 
 <br>
 
@@ -71,7 +79,10 @@ MIT &copy; [NoHack](mailto:lbjp114@gmail.com)
 
 <!-- Stack Icon Refernces -->
 
-[js]: /images/stack/javascript.svg
-[ts]: /images/stack/typescript.svg
-[react]: /images/stack/react.svg
-[node]: /images/stack/node.svg
+[html]: /images/stack/frontend/html.svg
+[js]: /images/stack/frontend/javascript.svg
+[jquery]: /images/stack/frontend/jquery.svg
+
+[spring-boot]: /images/stack/backend/spring-boot.svg
+[spring-data]: /images/stack/backend/spring-data.svg
+[querydsl]: /images/stack/backend/querydsl.png
