@@ -1,14 +1,13 @@
 package com.equipment.school_equipment.controller.admin;
 
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.domain.PrimaryCategory;
 import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.repository.PrimaryCategoryRepository;
 import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
-import com.equipment.school_equipment.response.thymeleaf.EquipmentRequest;
+import com.equipment.school_equipment.response.thymeleaf.EquipmentResponse;
 import com.equipment.school_equipment.service.PrimaryCategoryService;
 import com.equipment.school_equipment.service.SecondaryCategoryService;
 import com.equipment.school_equipment.service.EquipmentService;
@@ -58,7 +57,7 @@ public class AdminEquipmentController {
             equipmentPage = equipmentService.findByCategoryId(category, page);
         }
 
-        List<EquipmentRequest> equipmentRequestList = equipmentPage.stream().map(equipment -> EquipmentRequest
+        List<EquipmentResponse> equipmentResponseList = equipmentPage.stream().map(equipment -> EquipmentResponse
                         .builder()
                         .id(equipment.getId())
                         .equipmentName(equipment.getName())
@@ -69,7 +68,7 @@ public class AdminEquipmentController {
 
         model.addAttribute("pages", equipmentPage);
         model.addAttribute("primaryCategories", primaryCategoryRepository.findAll());
-        model.addAttribute("equipments", equipmentRequestList);
+        model.addAttribute("equipments", equipmentResponseList);
         return "admin/equipment/find-all";
     }
 
@@ -157,7 +156,7 @@ public class AdminEquipmentController {
     @GetMapping("/delete")
     public String delete(Model model) {
         List<Equipment> equipments = equipmentService.findAll(1, 10).toList();
-        List<EquipmentRequest> equipmentRequestList = equipments.stream().map(equipment -> EquipmentRequest
+        List<EquipmentResponse> equipmentResponseList = equipments.stream().map(equipment -> EquipmentResponse
                         .builder()
                         .id(equipment.getId())
                         .equipmentName(equipment.getName())
@@ -166,7 +165,7 @@ public class AdminEquipmentController {
                         .build())
                 .toList();
 
-        model.addAttribute("equipments", equipmentRequestList);
+        model.addAttribute("equipments", equipmentResponseList);
         return "admin/equipment/delete";
     }
 

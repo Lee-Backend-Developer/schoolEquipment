@@ -1,7 +1,7 @@
 package com.equipment.school_equipment.controller;
 
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.response.thymeleaf.EquipmentRequest;
+import com.equipment.school_equipment.response.thymeleaf.EquipmentResponse;
 import com.equipment.school_equipment.service.EquipmentService;
 import com.equipment.school_equipment.service.RentalService;
 import lombok.RequiredArgsConstructor;
@@ -30,20 +30,19 @@ public class EquipmentController {
     // 대여후 수량(가지고 있던 수량 - 렌탈마다 장비 수)
     // 응답: 장비이름, 대여 후 수량, 가지고 있던 주량
     @GetMapping
-    public String equipment(Model model, @RequestParam(defaultValue = "0", required = false) int page) {
-        List<EquipmentRequest> responses = new ArrayList<>();
+    public String equipment(Model model,
+                            @RequestParam(defaultValue = "0", required = false) int page) {
         Page<Equipment> equipmentPage = equipmentService.findAll(page, 15);
-        for (Equipment equipment : equipmentPage.toList()) {
-            String equipmentName = equipment.getName();
-            EquipmentRequest response = EquipmentRequest.builder()
-                    .equipmentName(equipmentName)
-                    .content(equipment.getContent())
-                    .img(PATH + equipment.getMainImg())
-                    .retCnt(rentalService.findByEquipmentCnt(equipmentName))
-                    .leftCnt(equipment.getCount())
-                    .build();
-            responses.add(response);
-        }
+
+        List<EquipmentResponse> responses = equipmentPage.getContent()
+                .stream().map(equipment -> EquipmentResponse.builder()
+                        .equipmentName(equipment.getName())
+                        .content(equipment.getContent())
+                        .img(PATH + equipment.getMainImg())
+                        .retCnt(rentalService.findByEquipmentCnt(equipment.getName()))
+                        .leftCnt(equipment.getCount())
+                        .build())
+                .toList();
 
         model.addAttribute("pages", equipmentPage);
         model.addAttribute("equipmentList", responses);
