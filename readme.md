@@ -80,7 +80,9 @@ GIF Images
 
 ## 라이센스
 
-MIT &copy; [NoHack](mailto:lbjp114@gmail.com)
+readme MIT &copy; 작성자 [NoHack](mailto:lbjp114@gmail.com)
+
+readme template: <a href="https://github.com/n0hack/readme-template.git">바로가기</a>
 
 <!-- Stack Icon Refernces -->
 
