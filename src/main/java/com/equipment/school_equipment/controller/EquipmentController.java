@@ -3,6 +3,7 @@ package com.equipment.school_equipment.controller;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.response.thymeleaf.EquipmentResponse;
 import com.equipment.school_equipment.service.EquipmentService;
+import com.equipment.school_equipment.service.PrimaryCategoryService;
 import com.equipment.school_equipment.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,24 +16,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static java.util.Objects.*;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("equipment")
 public class EquipmentController {
-    private final EquipmentService equipmentService;
-    private final RentalService rentalService;
-    final String PATH = "/equipment/";
+    private final String PATH = "/equipment/";
 
+    private final EquipmentService equipmentService;
+    private final PrimaryCategoryService primaryCategoryService;
+    private final RentalService rentalService;
 
 
     // 대여후 수량(가지고 있던 수량 - 렌탈마다 장비 수)
     // 응답: 장비이름, 대여 후 수량, 가지고 있던 주량
     @GetMapping
     public String equipment(Model model,
-                            @RequestParam(defaultValue = "0", required = false) int page) {
-        Page<Equipment> equipmentPage = equipmentService.findAll(page, 15);
+                            @RequestParam(defaultValue = "0", required = false) int page,
+                            @RequestParam(required = false) String category) {
+
+        Page<Equipment> equipmentPage = (isNull(category)) ?
+                equipmentService.findAll(page, 15) :
+                equipmentService.findByCategoryId(category, page);
+
 
         List<EquipmentResponse> responses = equipmentPage.getContent()
                 .stream().map(equipment -> EquipmentResponse.builder()
@@ -46,7 +56,8 @@ public class EquipmentController {
 
         model.addAttribute("pages", equipmentPage);
         model.addAttribute("equipmentList", responses);
-        return "fragments/equipment";
+        model.addAttribute("primaryCategories", primaryCategoryService.findAll());
+        return "equipment";
     }
 
 }
