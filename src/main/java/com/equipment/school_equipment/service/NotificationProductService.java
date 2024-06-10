@@ -28,4 +28,10 @@ public class NotificationProductService {
         NotificationProduct notificationProduct = notificationProductRepository.findById(editRequest.id()).orElseThrow(NullPointerException::new);
         notificationProduct.edit(editRequest.subject(), editRequest.content(), editRequest.img());
     }
+
+    @Transactional
+    public void delete(Long id) {
+        NotificationProduct notificationProduct = notificationProductRepository.findById(id).orElseThrow(NullPointerException::new);
+        notificationProductRepository.delete(notificationProduct);
+    }
 }

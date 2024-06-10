@@ -3,14 +3,13 @@ package com.equipment.school_equipment.service;
 import com.equipment.school_equipment.domain.NotificationProduct;
 import com.equipment.school_equipment.repository.NotificationProductRepository;
 import com.equipment.school_equipment.request.notificationProduct.NotificationRequest;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
@@ -52,8 +51,26 @@ class NotificationProductServiceTest {
         notificationProductService.edit(editRequest);
 
         //then 검증
-        Assertions.assertThat(notificationProductRepository.findAll().get(0).getSubject())
+        assertThat(notificationProductRepository.findAll().get(0).getSubject())
                 .isEqualTo("수정");
+    }
+
+    @DisplayName("공지가 삭제 되어야한다.")
+    @Test
+    void delete_O() throws Exception {
+        //given 준비 과정
+        NotificationProduct requestForm = NotificationProduct.builder()
+                .subject("제목").content("내용").img("이미지경로")
+                .build();
+        NotificationProduct saveNotificationProduct = notificationProductRepository.save(requestForm);
+
+        //when 실행
+        notificationProductService.delete(saveNotificationProduct.getId());
+
+        //then 검증
+        assertThat(notificationProductRepository.findAll().size()).isEqualTo(0);
+
+
     }
 
 }
