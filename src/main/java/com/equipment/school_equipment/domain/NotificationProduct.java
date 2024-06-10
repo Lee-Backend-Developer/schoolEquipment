@@ -27,4 +27,12 @@ public class NotificationProduct {
         this.content = content;
         this.img = img;
     }
+
+    // 비즈니스 로직
+
+    public void edit(String subject, String content, String img) {
+        this.subject = subject;
+        this.content = content;
+        this.img = img;
+    }
 }
