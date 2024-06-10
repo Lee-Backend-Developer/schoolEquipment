@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +21,10 @@ public class NotificationProduct {
     private String content;
     private String img;
 
+    @Builder
+    public NotificationProduct(String subject, String content, String img) {
+        this.subject = subject;
+        this.content = content;
+        this.img = img;
+    }
 }
