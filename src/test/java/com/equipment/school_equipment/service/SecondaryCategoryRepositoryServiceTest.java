@@ -1,10 +1,13 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.repository.CategoryRepository;
+import com.equipment.school_equipment.domain.PrimaryCategory;
+import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.repository.EquipmentRepository;
+import com.equipment.school_equipment.repository.PrimaryCategoryRepository;
+import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +16,34 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatRuntimeException;
 
 @SpringBootTest
 @Transactional
 class SecondaryCategoryRepositoryServiceTest {
     @Autowired
-    private CategoryRepository categoryRepository;
+    private SecondaryCategoryRepository secondaryCategoryRepository;
     @Autowired
     private EquipmentRepository equipmentRepository;
     @Autowired
-    private CategoryService categoryService;
+    private SecondaryCategoryService secondaryCategoryService;
+    @Autowired
+    private PrimaryCategoryRepository primaryCategoryRepository;
+
+    private final String PRIMARY_CATEGORY_NAME = "주 카테고리";
+
+    @BeforeEach
+    void setUp() {
+        PrimaryCategory primaryCategory = PrimaryCategory.builder()
+                .categoryName(PRIMARY_CATEGORY_NAME).build();
+        primaryCategoryRepository.save(primaryCategory);
+    }
 
     @AfterEach
     void end() {
         equipmentRepository.deleteAll();
-        categoryRepository.deleteAll();
+        secondaryCategoryRepository.deleteAll();
     }
 
     @DisplayName("카메라 라는 카테고리가 만들어져야한다")
@@ -38,10 +53,10 @@ class SecondaryCategoryRepositoryServiceTest {
         String name = "카메라";
 
         //when
-        categoryService.addCategory(name);
+        secondaryCategoryService.addCategory(PRIMARY_CATEGORY_NAME, name);
 
         //then
-        SecondaryCategory secondaryCategory = categoryRepository.findByCategoryName(name).get();
+        SecondaryCategory secondaryCategory = secondaryCategoryRepository.findByCategoryName(name).get();
         assertThat(secondaryCategory.getCategoryName()).isEqualTo(name);
 
     }
@@ -51,12 +66,12 @@ class SecondaryCategoryRepositoryServiceTest {
     void findById_O() {
         //given
         SecondaryCategory camara = SecondaryCategory.builder().categoryName("카메라").build();
-        categoryRepository.save(camara);
+        secondaryCategoryRepository.save(camara);
 
         Long id = camara.getId();
 
         //when
-        SecondaryCategory secondaryCategory = categoryService.findById(id);
+        SecondaryCategory secondaryCategory = secondaryCategoryService.findById(id);
 
         //then
         assertThat(secondaryCategory.getId()).isEqualTo(id);
@@ -67,10 +82,10 @@ class SecondaryCategoryRepositoryServiceTest {
     @Test
     void findByIdAndName_O() throws Exception {
         //given 준비 과정
-        SecondaryCategory secondaryCategory = categoryRepository.save(SecondaryCategory.builder().categoryName("카메라").build());
+        SecondaryCategory secondaryCategory = secondaryCategoryRepository.save(SecondaryCategory.builder().categoryName("카메라").build());
 
         //when 실행
-        SecondaryCategory findSecondaryCategory = categoryService.findByIdAndName(secondaryCategory.getId(), secondaryCategory.getCategoryName(), "마이크");
+        SecondaryCategory findSecondaryCategory = secondaryCategoryService.findByIdAndName(secondaryCategory.getId(), secondaryCategory.getCategoryName(), "마이크");
 
         //then or expect 검증
         assertThat(findSecondaryCategory.getId()).isEqualTo(secondaryCategory.getId());
@@ -83,12 +98,12 @@ class SecondaryCategoryRepositoryServiceTest {
         //given
         SecondaryCategory camara = SecondaryCategory.builder().categoryName("카메라").build();
         SecondaryCategory mic = SecondaryCategory.builder().categoryName("마이크").build();
-        categoryRepository.save(camara);
-        categoryRepository.save(mic);
+        secondaryCategoryRepository.save(camara);
+        secondaryCategoryRepository.save(mic);
 
         //when
 
-        List<SecondaryCategory> secondaryCategoryList = categoryService.findAll();
+        List<SecondaryCategory> secondaryCategoryList = secondaryCategoryService.findAll();
         //then
         assertThat(secondaryCategoryList).hasSize(2);
         assertThat(secondaryCategoryList).contains(camara, mic);
@@ -100,7 +115,7 @@ class SecondaryCategoryRepositoryServiceTest {
     void catetory_delete_X() throws Exception {
         //given 준비 과정
         SecondaryCategory camara = SecondaryCategory.builder().categoryName("카메라").build();
-        categoryRepository.save(camara);
+        secondaryCategoryRepository.save(camara);
 
         Equipment saveEquipment = Equipment.builder().name("캐논").count(10)
                 .build();
@@ -108,7 +123,7 @@ class SecondaryCategoryRepositoryServiceTest {
         saveEquipment.addCategory(camara);
 
         //then 검증 <- 삭제 못하게 예외처리
-        assertThatRuntimeException().isThrownBy(() -> categoryService.deleteById(camara.getId()));
+        assertThatRuntimeException().isThrownBy(() -> secondaryCategoryService.deleteById(camara.getId()));
 
     }
 
@@ -117,7 +132,7 @@ class SecondaryCategoryRepositoryServiceTest {
     void category_delete_error_O() throws Exception {
 
         //then 검증
-        assertThatRuntimeException().isThrownBy(() -> categoryService.deleteById(1L));
+        assertThatRuntimeException().isThrownBy(() -> secondaryCategoryService.deleteById(1L));
 
 
     }
@@ -127,13 +142,13 @@ class SecondaryCategoryRepositoryServiceTest {
     void catetory_delete_O() throws Exception {
         //given 준비 과정
         SecondaryCategory camara = SecondaryCategory.builder().categoryName("카메라").build();
-        categoryRepository.save(camara);
+        secondaryCategoryRepository.save(camara);
 
         //then
-        categoryService.deleteById(camara.getId());
+        secondaryCategoryService.deleteById(camara.getId());
 
         //then 검증 <- 삭제 못하게 예외처리
-        assertThat(categoryRepository.findAll().size()).isEqualTo(0);
+        assertThat(secondaryCategoryRepository.findAll().size()).isEqualTo(0);
 
     }
 

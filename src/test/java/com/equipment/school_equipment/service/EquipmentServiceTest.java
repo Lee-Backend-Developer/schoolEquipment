@@ -1,12 +1,12 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.repository.CategoryRepository;
+import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.repository.EquipmentRepository;
+import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
-import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import com.equipment.school_equipment.request.equipment.EquipmentCount;
+import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
 class EquipmentServiceTest {
     @Autowired
-    private CategoryRepository categoryRepository;
+    private SecondaryCategoryRepository secondaryCategoryRepository;
     @Autowired
     private EquipmentRepository equipmentRepository;
     @Autowired
@@ -32,8 +32,8 @@ class EquipmentServiceTest {
 
     @BeforeEach
     void setUp() {
-        Category category = new Category("카메라");
-        categoryRepository.save(category);
+        SecondaryCategory category = SecondaryCategory.builder().categoryName("카메라").build();
+        secondaryCategoryRepository.save(category);
 
         Equipment equipment = Equipment.builder().name("pmw-200").count(10).build();
         equipmentRepository.save(equipment);
@@ -43,15 +43,15 @@ class EquipmentServiceTest {
     @AfterEach
     void end() {
         equipmentRepository.deleteAll();
-        categoryRepository.deleteAll();
+        secondaryCategoryRepository.deleteAll();
     }
 
     @DisplayName("장비 아이디로 장비가 조회가 되어야한다.")
     @Test
     void findById() throws Exception {
         //given 준비 과정
-        Category category = Category.builder().categoryName("테스트").build();
-        categoryRepository.save(category);
+        SecondaryCategory category = SecondaryCategory.builder().categoryName("테스트").build();
+        secondaryCategoryRepository.save(category);
 
         Equipment saveEquipment = Equipment.builder().name("장비").build();
         saveEquipment.addCategory(category);
@@ -69,10 +69,10 @@ class EquipmentServiceTest {
     @Test
     void save_O() {
         equipmentRepository.deleteAll();
-        categoryRepository.deleteAll();
+        secondaryCategoryRepository.deleteAll();
         //given
-        Category category = new Category("카메라");
-        categoryRepository.save(category);
+        SecondaryCategory category = SecondaryCategory.builder().categoryName("카메라").build();
+        secondaryCategoryRepository.save(category);
 
         EquipmentCreate request = EquipmentCreate.builder()
                 .name("pmw-200")
@@ -93,8 +93,8 @@ class EquipmentServiceTest {
     @Test
     void findAll() {
         //given
-        Category category = new Category("카메라");
-        categoryRepository.save(category);
+        SecondaryCategory category = SecondaryCategory.builder().categoryName("카메라").build();
+        secondaryCategoryRepository.save(category);
 
         Equipment saveEquipment1 = equipmentRepository.save(Equipment.builder().name("pmw-200").count(10).build());
         Equipment saveEquipment2 = equipmentRepository.save(Equipment.builder().name("pmw-300").count(10).build());
@@ -102,7 +102,7 @@ class EquipmentServiceTest {
         saveEquipment1.addCategory(category);
         saveEquipment2.addCategory(category);
         //when
-        List<Equipment> equipments = equipmentService.findAll();
+        List<Equipment> equipments = equipmentService.findAll(0, 10).toList();
 
         //then
         assertThat(equipments.size()).isEqualTo(3);
@@ -155,8 +155,8 @@ class EquipmentServiceTest {
         //given 준비 과정
         String oldName = "pmw-500";
         String changeName = "pmw-10000";
-        Category category = new Category("테스트");
-        categoryRepository.save(category);
+        SecondaryCategory category = SecondaryCategory.builder().categoryName("카메라").build();
+        secondaryCategoryRepository.save(category);
 
         Equipment equipment = Equipment.builder().name(oldName).count(10).build();
         equipment.addCategory(category);

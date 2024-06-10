@@ -1,14 +1,11 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.Category;
 import com.equipment.school_equipment.domain.ClassPeriod;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
+import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
-import com.equipment.school_equipment.repository.ClassTimeRepository;
-import com.equipment.school_equipment.repository.CategoryRepository;
-import com.equipment.school_equipment.repository.EquipmentRepository;
-import com.equipment.school_equipment.repository.RentalRepository;
+import com.equipment.school_equipment.repository.*;
 import com.equipment.school_equipment.request.rental.RentalCreate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -34,12 +31,14 @@ public class RentalServiceTest {
     @Autowired
     private RentalService rentalService;
     @Autowired
-    private CategoryRepository categoryRepository;
+    private PrimaryCategoryRepository primaryCategoryRepository;
+    @Autowired
+    private SecondaryCategoryRepository secondaryCategoryRepository;
 
     @BeforeEach
     void setUp() {
-        Category category = Category.builder().categoryName("카메라").build();
-        categoryRepository.save(category);
+        SecondaryCategory category = SecondaryCategory.builder().categoryName("카메라").build();
+        secondaryCategoryRepository.save(category);
 
         Equipment equipment = Equipment.builder().name("pmw").count(10).build();
         equipmentRepository.save(equipment);
@@ -53,7 +52,7 @@ public class RentalServiceTest {
     @AfterEach
     void end() {
         equipmentRepository.deleteAll();
-        categoryRepository.deleteAll();
+        primaryCategoryRepository.deleteAll();
         classTimeRepository.deleteAll();
         rentalRepository.deleteAll();
     }
@@ -83,14 +82,14 @@ public class RentalServiceTest {
     @Test
     void equipmentLeft(){
         //given
-        Rental rental = Rental.builder().classtimesId(getClassTimeList())
-                .equipmentId(getEquipment())
+        Rental rental = Rental.builder().classPeriod(getClassTimeList())
+                .equipment(getEquipment())
                 .rentalCnt(2)
                 .rentalChk(true)// 10 - 2
                 .build();
 
-        Rental rental2 = Rental.builder().classtimesId(getClassTimeList())
-                .equipmentId(getEquipment())
+        Rental rental2 = Rental.builder().classPeriod(getClassTimeList())
+                .equipment(getEquipment())
                 .rentalCnt(2) // 10 - 2
                 .rentalChk(true)
                 .build();
@@ -111,8 +110,8 @@ public class RentalServiceTest {
     @Test
     void classTimeRental() {
         //given
-        Category category = new Category("카메라");
-        categoryRepository.save(category);
+        SecondaryCategory category = SecondaryCategory.builder().categoryName("카메라").build();
+        secondaryCategoryRepository.save(category);
 
         String classname = "배우연기연출";
         String monday = DayOfWeekEnum.monday.name();
@@ -131,8 +130,8 @@ public class RentalServiceTest {
 
         //when
         Rental saveRental = Rental.builder()
-                .classtimesId(saveClasstime)
-                .equipmentId(saveEquipment)
+                .classPeriod(saveClasstime)
+                .equipment(saveEquipment)
                 .rentalCnt(inputCount)
                 .build();
         rentalRepository.save(saveRental);
@@ -153,7 +152,7 @@ public class RentalServiceTest {
         //given
         String dayOfWeek = DayOfWeekEnum.monday.name();
         String classNameId = Long.toString(getClassTimeList().getId());
-        Rental rental = Rental.builder().equipmentId(getEquipment()).classtimesId(getClassTimeList()).rentalCnt(3).build();
+        Rental rental = Rental.builder().equipment(getEquipment()).classPeriod(getClassTimeList()).rentalCnt(3).build();
         rentalRepository.save(rental);
 
 
