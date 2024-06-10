@@ -73,3 +73,14 @@ create table today_rental
     foreign key (rental_id) references rental (id),
     primary key (id)
 ) COMMENT '오늘 대여 가능한 물품';
+
+create table notification_product
+(
+    id      bigint auto_increment comment '공지 개인키 ID',
+    img     varchar(40)  not null comment '이미지 경로',
+    subject varchar(100) not null comment '제목',
+    content varchar(100) comment '내용',
+
+    primary key (id)
+) comment '신상품_공지사항';
+
