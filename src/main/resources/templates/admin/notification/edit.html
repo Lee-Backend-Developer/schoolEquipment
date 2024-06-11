@@ -35,33 +35,33 @@
             <h2>공지사항</h2>
 
             <!--컨텐츠-->
-            <form method="post" enctype="multipart/form-data" id="mainImgForm" class="d-none">
+            <form enctype="multipart/form-data" id="mainImgForm" class="d-none" th:method="put">
                 <div class="form-group">
                     <label for="images">이미지</label>
                     <select class="form-control" name="images" id="images">
-                        <option>이미지를 선택하세요.</option>
+                        <option>이미지 번호 선택하세요.</option>
                     </select>
                 </div>
-                <img src="/none.jpg" width="" alt="" id="img">
+                <img id="img">
                 <div class="form-group">
-                    <label for="image">미리보기</label>
-                    <input type="file" class="form-control-file" id="image">
+                    <label for="imageFile">미리보기</label>
+                    <input type="file" class="form-control-file" id="imageFile" name="imageFile">
                 </div>
                 <div class="form-group">
                     <label for="subject">제목</label>
-                    <input type="text" class="form-control-file" id="subject">
+                    <input type="text" class="form-control-file" id="subject" name="subject">
                 </div>
                 <div class="form-group">
                     <label for="imgContent">내용</label>
-                    <input type="text" class="form-control-file" id="imgContent">
+                    <input type="text" class="form-control-file" id="imgContent" name="imgContent">
                 </div>
-                <button type="submit" class="btn btn-primary">수정</button>
+                <button type="submit" class="btn btn-primary" id="mainImgBtn">수정</button>
             </form>
 
-            <form method="post" id="notificationForm" class="d-none">
+            <form id="notificationForm" class="d-none" th:method="put">
                 <div class="form-group">
                     <label for="notificationContent">내용</label>
-                    <textarea class="form-control-file" id="notificationContent"></textarea>
+                    <textarea class="form-control-file" id="notificationContent" name="notificationContent"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">수정</button>
             </form>
@@ -74,6 +74,7 @@
         $("#imagesBtn").click(function () {
             $("#mainImgForm").toggleClass('d-none');
             $("#notificationForm").attr('class', 'd-none');
+            $("#notificationContent").val('');
 
             $.get('/api/admin/notification').done(function (response) {
                 for (const responseElement of response) {
@@ -83,21 +84,23 @@
             }).fail(() => console.log("서버 접속 실패"));
 
             $('#images').change(function (e) {
-                console.log(e.target.value)
-                $.get('api/admin/notification/' + e.target.value).done(function (response) {
-
-
+                $.get('/api/admin/notification/'+e.target.value).done(function (response) {
+                    $("#img").attr("src", '/' + response.img);
+                    $("#subject").val(response.subject);
+                    $("#imgContent").val(response.content);
                 }).fail(()=>console.log("서버 접속 실패"));
-
-            }); //#images option click end
-
-
+            }); //#images change end
 
         }) // imagesBtn click end
 
+        // 메인사진, 유의사항 창 사라지게
         $("#notificationBtn").click(function () {
             $("#notificationForm").toggleClass('d-none');
             $("#mainImgForm").attr('class', 'd-none');
+            $("#images").empty();
+            $("#img").attr("src",'');
+            $("#subject").val('');
+            $("#imgContent").val('');
         }) // notification click end
 
     }); // ready end
