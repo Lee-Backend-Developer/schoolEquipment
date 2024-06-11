@@ -7,11 +7,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class NotificationProductService {
     private final NotificationProductRepository notificationProductRepository;
+
+
+
 
     @Transactional
     public NotificationProduct save(NotificationRequest requestForm) {
@@ -33,5 +38,9 @@ public class NotificationProductService {
     public void delete(Long id) {
         NotificationProduct notificationProduct = notificationProductRepository.findById(id).orElseThrow(NullPointerException::new);
         notificationProductRepository.delete(notificationProduct);
+    }
+
+    public List<NotificationProduct> finds() {
+        return notificationProductRepository.findAll();
     }
 }
