@@ -39,9 +39,7 @@
                 <div class="form-group">
                     <label for="images">이미지</label>
                     <select class="form-control" name="images" id="images">
-                        <option value="">선택1</option>
-                        <option value="">선택2</option>
-                        <option value="">선택3</option>
+                        <option>이미지를 선택하세요.</option>
                     </select>
                 </div>
                 <img src="/none.jpg" width="" alt="" id="img">
@@ -72,16 +70,34 @@
 </div>
 
 <script>
-    $(document).ready(function (){
-        $("#imagesBtn").click(function (){
+    $(document).ready(function () {
+        $("#imagesBtn").click(function () {
             $("#mainImgForm").toggleClass('d-none');
-            $("#notificationForm").attr('class','d-none');
+            $("#notificationForm").attr('class', 'd-none');
+
+            $.get('/api/admin/notification').done(function (response) {
+                for (const responseElement of response) {
+                    let createOption = $('<option></option>').text(responseElement.id).val(responseElement.id);
+                    $("#images").append(createOption);
+                }
+            }).fail(() => console.log("서버 접속 실패"));
+
+            $('#images').change(function (e) {
+                console.log(e.target.value)
+                $.get('api/admin/notification/' + e.target.value).done(function (response) {
+
+
+                }).fail(()=>console.log("서버 접속 실패"));
+
+            }); //#images option click end
+
+
 
         }) // imagesBtn click end
 
-        $("#notificationBtn").click(function (){
+        $("#notificationBtn").click(function () {
             $("#notificationForm").toggleClass('d-none');
-            $("#mainImgForm").attr('class','d-none');
+            $("#mainImgForm").attr('class', 'd-none');
         }) // notification click end
 
     }); // ready end
