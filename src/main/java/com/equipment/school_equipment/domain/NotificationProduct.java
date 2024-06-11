@@ -22,7 +22,8 @@ public class NotificationProduct {
     private String img;
 
     @Builder
-    public NotificationProduct(String subject, String content, String img) {
+    public NotificationProduct(Long id, String subject, String content, String img) {
+        this.id = id;
         this.subject = subject;
         this.content = content;
         this.img = img;

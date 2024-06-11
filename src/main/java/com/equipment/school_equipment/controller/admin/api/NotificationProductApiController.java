@@ -1,6 +1,5 @@
 package com.equipment.school_equipment.controller.admin.api;
 
-import com.equipment.school_equipment.domain.NotificationProduct;
 import com.equipment.school_equipment.response.api.NotificationProductResponse;
 import com.equipment.school_equipment.service.NotificationProductService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class NotificationProductApiController {
 
     @GetMapping
     public ResponseEntity<List<NotificationProductResponse>> getNotification(){
-        List<NotificationProductResponse> responseList = notificationProductService.finds().stream()
+        List<NotificationProductResponse> responseList = notificationProductService.findList().stream()
                 .map(notificationProduct -> NotificationProductResponse.builder()
                         .id(notificationProduct.getId())
                         .img(notificationProduct.getImg())

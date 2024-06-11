@@ -47,11 +47,26 @@ class NotificationProductServiceTest {
         NotificationProduct notificationProduct = notificationProductRepository.save(requestForm);
 
         //when 실행
-        List<NotificationProduct> notificationProductList = notificationProductService.finds();
+        List<NotificationProduct> notificationProductList = notificationProductService.findList();
 
         //then 검증
         assertThat(notificationProductRepository.findAll().size()).isEqualTo(1);
         assertThat(notificationProductList.size()).isEqualTo(1);
+    }
+
+    @DisplayName("만들어진 공지가 ID 1번이 조회가 되어야한다.")
+    @Test
+    void findById_O() throws Exception {
+        //given 준비 과정
+        NotificationProduct requestForm = NotificationProduct.builder()
+                .id(1L)
+                .subject("제목").content("내용").img("이미지경로")
+                .build();
+        NotificationProduct notificationProduct = notificationProductRepository.save(requestForm);
+        //when 실행
+        NotificationProduct findByNotification = notificationProductService.findById(1L);
+        //then 검증
+        assertThat(findByNotification.getSubject()).isEqualTo(requestForm.getSubject());
     }
 
     @DisplayName("생성된 공지에 제목이 수정 되어야한다.")

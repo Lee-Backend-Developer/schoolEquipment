@@ -3,6 +3,7 @@ package com.equipment.school_equipment.service;
 import com.equipment.school_equipment.domain.NotificationProduct;
 import com.equipment.school_equipment.repository.NotificationProductRepository;
 import com.equipment.school_equipment.request.notificationProduct.NotificationRequest;
+import com.equipment.school_equipment.response.api.NotificationProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +16,14 @@ import java.util.List;
 public class NotificationProductService {
     private final NotificationProductRepository notificationProductRepository;
 
+    public List<NotificationProduct> findList() {
+        return notificationProductRepository.findAll();
+    }
 
-
+    public NotificationProduct findById(Long id){
+        return notificationProductRepository.findById(id)
+                .orElseThrow(NullPointerException::new);
+    }
 
     @Transactional
     public NotificationProduct save(NotificationRequest requestForm) {
@@ -38,9 +45,5 @@ public class NotificationProductService {
     public void delete(Long id) {
         NotificationProduct notificationProduct = notificationProductRepository.findById(id).orElseThrow(NullPointerException::new);
         notificationProductRepository.delete(notificationProduct);
-    }
-
-    public List<NotificationProduct> finds() {
-        return notificationProductRepository.findAll();
     }
 }
