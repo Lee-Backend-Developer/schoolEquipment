@@ -3,6 +3,7 @@ package com.equipment.school_equipment.service;
 import com.equipment.school_equipment.domain.NotificationProduct;
 import com.equipment.school_equipment.repository.NotificationProductRepository;
 import com.equipment.school_equipment.request.notificationProduct.NotificationRequest;
+import com.equipment.school_equipment.util.FileSaveUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +20,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class NotificationProductService {
-    public static String UPLOAD_DIRECTORY = "/Users/leemac/IdeaProjects/img/" + "mainPage";
-
 
     private final NotificationProductRepository notificationProductRepository;
 
@@ -45,14 +44,8 @@ public class NotificationProductService {
 
     @Transactional
     public void edit(NotificationRequest editRequest) {
-        // 이미지 파일 추가
-        String fileContentType = Objects.requireNonNull(editRequest.imageFile().getOriginalFilename()).split("\\.")[0];
-        String fileName = UUID.randomUUID() + "." + fileContentType;
-
-        Path path = Paths.get(UPLOAD_DIRECTORY, fileName);   // 절대경로, 이미지 저장할 이름
-        try {
-            Files.write(path, editRequest.imageFile().getBytes());   // path 경로에 이미지 저장
-        } catch (IOException ignored){};
+        FileSaveUtil fileSaveUtil = new FileSaveUtil(editRequest.imageFile());
+        String fileName = fileSaveUtil.fileSave();
 
         NotificationProduct notificationProduct = notificationProductRepository.findById(editRequest.id()).orElseThrow(NullPointerException::new);
         notificationProduct.edit(
