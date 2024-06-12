@@ -7,7 +7,9 @@ import com.equipment.school_equipment.service.NotificationProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -46,8 +48,10 @@ public class NotificationProductApiController {
     }
 
     @PutMapping
-    public ResponseEntity putNotification(@ModelAttribute NotificationRequest requestForm) {
-        log.info("{}",requestForm);
-        return ResponseEntity.ok().build();
+    public ModelAndView putNotification(@ModelAttribute NotificationRequest requestForm) {
+        notificationProductService.edit(requestForm);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/admin/notification/product");
+        return modelAndView;
     }
 }

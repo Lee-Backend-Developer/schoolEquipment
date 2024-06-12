@@ -37,7 +37,11 @@ public class NotificationProductService {
     @Transactional
     public void edit(NotificationRequest editRequest) {
         NotificationProduct notificationProduct = notificationProductRepository.findById(editRequest.id()).orElseThrow(NullPointerException::new);
-        notificationProduct.edit(editRequest.subject(), editRequest.content(), editRequest.imageFile().getOriginalFilename());
+        notificationProduct.edit(
+                editRequest.subject(),
+                editRequest.content(),
+                editRequest.imageFile().isEmpty() ? notificationProduct.getImg() : editRequest.imageFile().getOriginalFilename()
+        );
     }
 
     @Transactional
