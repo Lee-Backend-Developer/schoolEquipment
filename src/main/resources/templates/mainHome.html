@@ -11,27 +11,27 @@
 <div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::div#carouselExampleCaptions}, '신상품')}">
     <div id="carouselExampleCaptions" class="carousel slide h-25" data-ride="carousel">
         <ol class="carousel-indicators">
-            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active bg-dark"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="1" class="bg-dark"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="2" class="bg-dark"></li>
         </ol>
         <div class="carousel-inner align-content-center">
             <div class="carousel-item" th:each="finds :${findList}" th:classappend="${findsStat.index == 0} ? 'active' : ''">
-                <img src="" th:src="|mainPage/${finds.img}|" class="d-block w-25 align-middle">
+                <img src="" th:src="|mainPage/${finds.img}|" class="d-block w-25 align-middle" style="margin-left:10%">
                 <div class="carousel-caption d-none d-md-block">
                     <h5 class="text-info" th:text="${finds.subject}">First slide label</h5>
                     <p class="text-primary" th:text="${finds.content}">Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                 </div>
             </div>
+            <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                <span class="carousel-control-next-icon  bg-dark" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
     </div>
 </div>
 </div>
