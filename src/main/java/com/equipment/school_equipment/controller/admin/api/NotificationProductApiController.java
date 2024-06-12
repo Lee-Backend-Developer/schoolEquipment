@@ -1,15 +1,13 @@
 package com.equipment.school_equipment.controller.admin.api;
 
 import com.equipment.school_equipment.domain.NotificationProduct;
+import com.equipment.school_equipment.request.notificationProduct.NotificationRequest;
 import com.equipment.school_equipment.response.api.NotificationProductResponse;
 import com.equipment.school_equipment.service.NotificationProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,5 +43,11 @@ public class NotificationProductApiController {
                         .build())
                 .toList();
         return ResponseEntity.ok(responseList);
+    }
+
+    @PutMapping
+    public ResponseEntity putNotification(@ModelAttribute NotificationRequest requestForm) {
+        log.info("{}",requestForm);
+        return ResponseEntity.ok().build();
     }
 }

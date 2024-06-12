@@ -3,7 +3,6 @@ package com.equipment.school_equipment.service;
 import com.equipment.school_equipment.domain.NotificationProduct;
 import com.equipment.school_equipment.repository.NotificationProductRepository;
 import com.equipment.school_equipment.request.notificationProduct.NotificationRequest;
-import com.equipment.school_equipment.response.api.NotificationProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +27,7 @@ public class NotificationProductService {
     @Transactional
     public NotificationProduct save(NotificationRequest requestForm) {
         NotificationProduct saveProduct = NotificationProduct.builder()
-                .img(requestForm.img())
+                .img(requestForm.imageFile().getOriginalFilename())
                 .content(requestForm.content())
                 .subject(requestForm.subject())
                 .build();
@@ -38,7 +37,7 @@ public class NotificationProductService {
     @Transactional
     public void edit(NotificationRequest editRequest) {
         NotificationProduct notificationProduct = notificationProductRepository.findById(editRequest.id()).orElseThrow(NullPointerException::new);
-        notificationProduct.edit(editRequest.subject(), editRequest.content(), editRequest.img());
+        notificationProduct.edit(editRequest.subject(), editRequest.content(), editRequest.imageFile().getOriginalFilename());
     }
 
     @Transactional

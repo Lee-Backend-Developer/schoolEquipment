@@ -35,11 +35,14 @@
             <h2>공지사항</h2>
 
             <!--컨텐츠-->
-            <form enctype="multipart/form-data" id="mainImgForm" class="d-none" th:method="put">
+            <form
+                    action="/api/admin/notification"
+                    enctype="multipart/form-data" id="mainImgForm" class="d-none" method="post"
+                    th:method="put" th:object="${requestForm}">
                 <div class="form-group">
                     <label for="images">이미지</label>
-                    <select class="form-control" name="images" id="images">
-                        <option>이미지 번호 선택하세요.</option>
+                    <select class="form-control" name="images" id="images" th:field="*{id}">
+                        <option value="" selected>이미지 번호 선택하세요.</option>
                     </select>
                 </div>
                 <img id="img">
@@ -49,19 +52,19 @@
                 </div>
                 <div class="form-group">
                     <label for="subject">제목</label>
-                    <input type="text" class="form-control-file" id="subject" name="subject">
+                    <input type="text" class="form-control-file" id="subject" name="subject" th:field="*{subject}">
                 </div>
                 <div class="form-group">
                     <label for="imgContent">내용</label>
-                    <input type="text" class="form-control-file" id="imgContent" name="imgContent">
+                    <input type="text" class="form-control-file" id="imgContent" name="imgContent" th:field="*{content}">
                 </div>
                 <button type="submit" class="btn btn-primary" id="mainImgBtn">수정</button>
             </form>
 
-            <form id="notificationForm" class="d-none" th:method="put">
+            <form id="notificationForm" class="d-none" th:method="put" th:object="${requestForm}">
                 <div class="form-group">
                     <label for="notificationContent">내용</label>
-                    <textarea class="form-control-file" id="notificationContent" name="notificationContent"></textarea>
+                    <textarea class="form-control-file" id="notificationContent" name="notificationContent" th:field="*{notificationContent}"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">수정</button>
             </form>
