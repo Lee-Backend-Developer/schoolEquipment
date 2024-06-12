@@ -88,7 +88,7 @@
 
             $('#images').change(function (e) {
                 $.get('/api/admin/notification/'+e.target.value).done(function (response) {
-                    $("#img").attr("src", '/' + response.img);
+                    $("#img").attr("src", '/mainPage/' + response.img);
                     $("#subject").val(response.subject);
                     $("#imgContent").val(response.content);
                 }).fail(()=>console.log("서버 접속 실패"));
