@@ -12,6 +12,7 @@ import com.equipment.school_equipment.service.PrimaryCategoryService;
 import com.equipment.school_equipment.service.SecondaryCategoryService;
 import com.equipment.school_equipment.service.EquipmentService;
 import com.equipment.school_equipment.service.RentalService;
+import com.equipment.school_equipment.util.FileSaveUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -139,11 +140,7 @@ public class AdminEquipmentController {
             return "admin/equipment/add";
         }
         // 이미지 파일 추가
-        String fileContentType = Objects.requireNonNull(requestForm.getImage().getOriginalFilename()).split("\\.")[0];
-        String fileName = UUID.randomUUID() + "." + fileContentType;
-
-        Path path = Paths.get(UPLOAD_DIRECTORY, fileName);   // 절대경로, 이미지 저장할 이름
-        Files.write(path, requestForm.getImage().getBytes());   // path 경로에 이미지 저장
+        String fileName = FileSaveUtil.fileSave(requestForm.getImage(), FileSaveUtil.PATH_EQUIPMENT);
 
         EquipmentCreate requestCreate = EquipmentCreate.builder().name(requestForm.getName())
                 .count(requestForm.getCount()).equimentContent(requestForm.getContent())

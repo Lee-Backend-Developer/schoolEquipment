@@ -44,8 +44,7 @@ public class NotificationProductService {
 
     @Transactional
     public void edit(NotificationRequest editRequest) {
-        FileSaveUtil fileSaveUtil = new FileSaveUtil(editRequest.imageFile());
-        String fileName = fileSaveUtil.fileSave();
+        String fileName = FileSaveUtil.fileSave(editRequest.imageFile(), FileSaveUtil.PATH_MAINPAGE);
 
         NotificationProduct notificationProduct = notificationProductRepository.findById(editRequest.id()).orElseThrow(NullPointerException::new);
         notificationProduct.edit(

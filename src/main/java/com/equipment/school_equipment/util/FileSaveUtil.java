@@ -10,29 +10,27 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class FileSaveUtil {
-    private final static String PATH_SAVE = "/Users/leemac/IdeaProjects/img/" + "mainPage";
-    private final MultipartFile multipartFile;
+    public final static String PATH_MAINPAGE = "/Users/leemac/IdeaProjects/img/mainPage/";
+    public final static String PATH_EQUIPMENT = "/Users/leemac/IdeaProjects/img/equipment/";
 
-    public FileSaveUtil(MultipartFile multipartFile) {
-        Objects.requireNonNull(multipartFile.getOriginalFilename(), "사진이 들어있지 않습니다");
-        this.multipartFile = multipartFile;
-    }
+    public static String fileSave(MultipartFile multipartFile, String folderName){
+        Objects.requireNonNull(multipartFile.getOriginalFilename(), "이미지 파일이 없습니다");
 
-    public String fileSave(){
-        String fileName = getFileName();
-        Path path = Paths.get(PATH_SAVE, fileName);
+        String fileName = getFileName(multipartFile.getOriginalFilename());
+        Path path = Paths.get(folderName, fileName);
         try {
             Files.write(path, multipartFile.getBytes());   // path 경로에 이미지 저장
         } catch (IOException ignored){};
         return fileName;
     }
 
-    public String getFileName() {
-        return UUID.randomUUID() + "." + getFileType();
+    private static String getFileName(String originalFilename) {
+        String fileType = getFileType(originalFilename);
+        return UUID.randomUUID() + "." + fileType;
     }
 
-    private String getFileType(){
-        return multipartFile.getOriginalFilename().split("\\.")[1];
+    private static String getFileType(String originalFilename){
+        return originalFilename.split("\\.")[1];
     }
 
 }
