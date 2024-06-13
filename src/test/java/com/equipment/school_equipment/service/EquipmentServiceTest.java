@@ -164,7 +164,7 @@ class EquipmentServiceTest {
 
         //when 실행
         EquipmentEditRequest request = EquipmentEditRequest.builder().id(equipment.getId()).name(changeName).build();
-        equipmentService.updateEquipment(request);
+        equipmentService.updateEquipment(null);
         //then 검증
         assertThat(equipment.getName()).isEqualTo(changeName);
     }

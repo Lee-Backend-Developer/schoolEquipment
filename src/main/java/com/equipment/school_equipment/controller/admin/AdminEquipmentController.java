@@ -4,14 +4,13 @@ import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.repository.PrimaryCategoryRepository;
 import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
-import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
 import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import com.equipment.school_equipment.response.thymeleaf.EquipmentResponse;
-import com.equipment.school_equipment.service.PrimaryCategoryService;
-import com.equipment.school_equipment.service.SecondaryCategoryService;
 import com.equipment.school_equipment.service.EquipmentService;
+import com.equipment.school_equipment.service.PrimaryCategoryService;
 import com.equipment.school_equipment.service.RentalService;
+import com.equipment.school_equipment.service.SecondaryCategoryService;
 import com.equipment.school_equipment.util.FileSaveUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -24,20 +23,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/equipment")
 public class AdminEquipmentController {
-
-    public static String UPLOAD_DIRECTORY = "/Users/leemac/IdeaProjects/img/" + "equipment";
 
     private final EquipmentService equipmentService;
     private final RentalService rentalService;
@@ -107,16 +100,7 @@ public class AdminEquipmentController {
             return "admin/equipment/edit";
         }
 
-        EquipmentEditRequest request = EquipmentEditRequest.builder()
-                .id(requestForm.getEquipmentId())
-                .mainImg(requestForm.getImageName())
-                .count(requestForm.getCount())
-                .name(requestForm.getName())
-                .content(requestForm.getContent())
-                .categoryId(requestForm.getSecondaryCategory().getId())
-                .build();
-
-        equipmentService.updateEquipment(request);
+        equipmentService.updateEquipment(requestForm);
         return "redirect:/admin/equipment";
     }
 

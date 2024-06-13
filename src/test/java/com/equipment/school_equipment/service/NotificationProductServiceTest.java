@@ -27,7 +27,7 @@ class NotificationProductServiceTest {
     void create_O() throws Exception {
         //given 준비 과정
         NotificationRequest requestForm = NotificationRequest.builder()
-                .subject("제목").content("내용").img("이미지경로").build();
+                .subject("제목").content("내용").imageFile(null).build();
         //when 실행
         NotificationProduct saveNotificationProduct = notificationProductService.save(requestForm);
 

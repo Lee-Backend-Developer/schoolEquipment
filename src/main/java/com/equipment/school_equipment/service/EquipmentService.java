@@ -1,13 +1,14 @@
 package com.equipment.school_equipment.service;
 
 
-import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
+import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.repository.EquipmentRepository;
-import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
+import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
+import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.equipment.EquipmentCount;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
+import com.equipment.school_equipment.util.FileSaveUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -76,15 +77,19 @@ public class EquipmentService {
     }
 
     @Transactional
-    public void updateEquipment(EquipmentEditRequest request) {
+    public void updateEquipment(EquipmentForm request) {
         SecondaryCategory secondaryCategory = secondaryCategoryRepository
-                .findById(request.categoryId())
+                .findById(request.getSecondaryCategory().getId())
                 .orElseThrow(IllegalArgumentException::new);
 
         Equipment equipment = equipmentRepository
-                .equipmentAndCategory(request.id());
+                .equipmentAndCategory(request.getEquipmentId());
+
+        String fileName = FileSaveUtil.fileSave(request.getImage(), FileSaveUtil.PATH_EQUIPMENT);
+        request.setImageName(fileName);
 
         equipment.editEquipment(request, secondaryCategory);
+
     }
 
     public List<Equipment> findByEquipmentAndPrimaryCategoryAndSecondaryCategory(Long primaryCategoryId, Long secondaryCategoryId) {
