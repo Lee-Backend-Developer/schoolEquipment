@@ -84,3 +84,11 @@ create table notification_product
     primary key (id)
 ) comment '신상품_공지사항';
 
+create table notification_content
+(
+    id bigint auto_increment comment '유의사항 개인키',
+    content text not null,
+
+    primary key (id)
+) comment '유의사항';
+
