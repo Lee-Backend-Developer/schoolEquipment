@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,4 +18,9 @@ public class NotificationContent {
     private Long id;
 
     private String content;
+
+    @Builder
+    public NotificationContent(String content) {
+        this.content = content;
+    }
 }
