@@ -23,4 +23,9 @@ public class NotificationContent {
     public NotificationContent(String content) {
         this.content = content;
     }
+
+    // 비즈니스 로직
+    public void editContent(String content){
+        this.content = content;
+    }
 }

@@ -18,4 +18,11 @@ public class NotificationContentService {
         NotificationContent saveNotificationContent = NotificationContent.builder().content(saveNotification.notificationContent()).build();
         return notificationContentRepository.save(saveNotificationContent);
     }
+
+    public void edit(NotificationRequest notificationRequest) {
+        NotificationContent findNotificationContent = notificationContentRepository.findById(notificationRequest.id())
+                .orElseThrow(NullPointerException::new);
+
+        findNotificationContent.editContent(notificationRequest.notificationContent());
+    }
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,12 @@ public class NotificationContentApiController {
     @PostMapping
     public ResponseEntity contentSave(NotificationRequest notificationRequest) {
         notificationContentService.save(notificationRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity contentEdit(NotificationRequest notificationRequest) {
+        notificationContentService.edit(notificationRequest);
         return ResponseEntity.ok().build();
     }
 }
