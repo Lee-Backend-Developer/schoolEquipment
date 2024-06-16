@@ -35,6 +35,21 @@ class NotificationContentServiceTest {
         assertThat(saveNotificationContent.getContent()).isEqualTo(saveNotification.notificationContent());
     }
 
+    @DisplayName("유의사항이 조회가 되어야함")
+    @Test
+    void find_o() throws Exception {
+        //given 준비 과정
+        NotificationContent saveContent = NotificationContent.builder().content("이 제품 입니다.").build();
+        notificationContentRepository.save(saveContent);
+
+        //when 실행
+        NotificationContent finds = notificationContentService.finds();
+
+        //then 검증
+        assertThat(finds).isNotNull();
+
+    }
+
     @DisplayName("유의사항 수정이 되어야한다.")
     @Test
     void edit_O() throws Exception {
