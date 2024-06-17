@@ -29,4 +29,13 @@ public class UserService {
 
         return loginUser;
     }
+
+    @Transactional
+    public void leave(UserRequest request) {
+        LoginUser loginUser = userRepository.findByUserIdAndUserPwd(request.id(), request.passwd())
+                .orElseThrow(NullPointerException::new);
+
+        userRepository.delete(loginUser);
+
+    }
 }
