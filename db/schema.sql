@@ -92,3 +92,22 @@ create table notification_content
     primary key (id)
 ) comment '유의사항';
 
+create table user
+(
+    id      bigint auto_increment comment '사용자 고유번호',
+    userId  varchar(20) comment '사용자 ID',
+    userPwd varchar(30) comment '사용자 PASSWD',
+    role enum('user','admin') default 'user',
+
+    primary key (id)
+);
+
+create table user_connect_log
+(
+    id bigint auto_increment comment '접속자 고유번호',
+    user_key bigint comment '사용자 고유번호 참조키' not null,
+    connect_date date comment '접속 날짜',
+
+    primary key (id), foreign key (id) references user(id)
+)
+
