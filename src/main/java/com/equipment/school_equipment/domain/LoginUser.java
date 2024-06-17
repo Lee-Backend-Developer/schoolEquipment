@@ -1,23 +1,30 @@
 package com.equipment.school_equipment.domain;
 
 import com.equipment.school_equipment.domain.enumDomain.UserRole;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-public class User {
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public class LoginUser {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    private final String userId;
-    private final String userPwd;
-    private final UserRole role;
+    private String userId;
+    private String userPwd;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     @Builder
-    public User(Long id, String userId, String userPwd, UserRole role) {
+    public LoginUser(Long id, String userId, String userPwd, UserRole role) {
         this.id = id;
         this.userId = userId;
         this.userPwd = userPwd;
