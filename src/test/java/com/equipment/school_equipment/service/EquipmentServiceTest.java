@@ -5,6 +5,7 @@ import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import com.equipment.school_equipment.request.admin.EquipmentEditRequest;
+import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.equipment.EquipmentCount;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import org.junit.jupiter.api.AfterEach;
@@ -163,8 +164,12 @@ class EquipmentServiceTest {
         equipmentRepository.save(equipment);
 
         //when 실행
-        EquipmentEditRequest request = EquipmentEditRequest.builder().id(equipment.getId()).name(changeName).build();
-        equipmentService.updateEquipment(null);
+        EquipmentForm request = EquipmentForm
+                .builder()
+                .equipmentId(equipment.getId())
+                .secondaryCategory(category)
+                .name(changeName).build();
+        equipmentService.updateEquipment(request);
         //then 검증
         assertThat(equipment.getName()).isEqualTo(changeName);
     }

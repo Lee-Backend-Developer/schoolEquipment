@@ -66,7 +66,7 @@ public class EquipmentService {
     public Page<Equipment> findByCategoryId(String category, int pageNumber) {
         PageRequest pageRequest = PageRequest.of(pageNumber, 10);
 
-        if(category.isEmpty()) {
+        if (category.isEmpty()) {
             return equipmentRepository.findAll(pageRequest);
         }
         return equipmentRepository.findByCategory(category, pageRequest);
@@ -85,18 +85,19 @@ public class EquipmentService {
         Equipment equipment = equipmentRepository
                 .equipmentAndCategory(request.getEquipmentId());
 
-        String fileName = FileSaveUtil.fileSave(request.getImage(), FileSaveUtil.PATH_EQUIPMENT);
-        request.setImageName(fileName);
+        if(request.getImage() != null) {
+            String fileName = FileSaveUtil.fileSave(request.getImage(), FileSaveUtil.PATH_EQUIPMENT);
+            request.setImageName(fileName);
+        }
 
         equipment.editEquipment(request, secondaryCategory);
-
     }
 
     public List<Equipment> findByEquipmentAndPrimaryCategoryAndSecondaryCategory(Long primaryCategoryId, Long secondaryCategoryId) {
         Objects.requireNonNull(primaryCategoryId);
         Objects.requireNonNull(secondaryCategoryId);
         List<Equipment> equipmentList = equipmentRepository.findByEquipmentAndPrimaryCategoryAndSecondaryCategory(primaryCategoryId, secondaryCategoryId);
-        if(equipmentList.isEmpty()) throw new NullPointerException("없습니다");
+        if (equipmentList.isEmpty()) throw new NullPointerException("없습니다");
         return equipmentList;
     }
 }
