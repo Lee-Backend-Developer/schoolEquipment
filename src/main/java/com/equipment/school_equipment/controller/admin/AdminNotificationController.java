@@ -1,4 +1,4 @@
-package com.equipment.school_equipment.controller;
+package com.equipment.school_equipment.controller.admin;
 
 import com.equipment.school_equipment.request.notificationProduct.NotificationRequest;
 import com.equipment.school_equipment.service.NotificationContentService;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/admin/notification")
-public class NotificationController {
+public class AdminNotificationController {
     private final NotificationContentService notificationContentService;
 
-    @GetMapping("product")
+    @GetMapping
     public String getProduct(Model model){
         Long id = notificationContentService.finds().getId();
         NotificationRequest requestForm = NotificationRequest.builder().id(id).build();
