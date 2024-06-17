@@ -36,4 +36,22 @@ public class LoginUserServiceTest {
 
     }
 
+    @DisplayName("로그인 되어야함")
+    @Test
+    void login_o() throws Exception {
+        //given 준비 과정
+        LoginUser saveLoginUser = LoginUser.builder().userId("leeadmin").userPwd("1234").build();
+        userRepository.save(saveLoginUser);
+
+        UserRequest request = UserRequest.builder()
+                .id("leeadmin")
+                .passwd("1234")
+                .build();
+
+        //when 실행
+        LoginUser findLogin = userService.login(request);
+        //then 검증
+        assertThat(findLogin.getUserId()).isEqualTo(request.id());
+    }
+
 }

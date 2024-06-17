@@ -22,4 +22,11 @@ public class UserService {
         userRepository.save(createLoginUser);
         return createLoginUser;
     }
+
+    public LoginUser login(UserRequest request) {
+        LoginUser loginUser = userRepository.findByUserIdAndUserPwd(request.id(), request.passwd())
+                .orElseThrow(NullPointerException::new);
+
+        return loginUser;
+    }
 }
