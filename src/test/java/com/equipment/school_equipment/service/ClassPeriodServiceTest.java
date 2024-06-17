@@ -17,11 +17,11 @@ import java.util.Arrays;
 
 @SpringBootTest
 @Transactional
-class ClassTimeServiceTest {
+class ClassPeriodServiceTest {
     @Autowired
     ClassTimeRepository classTimeRepository;
     @Autowired
-    ClassTimeService classTimeService;
+    ClassPeriodService classPeriodService;
 
     @AfterEach
     void end() {
@@ -42,7 +42,7 @@ class ClassTimeServiceTest {
                 .build();
 
         //when
-        ClassPeriod saveClassTime = classTimeService.save(request);
+        ClassPeriod saveClassTime = classPeriodService.save(request);
 
         //then
         ClassPeriod findClassTime = classTimeRepository.findById(saveClassTime.getId()).get();
@@ -64,7 +64,7 @@ class ClassTimeServiceTest {
         classTimeRepository.save(saveClassPeriod);
 
         //when 실행
-        ClassPeriod findClassPeriod = classTimeService.findById(saveClassPeriod.getId());
+        ClassPeriod findClassPeriod = classPeriodService.findById(saveClassPeriod.getId());
 
         //then 검증
         Assertions.assertThat(findClassPeriod.getClassName()).isEqualTo(saveClassPeriod.getClassName());
@@ -85,11 +85,11 @@ class ClassTimeServiceTest {
         classTimeRepository.saveAll(Arrays.asList(classTimes));
 
         //when
-        ClassPeriod monday = classTimeService.findByDay(DayOfWeekEnum.monday.name()).get(0);
-        ClassPeriod tuesday = classTimeService.findByDay(DayOfWeekEnum.tuesday.name()).get(0);
-        ClassPeriod wednesday = classTimeService.findByDay(DayOfWeekEnum.wednesday.name()).get(0);
-        ClassPeriod thursday = classTimeService.findByDay(DayOfWeekEnum.thursday.name()).get(0);
-        ClassPeriod friday = classTimeService.findByDay(DayOfWeekEnum.friday.name()).get(0);
+        ClassPeriod monday = classPeriodService.findByDay(DayOfWeekEnum.monday.name()).get(0);
+        ClassPeriod tuesday = classPeriodService.findByDay(DayOfWeekEnum.tuesday.name()).get(0);
+        ClassPeriod wednesday = classPeriodService.findByDay(DayOfWeekEnum.wednesday.name()).get(0);
+        ClassPeriod thursday = classPeriodService.findByDay(DayOfWeekEnum.thursday.name()).get(0);
+        ClassPeriod friday = classPeriodService.findByDay(DayOfWeekEnum.friday.name()).get(0);
 
         //then
         Assertions.assertThat(monday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.monday);
@@ -110,7 +110,7 @@ class ClassTimeServiceTest {
         String newClassName = "영상이론";
 
         ClassTimeUpdate request = ClassTimeUpdate.builder().updateClassname("영상실습", newClassName).oneTime(true).build();
-        classTimeService.updateClassTime(request);
+        classPeriodService.updateClassTime(request);
         //then
         ClassPeriod findClassTime = classTimeRepository.findById(oldClassTime.getId()).get();
         Assertions.assertThat(findClassTime.getClassName()).isEqualTo(newClassName);
@@ -124,7 +124,7 @@ class ClassTimeServiceTest {
         classTimeRepository.save(saveClassTime);
 
         //when
-        classTimeService.delete(saveClassTime.getId());
+        classPeriodService.delete(saveClassTime.getId());
 
         //then
         Assertions.assertThat(classTimeRepository.findById(saveClassTime.getId())).isEmpty();

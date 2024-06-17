@@ -1,9 +1,7 @@
 package com.equipment.school_equipment.controller;
 
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.response.thymeleaf.RentalEquipmentResponse;
-import com.equipment.school_equipment.service.ClassTimeService;
 import com.equipment.school_equipment.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

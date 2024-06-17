@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ClassTimeService {
+public class ClassPeriodService {
     private final ClassTimeRepository classTimeRepository;
 
     @Transactional

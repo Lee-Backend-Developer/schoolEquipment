@@ -3,7 +3,7 @@ package com.equipment.school_equipment.controller;
 import com.equipment.school_equipment.domain.ClassPeriod;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.response.thymeleaf.ClasstimeResponse;
-import com.equipment.school_equipment.service.ClassTimeService;
+import com.equipment.school_equipment.service.ClassPeriodService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/class-schedule")
 public class ClassPeriodController {
-    private final ClassTimeService classTimeService;
+    private final ClassPeriodService classPeriodService;
 
     @GetMapping
     public String viewWeek(Model model) {
@@ -30,7 +30,7 @@ public class ClassPeriodController {
 
     @GetMapping("/{schedule}")
     public String findByWeekdayClassPeriod(@PathVariable String schedule, Model model){
-        List<ClassPeriod> classPeriodList = classTimeService.findByDay(schedule);
+        List<ClassPeriod> classPeriodList = classPeriodService.findByDay(schedule);
         List<ClasstimeResponse> responsesList = new ArrayList<>();
 
         classPeriodList.iterator().forEachRemaining(

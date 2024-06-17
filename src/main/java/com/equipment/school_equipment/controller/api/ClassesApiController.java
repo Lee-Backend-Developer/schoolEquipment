@@ -2,7 +2,7 @@ package com.equipment.school_equipment.controller.api;
 
 import com.equipment.school_equipment.domain.ClassPeriod;
 import com.equipment.school_equipment.response.api.ClasstimeApiFindResponse;
-import com.equipment.school_equipment.service.ClassTimeService;
+import com.equipment.school_equipment.service.ClassPeriodService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,11 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/class-period")
 public class ClassesApiController {
-    private final ClassTimeService classTimeService;
+    private final ClassPeriodService classPeriodService;
 
     @GetMapping("{weekday}")
     public ResponseEntity<List<ClasstimeApiFindResponse>> findClassesByWeek(@PathVariable String weekday) {
-        List<ClassPeriod> classPeriodList = classTimeService.findByDay(weekday);
+        List<ClassPeriod> classPeriodList = classPeriodService.findByDay(weekday);
         List<ClasstimeApiFindResponse> responseList = classPeriodList.stream().map(classes -> ClasstimeApiFindResponse.builder()
                 .id(classes.getId())
                 .classNames(classes.getClassName())

@@ -14,12 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-public class LoginUserServiceTest {
+public class LoginLoginUserServiceTest {
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private UserService userService;
+    private LoginUserService loginUserService;
 
     @DisplayName("회원가입 되어야한다.")
     @Test
@@ -28,7 +28,7 @@ public class LoginUserServiceTest {
         UserRequest request = UserRequest.builder().id("leeadmin").passwd("1234").build();
 
         //when 실행
-        LoginUser loginUser = userService.create(request);
+        LoginUser loginUser = loginUserService.create(request);
 
         //then 검증
         LoginUser findUsers = userRepository.findAll().get(0);
@@ -49,7 +49,7 @@ public class LoginUserServiceTest {
                 .build();
 
         //when 실행
-        LoginUser findLogin = userService.login(request);
+        LoginUser findLogin = loginUserService.login(request);
         //then 검증
         assertThat(findLogin.getUserId()).isEqualTo(request.id());
     }
@@ -67,7 +67,7 @@ public class LoginUserServiceTest {
                 .build();
 
         //when 실행
-        userService.leave(request);
+        loginUserService.leave(request);
         //then 검증
         assertThat(userRepository.findAll().size()).isEqualTo(0);
     }

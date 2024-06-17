@@ -1,13 +1,12 @@
 package com.equipment.school_equipment.controller.admin;
 
 import com.equipment.school_equipment.domain.ClassPeriod;
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.request.admin.ClassmateRequest;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
 import com.equipment.school_equipment.request.classTime.ClassTimeUpdate;
 import com.equipment.school_equipment.response.thymeleaf.admin.ClasstimeResponse;
 import com.equipment.school_equipment.response.thymeleaf.admin.ClasstimesFindResponse;
-import com.equipment.school_equipment.service.ClassTimeService;
+import com.equipment.school_equipment.service.ClassPeriodService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +25,11 @@ import java.util.List;
 @RequestMapping("/admin/class-period")
 public class AdminClassesController {
     private static final Logger log = LoggerFactory.getLogger(AdminClassesController.class);
-    private final ClassTimeService classTimeService;
+    private final ClassPeriodService classPeriodService;
 
     @GetMapping
     public String findByAll(Model model) {
-        List<ClassPeriod> classPeriodList = classTimeService.findAll();
+        List<ClassPeriod> classPeriodList = classPeriodService.findAll();
         List<ClasstimesFindResponse> converterResponseList = classPeriodList.stream()
                 .map((period -> ClasstimesFindResponse.builder()
                         .id(period.getId())
@@ -68,7 +67,7 @@ public class AdminClassesController {
                 .nineTime(classmateRequest.isNineTime())
                 .tenTime(classmateRequest.isTenTime())
                 .build();
-        classTimeService.save(classTimeCreate);
+        classPeriodService.save(classTimeCreate);
 
         return "redirect:/admin/class-period";
     }
@@ -76,7 +75,7 @@ public class AdminClassesController {
 
     @GetMapping("/edit/{classnameId}")
     public String adminClassesEdit(@PathVariable Long classnameId, Model model) {
-        ClassPeriod classTimes = classTimeService.findById(classnameId);
+        ClassPeriod classTimes = classPeriodService.findById(classnameId);
 
         ClassmateRequest classmateRequest = ClassmateRequest.builder()
                 .classname(classTimes.getClassName())
@@ -104,7 +103,7 @@ public class AdminClassesController {
         if(bindingResult.hasErrors()){
             return "admin/classPeriod/edit";
         }
-        ClassPeriod findByClassPeriod = classTimeService.findById(classmateRequest.getClassnameId());
+        ClassPeriod findByClassPeriod = classPeriodService.findById(classmateRequest.getClassnameId());
 
         ClassTimeUpdate classTimeUpdate = ClassTimeUpdate.builder()
                 .updateClassname(findByClassPeriod.getClassName(), classmateRequest.getClassname())
@@ -120,14 +119,14 @@ public class AdminClassesController {
                 .tenTime(classmateRequest.isTenTime())
                 .build();
 
-        classTimeService.updateClassTime(classTimeUpdate);
+        classPeriodService.updateClassTime(classTimeUpdate);
 
         return "redirect:/admin/class-period";
     }
 
     @GetMapping("/delete")
     public String adminClassesDelete(Model model) {
-        List<ClassPeriod> classTimesList = classTimeService.findAll();
+        List<ClassPeriod> classTimesList = classPeriodService.findAll();
         List<ClasstimeResponse> responseList = classTimesList.stream().map(classtimes -> ClasstimeResponse.builder().id(classtimes.getId()).classname(classtimes.getClassName()).build()).toList();
         model.addAttribute("responses", responseList);
         return "admin/classPeriod/delete";
@@ -135,7 +134,7 @@ public class AdminClassesController {
 
     @GetMapping("/delete/{classtimesId}")
     public void adminClassesDelete(@PathVariable("classtimesId") Long classtimesId, HttpServletResponse response) throws IOException {
-        classTimeService.delete(classtimesId);
+        classPeriodService.delete(classtimesId);
         response.sendRedirect("/admin/class-period");
     }
 
