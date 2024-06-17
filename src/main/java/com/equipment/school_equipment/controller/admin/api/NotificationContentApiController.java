@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,8 +30,10 @@ public class NotificationContentApiController {
     }
 
     @PutMapping
-    public ResponseEntity contentEdit(NotificationRequest notificationRequest) {
+    public ModelAndView contentEdit(NotificationRequest notificationRequest) {
+        ModelAndView modelAndView = new ModelAndView();
         notificationContentService.edit(notificationRequest);
-        return ResponseEntity.ok().build();
+        modelAndView.setViewName("redirect:/");
+        return modelAndView;
     }
 }

@@ -61,7 +61,8 @@
                 <button type="submit" class="btn btn-primary" id="mainImgBtn">수정</button>
             </form>
 
-            <form id="notificationForm" class="d-none" th:method="put" th:object="${requestForm}">
+            <form id="notificationForm" class="d-none" th:method="put" th:object="${requestForm}" action="/api/admin/notification/content">
+                <input type="hidden" name="id" value="1"/>
                 <div class="form-group">
                     <label for="notificationContent">내용</label>
                     <textarea class="form-control-file" id="notificationContent" name="notificationContent" th:field="*{notificationContent}"></textarea>
@@ -104,6 +105,10 @@
             $("#img").attr("src",'');
             $("#subject").val('');
             $("#imgContent").val('');
+            $.get('/api/admin/notification/content')
+                .done(response => {
+                    $("#notificationContent").val(response.content)
+                }).fail(() => console.log("접속오류"));
         }) // notification click end
 
     }); // ready end
