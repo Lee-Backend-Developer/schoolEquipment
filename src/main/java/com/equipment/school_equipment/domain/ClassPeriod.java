@@ -2,10 +2,7 @@ package com.equipment.school_equipment.domain;
 
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import static jakarta.persistence.GenerationType.*;
 
@@ -13,6 +10,7 @@ import static jakarta.persistence.GenerationType.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@EqualsAndHashCode
 public class ClassPeriod {
     @Id
     @GeneratedValue(strategy = IDENTITY)
