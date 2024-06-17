@@ -35,7 +35,8 @@ public class ClassPeriod {
     private boolean tenTime;    //10교시(18:00 ~ 18:50)
 
     @Builder
-    public ClassPeriod(String className, DayOfWeekEnum dayOfWeek, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
+    public ClassPeriod(Long id, String className, DayOfWeekEnum dayOfWeek, boolean oneTime, boolean twoTime, boolean threeTime, boolean fourTime, boolean fiveTime, boolean sixTime, boolean sevenTime, boolean eightTime, boolean nineTime, boolean tenTime) {
+        this.id = id;
         this.className = className;
         this.dayOfWeek = dayOfWeek;
         this.oneTime = oneTime;
