@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/admin/rental")
+@RequestMapping("api/admin/rental")
 public class AdminRentalApiController {
     private final RentalService rentalService;
 

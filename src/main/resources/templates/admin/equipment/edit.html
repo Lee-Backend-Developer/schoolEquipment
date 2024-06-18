@@ -88,7 +88,7 @@
     $(document).ready(function () {
         $('#primaryCategory').change(function () {
             const selectedText = $(this).find('option:selected').text();
-            $.get("/admin/category/api/" + selectedText)
+            $.get("/api/admin/category/" + selectedText)
                 .done(function (response) {
                     $("#secondaryCategory").empty();
 

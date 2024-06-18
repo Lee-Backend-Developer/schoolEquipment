@@ -101,7 +101,7 @@
     $(document).ready(function () {
         $('#primaryCategory').change(function (e) {
             const selectedText = $(this).find('option:selected').text();
-            $.get("/admin/category/api/"+selectedText)
+            $.get("/api/admin/category/"+selectedText)
                 .done(function(response) {
                     $("#secondaryCategory").empty();
 
@@ -119,7 +119,7 @@
         $('#secondaryCategory').click(function (e) {
             const primaryCategoryId=$("#primaryCategory option:selected").val();
             const secondaryCategoryId=$("#secondaryCategory option:selected").val();
-            $.get("/admin/equipment/api?primaryCategoryId="+primaryCategoryId+"&secondaryCategoryId="+secondaryCategoryId)
+            $.get("/api/equipment/api?primaryCategoryId="+primaryCategoryId+"&secondaryCategoryId="+secondaryCategoryId)
                 .done(function(response) {
                     $("#equipment").empty();
 

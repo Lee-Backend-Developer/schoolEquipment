@@ -1,6 +1,5 @@
 package com.equipment.school_equipment.controller.admin.api;
 
-import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.response.api.EquipmentApiFindResponse;
 import com.equipment.school_equipment.service.EquipmentService;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +14,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/admin/equipment/api")
+@RequestMapping("api/admin/equipment/api")
 public class AdminEquipmentApiController {
-
     private final EquipmentService equipmentService;
 
     @GetMapping

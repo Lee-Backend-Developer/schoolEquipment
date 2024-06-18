@@ -1,6 +1,5 @@
 package com.equipment.school_equipment.controller.admin.api;
 
-import com.equipment.school_equipment.domain.SecondaryCategory;
 import com.equipment.school_equipment.response.api.SecondaryCategoryApiFindResponse;
 import com.equipment.school_equipment.service.SecondaryCategoryService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/admin/category/api/{primaryCategory}")
+@RequestMapping("api/admin/category/{primaryCategory}")
 public class AdminSecondaryApiController {
     private final SecondaryCategoryService secondaryCategoryService;
 
