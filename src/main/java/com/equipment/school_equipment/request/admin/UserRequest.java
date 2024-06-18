@@ -1,10 +1,13 @@
 package com.equipment.school_equipment.request.admin;
 
 import com.equipment.school_equipment.domain.enumDomain.UserRole;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 
 public record UserRequest(
+        @NotEmpty
         String id,
+        @NotEmpty
         String passwd,
         UserRole userRole
 ) {

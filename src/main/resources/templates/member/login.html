@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/main_fragment :: header(title='Login')}">
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<!-- 왼쪽 사이드 바-->
+<div class="wrapper d-flex align-items-stretch">
+    <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
+    <div id="content" class="p-4 p-md-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto" th:if="${subject eq '장비목록'}">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#" th:href="@{/admin/equipment(page=0)}">전체</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" th:href="@{/admin/equipment(category='카메라')}">카메라</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" th:href="@{/admin/equipment(category='조명')}">조명</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" th:href="@{/admin/equipment(category='음향')}">음향</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav ml-auto" th:unless="${subject eq '장비목록'}">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <h2>로그인</h2>
+
+        <!--컨텐츠-->
+        <div class="content">
+            <form action th:object="${userRequest}" method="post">
+                <div class="form-group">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" th:field="*{id}" placeholder="아이디 입력">
+                </div>
+                <div class="form-group">
+                    <label for="passwd">Password</label>
+                    <input type="password" class="form-control" id="passwd" th:field="*{passwd}" placeholder="비밀번호 입력">
+                </div>
+                <button type="submit" class="btn btn-primary">로그인</button>
+            </form>
+        </div>
+
+        <!--자바 스크립트-->
+        <script src="/js/popper.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/main.js"></script>
+    </div>
+</div>
+</body>
+</html>
