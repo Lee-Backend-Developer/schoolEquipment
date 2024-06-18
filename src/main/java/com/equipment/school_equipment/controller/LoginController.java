@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,12 +39,18 @@ public class LoginController {
         if (bindingResult.hasErrors()) {
             return "member/login";
         }
-        LoginUser login = loginUserService.login(userRequest);
 
-        SessionObj session = SessionObj.builder().id(login.getId()).userRole(login.getRole()).build();
+        try {
+            LoginUser login = loginUserService.login(userRequest);
 
-        httpSession.setMaxInactiveInterval(0);
-        httpSession.setAttribute("clientSession", session);
+            SessionObj session = SessionObj.builder().id(login.getId()).userRole(login.getRole()).build();
+
+            httpSession.setMaxInactiveInterval(0);
+            httpSession.setAttribute("clientSession", session);
+        } catch (NullPointerException e) {
+            bindingResult.addError(new ObjectError("loginFail", "아이디 또는 비밀번호를 잘못 입력했습니다."));
+            return "member/login";
+        }
 
         return "redirect:/";
     }
