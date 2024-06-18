@@ -95,8 +95,8 @@ create table notification_content
 create table login_user
 (
     id      bigint auto_increment comment '사용자 고유번호',
-    userId  varchar(20) comment '사용자 ID',
-    userPwd varchar(30) comment '사용자 PASSWD',
+    user_id  varchar(20) comment '사용자 ID',
+    user_pwd varchar(30) comment '사용자 PASSWD',
     role    enum ('user','admin') default 'user',
 
     primary key (id)
