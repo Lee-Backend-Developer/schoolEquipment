@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,7 +41,8 @@ class ClassPeriodServiceTestMockito {
                 .build();
 
         //when
-        lenient().when(classPeriodService.save(request)).thenReturn(ClassPeriod.builder()
+        when(classPeriodService.save(request))
+                .thenReturn(ClassPeriod.builder()
                 .className("영상실습")
                 .dayOfWeek(DayOfWeekEnum.monday)
                 .twoTime(true)
@@ -50,7 +52,7 @@ class ClassPeriodServiceTestMockito {
 
         //then
         ClassPeriod findClassTime = classPeriodService.save(request);
-        Assertions.assertThat(findClassTime).isNotNull();
+        assertThat(findClassTime).isNotNull();
     }
 
     @DisplayName("수업 아이디를 검색했을때 수업 도메인이 가져와야된다.")
@@ -71,7 +73,7 @@ class ClassPeriodServiceTestMockito {
 
         //then 검증
         ClassPeriod findByClassperiod = classPeriodService.findById(1L);
-        Assertions.assertThat(findByClassperiod.getId()).isEqualTo(1L);
+        assertThat(findByClassperiod.getId()).isEqualTo(1L);
     }
 
     @DisplayName("요일별로 시간표를 가지고 온다")
@@ -86,6 +88,7 @@ class ClassPeriodServiceTestMockito {
         classTimes[3] = ClassPeriod.builder().className("숏폼콘텐츠제작/촬영").dayOfWeek(DayOfWeekEnum.thursday).twoTime(true).threeTime(true).fourTime(true).build();
         classTimes[4] = ClassPeriod.builder().className("영상미디어디자인연구").dayOfWeek(DayOfWeekEnum.friday).twoTime(true).threeTime(true).fourTime(true).build();
 
+        //when
         when(classPeriodService.findByDay(DayOfWeekEnum.monday.name()))
                 .thenReturn(Arrays.stream(classTimes).toList());
         when(classPeriodService.findByDay(DayOfWeekEnum.tuesday.name()))
@@ -97,7 +100,6 @@ class ClassPeriodServiceTestMockito {
         when(classPeriodService.findByDay(DayOfWeekEnum.friday.name()))
                 .thenReturn(Arrays.stream(classTimes).toList());
 
-        //when
         ClassPeriod monday = classPeriodService.findByDay(DayOfWeekEnum.monday.name()).get(0);
         ClassPeriod tuesday = classPeriodService.findByDay(DayOfWeekEnum.tuesday.name()).get(1);
         ClassPeriod wednesday = classPeriodService.findByDay(DayOfWeekEnum.wednesday.name()).get(2);
@@ -105,12 +107,12 @@ class ClassPeriodServiceTestMockito {
         ClassPeriod friday = classPeriodService.findByDay(DayOfWeekEnum.friday.name()).get(4);
 
         //then
-        Assertions.assertThat(monday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.monday);
-        Assertions.assertThat(tuesday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.tuesday);
-        Assertions.assertThat(wednesday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.wednesday);
-        Assertions.assertThat(thursday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.thursday);
-        Assertions.assertThat(friday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.friday);
-        Assertions.assertThat(DayOfWeekEnum.monday.name()).isNotNull();
+        assertThat(monday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.monday);
+        assertThat(tuesday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.tuesday);
+        assertThat(wednesday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.wednesday);
+        assertThat(thursday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.thursday);
+        assertThat(friday.getDayOfWeek()).isEqualTo(DayOfWeekEnum.friday);
+        assertThat(DayOfWeekEnum.monday.name()).isNotNull();
     }
 
     @DisplayName("영상실습수업이 영상이론 수업으로 변경이 되어야 한다")
@@ -118,17 +120,23 @@ class ClassPeriodServiceTestMockito {
     void classTimeUpdate_O() {
         //given
         ClassPeriod oldClassTime = ClassPeriod.builder().id(1L).className("영상실습").twoTime(true).threeTime(true).fourTime(true).build();
-
-        when(classTimeRepository.save(oldClassTime)).thenReturn(oldClassTime);
+        classTimeRepository.save(oldClassTime);
 
         //when
-        String newClassName = "영상이론";
+        when(classTimeRepository.findByClassName(oldClassTime.getClassName()))
+                .thenReturn(Optional.of(oldClassTime));
+        assertThat(classTimeRepository.findByClassName(oldClassTime.getClassName()).get().getClassName()).isEqualTo("영상실습");
 
+
+        String newClassName = "영상이론";
         ClassTimeUpdate request = ClassTimeUpdate.builder().updateClassname("영상실습", newClassName).oneTime(true).build();
         classPeriodService.updateClassTime(request);
+
+        when(classTimeRepository.findById(anyLong())).thenReturn(Optional.of(oldClassTime));
+
         //then
         ClassPeriod findClassTime = classTimeRepository.findById(oldClassTime.getId()).get();
-        Assertions.assertThat(findClassTime.getClassName()).isEqualTo(newClassName);
+        assertThat(findClassTime.getClassName()).isEqualTo(newClassName);
     }
 
     @DisplayName("수업 이름을 검색하여 아이디를 가지고 삭제가 되어야한다")
@@ -142,6 +150,6 @@ class ClassPeriodServiceTestMockito {
         classPeriodService.delete(saveClassTime.getId());
 
         //then
-        Assertions.assertThat(classTimeRepository.findById(saveClassTime.getId())).isEmpty();
+        assertThat(classTimeRepository.findById(saveClassTime.getId())).isEmpty();
     }
 }
