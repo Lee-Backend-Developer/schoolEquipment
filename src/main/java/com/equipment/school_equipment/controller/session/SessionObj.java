@@ -6,6 +6,12 @@ import lombok.Data;
 
 @Data
 public class SessionObj {
-    private String id;
+    private Long id;
     private UserRole userRole;
+
+    @Builder
+    public SessionObj(Long id, UserRole userRole) {
+        this.id = id;
+        this.userRole = userRole;
+    }
 }

@@ -6,13 +6,14 @@ import com.equipment.school_equipment.request.admin.UserRequest;
 import com.equipment.school_equipment.service.LoginUserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Objects;
 
@@ -38,8 +39,11 @@ public class LoginController {
             return "member/login";
         }
         LoginUser login = loginUserService.login(userRequest);
+
+        SessionObj session = SessionObj.builder().id(login.getId()).userRole(login.getRole()).build();
+
         httpSession.setMaxInactiveInterval(0);
-        httpSession.setAttribute("clientSession", login);
+        httpSession.setAttribute("clientSession", session);
 
         return "redirect:/";
     }
