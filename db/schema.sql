@@ -97,7 +97,7 @@ create table login_user
     id      bigint auto_increment comment '사용자 고유번호',
     userId  varchar(20) comment '사용자 ID',
     userPwd varchar(30) comment '사용자 PASSWD',
-    role    enum ('loginUser','admin') default 'loginUser',
+    role    enum ('user','admin') default 'user',
 
     primary key (id)
 );
