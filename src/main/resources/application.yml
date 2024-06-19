@@ -6,6 +6,9 @@ spring:
     hidden-method:
       filter:
         enabled: true
+  h2:
+    console:
+      enabled: false
 
   jpa:
     generate-ddl: false
