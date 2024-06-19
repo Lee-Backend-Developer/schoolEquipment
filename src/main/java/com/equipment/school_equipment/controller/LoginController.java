@@ -31,36 +31,14 @@ public class LoginController {
     @GetMapping("login")
     public String getLogin(@ModelAttribute(binding = false, name = "userRequest") UserRequest userRequest) {
 
-        return Objects.isNull(httpSession.getAttribute("clientSession")) ? "member/login" : "redirect:/";
+        return "member/login";
     }
 
-    @PostMapping("login")
-    public String postLogin(
-            @Valid UserRequest userRequest, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "member/login";
-        }
-
-        try {
-            LoginUser login = loginUserService.login(userRequest);
-
-            SessionObj session = SessionObj.builder().id(login.getId()).userRole(login.getRole()).build();
-
-            httpSession.setMaxInactiveInterval(0);
-            httpSession.setAttribute(SessionObj.SESSION_NAME, session);
-        } catch (AuthException e) {
-            bindingResult.addError(new ObjectError(SessionObj.SESSION_NAME, "아이디 또는 비밀번호를 잘못 입력했습니다."));
-            return "member/login";
-        }
-
-        return "redirect:/";
-    }
-
-    @GetMapping("logout")
+  /*  @GetMapping("logout")
     public String getLogout() {
         httpSession.invalidate();
         return "redirect:/";
-    }
+    }*/
 
 
 }

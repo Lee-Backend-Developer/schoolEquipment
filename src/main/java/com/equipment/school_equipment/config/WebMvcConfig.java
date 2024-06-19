@@ -19,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
                 .addResourceLocations("classpath:/static/");
     }
 
-    @Bean
+    /*@Bean
     public FilterRegistrationBean loginFilter() {
         FilterRegistrationBean<Filter> filterFilterRegistrationBean = new FilterRegistrationBean<>();
         filterFilterRegistrationBean.setFilter(new FilterAdminPermission());
@@ -27,7 +27,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
         filterFilterRegistrationBean.addUrlPatterns("/admin/*", "/api/admin/*");
 
         return filterFilterRegistrationBean;
-    }
+    }*/
 
 
 }
