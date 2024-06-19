@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class SessionObj {
+    public static final String SESSION_NAME = "loginFail";
     private Long id;
     private UserRole userRole;
 

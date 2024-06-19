@@ -4,6 +4,7 @@ import com.equipment.school_equipment.controller.session.SessionObj;
 import com.equipment.school_equipment.domain.LoginUser;
 import com.equipment.school_equipment.request.admin.UserRequest;
 import com.equipment.school_equipment.service.LoginUserService;
+import jakarta.security.auth.message.AuthException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +48,8 @@ public class LoginController {
 
             httpSession.setMaxInactiveInterval(0);
             httpSession.setAttribute("clientSession", session);
-        } catch (NullPointerException e) {
-            bindingResult.addError(new ObjectError("loginFail", "아이디 또는 비밀번호를 잘못 입력했습니다."));
+        } catch (AuthException e) {
+            bindingResult.addError(new ObjectError(SessionObj.SESSION_NAME, "아이디 또는 비밀번호를 잘못 입력했습니다."));
             return "member/login";
         }
 
