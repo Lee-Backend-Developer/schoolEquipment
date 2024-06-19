@@ -32,10 +32,12 @@
                 <div class="form-group">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" th:field="*{id}" placeholder="아이디 입력">
+                    <p th:errors="*{id}"></p>
                 </div>
                 <div class="form-group">
                     <label for="passwd">Password</label>
                     <input type="password" class="form-control" id="passwd" th:field="*{passwd}" placeholder="비밀번호 입력">
+                    <p th:errors="*{passwd}"></p>
                 </div>
                 <div class="form-group" th:if="${#fields.hasGlobalErrors()}">
                     <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="text-danger"></p>
