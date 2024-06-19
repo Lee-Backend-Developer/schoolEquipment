@@ -11,16 +11,13 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: validate
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+  #autoconfigure:
+    #exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
 
 
   profiles:
     active: local
 
 server:
-  error:
-    whitelabel:
-      enabled: false
   port: 80
 

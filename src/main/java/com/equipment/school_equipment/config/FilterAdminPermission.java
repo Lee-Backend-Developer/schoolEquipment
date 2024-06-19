@@ -22,9 +22,10 @@ public class FilterAdminPermission implements Filter {
         HttpSession session = request.getSession();
         SessionObj attribute = (SessionObj) session.getAttribute(SessionObj.SESSION_NAME);
 
-        log.info("attribute => {}", attribute);
-
-        if(Objects.isNull(attribute) || attribute.getUserRole().getRole().equals("사용자")) response.sendRedirect("/error/permission");
+        if(Objects.isNull(attribute) || attribute.getUserRole().getRole().equals("사용자")) {
+            response.setStatus(403);
+            response.sendRedirect("/error/4xx");
+        }
         else filterChain.doFilter(servletRequest, servletResponse);
     }
 
