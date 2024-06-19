@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/primary-category/{primaryCategory}")
+@RequestMapping("/admin/category/{primaryCategory}")
 public class AdminSecondaryCategoryController {
 
     private final SecondaryCategoryService secondaryCategoryService;
