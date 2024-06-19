@@ -18,4 +18,9 @@ public class MainController {
         model.addAttribute("findList", notificationProductService.findList());
         return "mainHome";
     }
+
+    @GetMapping("500")
+    public String serverError() {
+        return "error/5xx";
+    }
 }
