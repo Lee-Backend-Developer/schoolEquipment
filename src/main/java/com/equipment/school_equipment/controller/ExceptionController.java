@@ -13,7 +13,7 @@ public class ExceptionController {
 
     @GetMapping("permission")
     public String getPermission() {
-        return "exception/permission";
+        return "exception/4xx";
     }
 
 }

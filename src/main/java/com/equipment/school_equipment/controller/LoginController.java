@@ -47,7 +47,7 @@ public class LoginController {
             SessionObj session = SessionObj.builder().id(login.getId()).userRole(login.getRole()).build();
 
             httpSession.setMaxInactiveInterval(0);
-            httpSession.setAttribute("clientSession", session);
+            httpSession.setAttribute(SessionObj.SESSION_NAME, session);
         } catch (AuthException e) {
             bindingResult.addError(new ObjectError(SessionObj.SESSION_NAME, "아이디 또는 비밀번호를 잘못 입력했습니다."));
             return "member/login";

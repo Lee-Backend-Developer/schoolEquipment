@@ -37,14 +37,14 @@
                         </li>
                     </ul>
                 </li>
-                <li th:if="${#ctx.session.clientSession == null}">
+                <li th:if="${#ctx.session.loginClient == null}">
                     <a href="/member/login" aria-expanded="false" class="dropdown-toggle">로그인</a>
                 </li>
 
-                <li th:if="${#ctx.session.clientSession != null}">
+                <li th:if="${#ctx.session.loginClient != null}">
                     <a href="/member/logout" aria-expanded="false" class="dropdown-toggle">로그아웃</a>
                 </li>
-                <li th:if="${#ctx.session.clientSession != null && #ctx.session.clientSession.userRole.name().equals('admin')}">
+                <li th:if="${#ctx.session.loginClient != null && #ctx.session.loginClient.userRole.name().equals('admin')}">
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">관리자</a>
 
                     <ul class="collapse list-unstyled" id="pageSubmenu">
