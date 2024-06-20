@@ -47,17 +47,6 @@ public class SpringSecurityConfig {
         return http.build();
     }
 
-    /*@Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("1234")
-                .roles("관리자")
-                .build();
-
-        return new InMemoryUserDetailsManager(user);
-    }*/
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
