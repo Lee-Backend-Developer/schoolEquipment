@@ -19,7 +19,7 @@ spring:
 
 
   profiles:
-    active: local
+    active: prod
 
 server:
   port: 80

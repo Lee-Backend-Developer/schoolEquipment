@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 //@EnableScheduling
-//@PropertySource("classpath:/aws.properties")
+@PropertySource("classpath:/aws.properties")
 public class SchoolEquipmentApplication {
 
     public static void main(String[] args) {
