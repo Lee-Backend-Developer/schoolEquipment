@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
@@ -49,15 +51,14 @@ public class LoginUserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException { //서버에서 값을 가지고 옴
-        LoginUser loginUser = userRepository.findByUserId(userId).orElseThrow(NullPointerException::new);
-        return toUserDetails(loginUser);
-    }
-    private UserDetails toUserDetails(LoginUser member) {
-        return User.builder()
-                .username(member.getUserId())
-                .password(member.getUserPwd())
-                .authorities(new SimpleGrantedAuthority(member.getRole().toString()))
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        LoginUser loginUser = userRepository.findByUserId(username).orElseThrow();
+        UserDetails build = User.builder()
+                .username(loginUser.getUserId())
+                .password(loginUser.getUserPwd())
+                .roles(loginUser.getRole().name())
                 .build();
+
+        return build;
     }
 }

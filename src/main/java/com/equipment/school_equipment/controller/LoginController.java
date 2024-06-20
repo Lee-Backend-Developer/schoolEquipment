@@ -25,9 +25,6 @@ import java.util.Objects;
 @RequestMapping("member")
 public class LoginController {
 
-    private final LoginUserService loginUserService;
-    private final HttpSession httpSession;
-
     @GetMapping("login")
     public String getLogin(@ModelAttribute(binding = false, name = "userRequest") UserRequest userRequest) {
 
