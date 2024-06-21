@@ -77,25 +77,31 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $('#primaryCategory').change(function (e) {
-            const selectedText = $(this).find('option:selected').text();
-            $.get("/api/admin/category/"+selectedText)
-                .done(function(response) {
-                    $("#secondaryCategory").empty();
-                    
-                    if(response.length === 0 ) {
-                        alert("하위 카테고리에 아무것도 없음");
-                        $("#primaryCategory option:eq(0)").attr("selected", "true")
-                    }
-                    response.forEach(category =>{
-                        /* 태그 생성 */
-                        let createOptionTag = $('<option></option>').text(category.categoryName).val(category.id);
-                        $("#secondaryCategory").append(createOptionTag);
-                        console.log(category)});
-            }).fail(() => alert("서버 연결안됨"));
-        })// change End
-    }); //ready End
+    let primaryCategory = document.getElementById("primaryCategory");
+    let secondaryCategory = document.getElementById("secondaryCategory");
+
+    primaryCategory.addEventListener("change", async function () {
+        let selectedEvn = primaryCategory.options[primaryCategory.selectedIndex].text
+        getSecondaryCategory(selectedEvn);
+    })
+    primaryCategory.addEventListener("click", function() {
+        while(secondaryCategory.hasChildNodes()){
+            secondaryCategory.removeChild(secondaryCategory.firstElementChild);
+        }
+    })
+
+    function getSecondaryCategory(primaryCategory){
+        fetch("/api/admin/category/" + primaryCategory)
+            .then((response) => response.json())
+            .then((data) => {
+                data.forEach((a) => {
+                    let optionElement = document.createElement("option");
+                    optionElement.value = a.id;
+                    optionElement.innerText = a.categoryName;
+                    secondaryCategory.appendChild(optionElement);
+                }); // forEach End
+            });     // then End
+    }
 </script>
 </body>
 </html>
