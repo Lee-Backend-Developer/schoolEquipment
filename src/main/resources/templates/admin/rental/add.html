@@ -98,23 +98,33 @@
 </div>
 </div>
 <script>
-    // 1. 상위 카테고리가 변경 2. 변경된 값을 api 보냄 하위 카테고리 추가
+    //필드
     let primaryCategory = document.getElementById("primaryCategory");
     let secondaryCategory = document.getElementById("secondaryCategory");
-    primaryCategory.addEventListener("change", async function () {
-        let selectedEvn = primaryCategory.options[primaryCategory.selectedIndex].text
-        getSecondaryCategory(selectedEvn);
-    })
-    primaryCategory.addEventListener("click", function() {
-        while(secondaryCategory.hasChildNodes()){
-            secondaryCategory.removeChild(secondaryCategory.firstElementChild);
-        }
-    })
+    let equipmentElement = document.getElementById("equipment");
 
-    function getSecondaryCategory(primaryCategory) {
+    //이벤트
+    primaryCategory.addEventListener("change", async function () { // 상위 카테고리 변경될 경우
+        let selectedEvn = primaryCategory.options[primaryCategory.selectedIndex].text
+        addElementCategory(selectedEvn);
+    });
+    primaryCategory.addEventListener("click", function () { // 상위 카테고리 클릭
+        while (secondaryCategory.hasChildNodes()) {
+            secondaryCategory.removeChild(secondaryCategory.firstChild);
+        }
+    });
+    secondaryCategory.addEventListener("change", async function() { // 하위 카테고리 변경될 경우
+        addElementEquipment(primaryCategory, secondaryCategory)
+    });
+
+    //함수
+
+    // 하위 카테고리 가져오기
+    function addElementCategory(primaryCategory) {
         fetch("/api/admin/category/" + primaryCategory)
             .then((response) => response.json())
             .then((data) => {
+
                 data.forEach((a) => {
                     let optionElement = document.createElement("option");
                     optionElement.value = a.id;
@@ -122,6 +132,26 @@
                     secondaryCategory.appendChild(optionElement);
                 }); // forEach End
             });     // then End
+    }
+
+    // 제품 가져오기
+    function addElementEquipment(primaryCategory, secondaryCategory){
+        const param = {
+            primaryCategoryId : primaryCategory.value,
+            secondaryCategoryId : secondaryCategory.value
+        }
+
+        let paramSearchParams = new URLSearchParams(param).toString();
+        fetch("/api/admin/equipment?"+paramSearchParams)
+            .then((response) => response.json())
+            .then((response) => {
+                response.forEach((data) => {
+                    let optionElement = document.createElement("option");
+                    optionElement.value = data.id;
+                    optionElement.innerText = data.name
+                    equipmentElement.appendChild(optionElement);
+                })
+            })
     }
 </script>
 </body>

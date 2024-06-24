@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/admin/equipment/api")
+@RequestMapping("api/admin/equipment")
 public class AdminEquipmentApiController {
     private final EquipmentService equipmentService;
 
