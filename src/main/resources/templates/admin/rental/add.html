@@ -98,76 +98,31 @@
 </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $('#primaryCategory').change(function (e) {
-            const selectedText = $(this).find('option:selected').text();
-            $.get("/api/admin/category/"+selectedText)
-                .done(function(response) {
-                    $("#secondaryCategory").empty();
+    // 1. 상위 카테고리가 변경 2. 변경된 값을 api 보냄 하위 카테고리 추가
+    let primaryCategory = document.getElementById("primaryCategory");
+    let secondaryCategory = document.getElementById("secondaryCategory");
+    primaryCategory.addEventListener("change", async function () {
+        let selectedEvn = primaryCategory.options[primaryCategory.selectedIndex].text
+        getSecondaryCategory(selectedEvn);
+    })
+    primaryCategory.addEventListener("click", function() {
+        while(secondaryCategory.hasChildNodes()){
+            secondaryCategory.removeChild(secondaryCategory.firstElementChild);
+        }
+    })
 
-                    if(response.length === 0 ) {
-                        alert("하위 카테고리에 아무것도 없음");
-                        $("#primaryCategory option:eq(0)").attr("selected", "true")
-                    }
-                    response.forEach(category =>{
-                        /* 태그 생성 */
-                        let createOptionTag = $('<option></option>').text(category.categoryName).val(category.id);
-                        $("#secondaryCategory").append(createOptionTag);
-                        console.log(category)});
-                }).fail(() => alert("서버 연결안됨"));
-        })// change End
-        $('#secondaryCategory').click(function (e) {
-            const primaryCategoryId=$("#primaryCategory option:selected").val();
-            const secondaryCategoryId=$("#secondaryCategory option:selected").val();
-            $.get("/api/equipment/api?primaryCategoryId="+primaryCategoryId+"&secondaryCategoryId="+secondaryCategoryId)
-                .done(function(response) {
-                    $("#equipment").empty();
-
-                    if(response.length === 0 ) {
-                        alert("하위 카테고리에 아무것도 없음");
-                        $("#primaryCategory option:eq(0)").attr("selected", "true")
-                    }
-                    response.forEach(category =>{
-                        /* 태그 생성 */
-                        let createOptionTag = $('<option></option>').text(category.name).val(category.id);
-                        $("#equipment").append(createOptionTag);
-                        console.log(category)});
-                }).fail(() => alert("서버 연결안됨"));
-        })// change End
-        document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
-            checkbox.addEventListener('change', function (e) {
-                if (e.target.checked) {
-                    fetch('/api/class-period/' + e.target.id)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data);
-                            if(data.length >= 1) {
-                                const select = document.getElementById('classroom');
-                                select.innerHTML = '';
-                                data.forEach(function (classtime) {
-                                    const option = document.createElement('option');
-                                    option.text = classtime.classNames;
-                                    option.value = classtime.id;
-                                    select.add(option);
-                                });
-                            }
-                            else {
-                                alert('해당 요일에는 수업이 없습니다.');
-                                e.target.checked = false;
-                            }
-                        });
-                }
-                if (!e.target.checked) {
-                    const select = document.getElementById('classroom');
-                    select.innerHTML = '';
-                    const option = document.createElement('option');
-                    option.text = "수업명";
-                    option.value = '';
-                    select.add(option);
-                }
-            });
-        });
-    }); //ready End
+    function getSecondaryCategory(primaryCategory) {
+        fetch("/api/admin/category/" + primaryCategory)
+            .then((response) => response.json())
+            .then((data) => {
+                data.forEach((a) => {
+                    let optionElement = document.createElement("option");
+                    optionElement.value = a.id;
+                    optionElement.innerText = a.categoryName;
+                    secondaryCategory.appendChild(optionElement);
+                }); // forEach End
+            });     // then End
+    }
 </script>
 </body>
 </html>

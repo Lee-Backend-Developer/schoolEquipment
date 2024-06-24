@@ -76,10 +76,10 @@
         </form>
     </div>
 </div>
-<script>
+<script src="/js/category.js">
+    // 1. 상위 카테고리가 변경 2. 변경된 값을 api 보냄 하위 카테고리 추가
     let primaryCategory = document.getElementById("primaryCategory");
     let secondaryCategory = document.getElementById("secondaryCategory");
-
     primaryCategory.addEventListener("change", async function () {
         let selectedEvn = primaryCategory.options[primaryCategory.selectedIndex].text
         getSecondaryCategory(selectedEvn);
@@ -90,7 +90,7 @@
         }
     })
 
-    function getSecondaryCategory(primaryCategory){
+    function getSecondaryCategory(primaryCategory) {
         fetch("/api/admin/category/" + primaryCategory)
             .then((response) => response.json())
             .then((data) => {
