@@ -102,8 +102,10 @@
     let primaryCategory = document.getElementById("primaryCategory");
     let secondaryCategory = document.getElementById("secondaryCategory");
     let equipmentElement = document.getElementById("equipment");
+    let dayOfWeek = document.getElementsByName("weekday");
+    let classroomElement = document.getElementById("classroom");
 
-    //이벤트
+    // 상위 카테고리 이벤트
     primaryCategory.addEventListener("change", async function () { // 상위 카테고리 변경될 경우
         let selectedEvn = primaryCategory.options[primaryCategory.selectedIndex].text
         addElementCategory(selectedEvn);
@@ -113,9 +115,16 @@
             secondaryCategory.removeChild(secondaryCategory.firstChild);
         }
     });
-    secondaryCategory.addEventListener("change", async function() { // 하위 카테고리 변경될 경우
+    // 하위 카테고리 이벤트
+    secondaryCategory.addEventListener("change", async function() {
         addElementEquipment(primaryCategory, secondaryCategory)
     });
+    secondaryCategory.addEventListener("click", function (){
+        while(equipmentElement.hasChildNodes())
+            equipmentElement.removeChild(equipmentElement.firstChild);
+    })
+
+    // 요일 이벤트
     dayOfWeek.forEach((day) => day.addEventListener("change", function (e) {
         let parameter = e.target.value;
         fetch("/api/class-period/"+parameter)
@@ -123,7 +132,6 @@
             .then((res) => {
                 if(res.length <= 0) alert("현재 선택한 요일은 수업이 없습니다.");
                 res.forEach((data) => {
-                    console.log(data);
                     let optionElement = document.createElement("option");
                     optionElement.value = data.id;
                     optionElement.innerText = data.classNames;
@@ -132,7 +140,6 @@
             })
     }));
 
-    //함수
 
     // 하위 카테고리 가져오기
     function addElementCategory(primaryCategory) {
