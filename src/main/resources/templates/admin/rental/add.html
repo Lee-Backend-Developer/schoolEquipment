@@ -124,11 +124,13 @@
             equipmentElement.removeChild(equipmentElement.firstChild);
 
         addElementEquipment(primaryCategory, secondaryCategory)
-        
+
     })
 
     // 요일 이벤트
     dayOfWeek.forEach((day) => day.addEventListener("change", function (e) {
+        while(classroomElement.hasChildNodes()) classroomElement.removeChild(classroomElement.firstChild);
+
         let parameter = e.target.value;
         fetch("/api/class-period/"+parameter)
             .then((res) => res.json())
