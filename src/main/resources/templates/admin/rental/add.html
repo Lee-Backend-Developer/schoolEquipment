@@ -122,6 +122,9 @@
     secondaryCategory.addEventListener("click", function (){
         while(equipmentElement.hasChildNodes())
             equipmentElement.removeChild(equipmentElement.firstChild);
+
+        addElementEquipment(primaryCategory, secondaryCategory)
+        
     })
 
     // 요일 이벤트
