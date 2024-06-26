@@ -32,9 +32,9 @@
                         <td scope="row" th:text="*{className()}">수업이름</td>
                         <td scope="row" th:text="*{equipmentName()}">장비이름</td>
                         <td scope="row" th:text="*{rentalCnt()}">갯수</td>
-                        <td><a th:href="@{/admin/rental/delete/{rentalId} (rentalId = ${rental.id()})}" type="button"
-                               class="btn btn-danger">삭제</a></td>
                         <td>
+                            <a th:href="@{/admin/rental/delete/{rentalId} (rentalId = ${rental.id()})}" type="button"
+                               class="btn btn-danger">삭제</a>
                         </td>
                     </tr>
                     </tbody>
@@ -43,64 +43,5 @@
         </div>
     </div>
 </div>
-<script defer>
-    $(document).ready(function () {
-        let selectedTr;
-
-        $('tbody tr td').click(function (e) {
-            // 삭제 버튼
-            if (selectedTr) {
-                let deleteBtn = selectedTr.cells[5].querySelector('a');
-                deleteBtn.removeAttribute('contenteditable');
-                let attributeOldHref = deleteBtn.getAttribute('href');
-                let attributeChangeHref = attributeOldHref.replace('update', 'delete');
-                $(deleteBtn).text('삭제');
-                $(deleteBtn).prop('href', attributeChangeHref);
-                $(deleteBtn).removeClass('btn-secondary');
-                $(deleteBtn).addClass('btn-danger');
-            }
-            selectedTr = e.target.closest('tr');
-            let clickTr = selectedTr.cells[4];
-            let deleteBtn = selectedTr.cells[5].querySelector('a');
-
-            // clickTr 이벤트
-            clickTr.setAttributeNode(document.createAttribute('contenteditable'));
-            // deleteBtn 이벤트
-            let attributeOldHref = deleteBtn.getAttribute('href');
-            let attributeChangeHref = attributeOldHref.replace('delete', 'update');
-            console.log(attributeChangeHref);
-            $(deleteBtn).text('수정');
-            $(deleteBtn).prop('href', attributeChangeHref);
-            $(deleteBtn).removeClass('btn-danger');
-            $(deleteBtn).addClass('btn btn-secondary');
-            $(deleteBtn).click(function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: attributeChangeHref,
-                    type: 'PATCH',
-                    data: {
-                        rentalId: selectedTr.cells[0].innerText,
-                        rentalCnt: selectedTr.cells[4].innerText
-                    },
-                });
-            });
-        });
-
-        // 다른곳 클릭시
-        $(document).click(function (e) {
-            if (selectedTr && !selectedTr.contains(e.target)) {
-                let deleteBtn = selectedTr.cells[5].querySelector('a');
-                deleteBtn.removeAttribute('contenteditable');
-                let attributeOldHref = deleteBtn.getAttribute('href');
-                let attributeChangeHref = attributeOldHref.replace('update', 'delete');
-                $(deleteBtn).text('삭제');
-                $(deleteBtn).prop('href', attributeChangeHref);
-                $(deleteBtn).removeClass('btn-secondary');
-                $(deleteBtn).addClass('btn-danger');
-                selectedTr = null;
-            }
-        });
-    })
-</script>
 </body>
 </html>
