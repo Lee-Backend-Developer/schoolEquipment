@@ -44,4 +44,18 @@
     </div>
 </div>
 </body>
+<script>
+    let elementsTrTag = document.getElementsByTagName("tr");
+
+    for (let i = 0; i < elementsTrTag.length; i++) {
+        let trElementId = elementsTrTag.item(i);
+        let trElementToAtag = trElementId.getElementsByTagName("a")[0]
+            .getAttribute("href")
+            .split("/")[4]
+        trElementId.addEventListener("click", function () {
+            window.location.href=""+trElementToAtag; // todo 수정 컨트롤러 만들고나서 url 수정이 필요함
+        });
+
+    }
+</script>
 </html>
