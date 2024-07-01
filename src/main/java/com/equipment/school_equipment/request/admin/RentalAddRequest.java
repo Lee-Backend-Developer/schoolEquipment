@@ -31,10 +31,14 @@ public class RentalAddRequest {
         @NotNull
         private SecondaryCategory secondaryCategory;
 
+        private Equipment equipment;
+        private ClassPeriod classPeriod;
+
         //model
         private List<PrimaryCategory> primaryCategoryList;
+        private List<SecondaryCategory> secondaryCategoryList;
 
         //response
-        private List<Equipment> equipments;
-        private List<ClassPeriod> classtime;
+        private List<Equipment> equipmentList;
+        private List<ClassPeriod> classtimeList;
 }

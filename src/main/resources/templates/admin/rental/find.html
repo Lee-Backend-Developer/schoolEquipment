@@ -7,7 +7,7 @@
     <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
 
 <!-- Page Content  -->
-<div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::form}, '대여 추가')}">
+<div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::form}, '대여 수정')}">
     <!--    컨텐츠-->
     <form th:object="${rental}" method="post">
         <!-- 상위 카테고리 선택-->
@@ -24,12 +24,14 @@
                  class="alert alert-danger mt-1"
                  role="alert"></div>
         </div>
-
         <!-- 하위 카테고리 선택-->
         <div class="form-group">
             <label for="secondaryCategory">하위 카테고리 선택</label>
             <select class="form-control" name="equipmentId" id="secondaryCategory" th:field="*{secondaryCategory}">
                 <option value="">하위 카테고리 선택</option>
+                <option th:each="secondary : ${rental.getSecondaryCategoryList()}"
+                        th:value="${secondary.getId()}"
+                        th:text="${secondary.getCategoryName()}">하위 카테고리 선택</option>
             </select>
             <div th:if="${#fields.hasErrors('secondaryCategory')}"
                  th:errors="*{secondaryCategory}"
@@ -39,20 +41,18 @@
         <!-- 장비 선택 -->
         <div class="form-group">
             <label for="equipment">장비 선택</label>
-            <select class="form-control" name="equipmentId" id="equipment" th:field="*{equipmentId}">
+            <select class="form-control" name="equipmentId" id="equipment" th:field="*{equipment}">
                 <option value="">장비 선택</option>
                 <option th:each="equipment : ${rental.getEquipmentList()}"
                         th:text="${equipment.getName()}"
-                        th:value="${equipment.getId()}">test
+                        th:value="${equipment.getId()}">장비
                 </option>
             </select>
-            <div th:if="${#fields.hasErrors('equipmentId')}"
-                 th:errors="*{equipmentId}"
+            <div th:if="${#fields.hasErrors('equipment')}"
+                 th:errors="*{equipment}"
                  class="alert alert-danger mt-1"
                  role="alert"></div>
         </div>
-
-
         <div class="form-group">
             <h6>요일</h6>
             <div class="form-check form-check-inline" th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
@@ -74,11 +74,16 @@
 
         <div class="form-group">
             <label for="classroom">수업 선택</label>
-            <select class="form-control" name="classroomId" id="classroom" th:field="*{classroomId}">
+            <select class="form-control" name="classroomId" id="classroom" th:field="*{classPeriod}">
                 <option value="">수업명</option>
+                <option th:each="classPeriod : ${rental.getClasstimeList()}"
+                        th:text="${classPeriod.getClassName()}"
+                        th:value="${classPeriod.getId()}"
+                >요일
+                </option>
             </select>
-            <div th:if="${#fields.hasErrors('classroomId')}"
-                 th:errors="*{classroomId}"
+            <div th:if="${#fields.hasErrors('classPeriod')}"
+                 th:errors="*{classPeriod}"
                  class="alert alert-danger mt-1"
                  role="alert"></div>
         </div>

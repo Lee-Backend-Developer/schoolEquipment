@@ -132,4 +132,8 @@ public class RentalService {
             }
             rental.updateRentalCnt(rentalCnt);
     }
+
+    public Rental findById(Long id) {
+        return rentalRepository.findById(id).orElseThrow(NullPointerException::new);
+    }
 }

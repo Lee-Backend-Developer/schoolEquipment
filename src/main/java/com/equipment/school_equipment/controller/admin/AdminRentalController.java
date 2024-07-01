@@ -1,5 +1,8 @@
 package com.equipment.school_equipment.controller.admin;
 
+import com.equipment.school_equipment.domain.Rental;
+import com.equipment.school_equipment.domain.SecondaryCategory;
+import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.PrimaryCategoryRepository;
 import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
@@ -28,6 +31,7 @@ public class AdminRentalController {
     private final EquipmentRepository equipmentRepository;
     private final PrimaryCategoryService primaryCategoryService;
     private final PrimaryCategoryRepository primaryCategoryRepository;
+    private final ClassTimeRepository classTimeRepository;
 
     @GetMapping
     public String find(Model model) {
@@ -62,13 +66,37 @@ public class AdminRentalController {
     public String add(@Valid @ModelAttribute("rental") RentalAddRequest request, BindingResult bindingResult, Model model) throws IOException {
         if(bindingResult.hasErrors()){
             request.setPrimaryCategoryList(primaryCategoryRepository.findAll());
-            request.setEquipments(equipmentRepository.findAll());
+            request.setEquipmentList(equipmentRepository.findAll());
             model.addAttribute("rental", request);
             return "admin/rental/add";
         }
         rentalService.rentalCreate(request);
         return "redirect:/admin/rental";
 
+    }
+
+    @GetMapping("/edit/{id}")
+    public String getEditPage(@PathVariable Long id, Model model){
+        Rental request = rentalService.findById(id);
+
+        RentalAddRequest requestForm = RentalAddRequest.builder()
+                .primaryCategoryList(primaryCategoryRepository.findAll())
+                .primaryCategory(request.getEquipment().getSecondaryCategory().getPrimaryCategory())
+                .secondaryCategoryList(secondaryCategoryRepository.findAll())
+                .secondaryCategory(request.getEquipment().getSecondaryCategory())
+                .equipmentList(equipmentRepository
+                        .findByEquipmentAndPrimaryCategoryAndSecondaryCategory(request.getEquipment().getSecondaryCategory().getPrimaryCategory().getId(),request.getEquipment()
+                                .getSecondaryCategory().getId()))
+                .equipment(request.getEquipment())
+                .retCnt(request.getRentalCnt())
+                .classtimeList(classTimeRepository.findByDayOfWeekEquals(request.getClassPeriod().getDayOfWeek()))
+                .classPeriod(request.getClassPeriod())
+                .weekday(request.getClassPeriod().getDayOfWeek())
+                .build();
+
+
+        model.addAttribute("rental", requestForm);
+        return "admin/rental/find";
     }
 
     @GetMapping("/delete/{id}")
