@@ -130,17 +130,12 @@
                             <a class="nav-link" href="#" th:href="@{/admin/equipment(category='음향')}">음향</a>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav ml-auto" th:unless="${subject eq '장비목록'}">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#"></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"></a>
+                    <ul class="nav navbar-nav ml-auto" th:if="${subject eq '대여'}">
+                        <li class="nav-item" th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
+                            <a class="nav-link" href="#" th:text="*{day.getWeek()}" th:href="@{/admin/rental(week=*{day.getName(day.getWeek())})}"></a>
                         </li>
                     </ul>
+
                 </div>
             </div>
         </nav>
