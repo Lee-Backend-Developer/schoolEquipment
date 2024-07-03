@@ -9,7 +9,7 @@
 <!-- Page Content  -->
 <div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::form}, '대여 수정')}">
     <!--    컨텐츠-->
-    <form th:object="${rental}" method="post">
+    <form th:object="${rental}" th:method="PUT">
         <!-- 상위 카테고리 선택-->
         <div class="form-group">
             <label for="primaryCategory">상위 카테고리 선택</label>
@@ -98,7 +98,7 @@
                  role="alert"></div>
         </div>
 
-        <button type="submit" class="btn btn-primary">추가</button>
+        <button type="submit" class="btn btn-primary">수정</button>
     </form>
 </div>
 </div>

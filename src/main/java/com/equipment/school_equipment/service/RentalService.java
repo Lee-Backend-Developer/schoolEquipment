@@ -136,4 +136,10 @@ public class RentalService {
     public Rental findById(Long id) {
         return rentalRepository.findById(id).orElseThrow(NullPointerException::new);
     }
+
+    @Transactional
+    public void rentalUpdate(Rental updateRental) {
+        Rental findRental = rentalRepository.findById(updateRental.getId()).orElseThrow(NullPointerException::new);
+        findRental.updateRental(updateRental);
+    }
 }

@@ -99,6 +99,21 @@ public class AdminRentalController {
         return "admin/rental/find";
     }
 
+    @PutMapping("/edit/{id}")
+    public String putEditPage(@PathVariable Long id, RentalAddRequest requestForm){
+        log.info("request form => {}", requestForm);
+
+        Rental updateRental = Rental.builder()
+                .id(id)
+                .equipment(requestForm.getEquipment())
+                .classPeriod(requestForm.getClassPeriod())
+                .rentalCnt(requestForm.getRetCnt())
+                .build();
+
+        rentalService.rentalUpdate(updateRental);
+        return "redirect:/admin/rental";
+    }
+
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         rentalService.rentaldelete(id);

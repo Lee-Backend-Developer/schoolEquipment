@@ -44,4 +44,15 @@ public class Rental {
     public void updateRentalChk(boolean rentalChk) {
         this.rentalChk = rentalChk;
     }
+
+    /**
+     * 대여 수정
+     * @param updateRentalObj RentalObject
+     */
+    public void updateRental(Rental updateRentalObj){
+        this.classPeriod = updateRentalObj.getClassPeriod();
+        this.equipment = updateRentalObj.getEquipment();
+        this.rentalCnt = updateRentalObj.getRentalCnt();
+        this.rentalChk = true;
+    }
 }
