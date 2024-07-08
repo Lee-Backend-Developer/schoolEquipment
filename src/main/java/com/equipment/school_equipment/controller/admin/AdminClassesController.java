@@ -1,17 +1,16 @@
 package com.equipment.school_equipment.controller.admin;
 
 import com.equipment.school_equipment.domain.ClassPeriod;
+import com.equipment.school_equipment.request.admin.ClassPeriodPageCondition;
 import com.equipment.school_equipment.request.admin.ClassmateRequest;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
 import com.equipment.school_equipment.request.classTime.ClassTimeUpdate;
 import com.equipment.school_equipment.response.thymeleaf.admin.ClasstimeResponse;
-import com.equipment.school_equipment.response.thymeleaf.admin.ClasstimesFindResponse;
 import com.equipment.school_equipment.service.ClassPeriodService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,19 +23,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin/class-period")
 public class AdminClassesController {
-    private static final Logger log = LoggerFactory.getLogger(AdminClassesController.class);
     private final ClassPeriodService classPeriodService;
 
     @GetMapping
-    public String findByAll(Model model) {
-        List<ClassPeriod> classPeriodList = classPeriodService.findAll();
-        List<ClasstimesFindResponse> converterResponseList = classPeriodList.stream()
-                .map((period -> ClasstimesFindResponse.builder()
-                        .id(period.getId())
-                        .name(period.getClassName())
-                        .build())).toList();
+    public String findByAll(@ModelAttribute(binding = false) ClassPeriodPageCondition page, Model model) {
 
-        model.addAttribute("converterList", converterResponseList);
+        Page<ClassPeriod> classPeriodPage = classPeriodService.findAllPage(page);
+
+        model.addAttribute("classPeriodContent", classPeriodPage.getContent());
+        model.addAttribute("classPeriodPage", classPeriodPage);
 
         return "admin/classPeriod/find-all";
     }

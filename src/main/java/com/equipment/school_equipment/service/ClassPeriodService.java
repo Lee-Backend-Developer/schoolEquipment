@@ -4,9 +4,13 @@ package com.equipment.school_equipment.service;
 import com.equipment.school_equipment.domain.ClassPeriod;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
+import com.equipment.school_equipment.request.admin.ClassPeriodPageCondition;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
 import com.equipment.school_equipment.request.classTime.ClassTimeUpdate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +67,10 @@ public class ClassPeriodService {
 
     public List<ClassPeriod> findAll() {
         return classTimeRepository.findAll();
+    }
+
+    public Page<ClassPeriod> findAllPage(ClassPeriodPageCondition page) {
+        return classTimeRepository.classPeriodPage(page, PageRequest.of(page.getPage(), 10));
     }
 
     public ClassPeriod findById(Long classnameId) {

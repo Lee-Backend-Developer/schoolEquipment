@@ -8,24 +8,87 @@
 
     <!-- 위쪽 사이드 바-->
     <div class="container-fluid">
-        <div th:insert="~{fragments/main_fragment :: content(~{::#table}, '오늘 대여 기자재')}">
-    <!--    컨텐츠-->
-    <table class="table table-hover" id="table">
-        <thead>
-        <tr>
-            <th scope="col">No</th>
-            <th scope="col">수업명</th>
-            <th><a th:href="@{/admin/class-period/add}" type="button" class="btn btn-primary">추가</a></th>
+        <div th:insert="~{fragments/main_fragment :: content(~{::#table}, '수업 시간')}">
+            <!--    컨텐츠-->
+            <table class="table table-hover" id="table">
+                <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">수업명</th>
+                    <th><a th:href="@{/admin/class-period/add}" type="button" class="btn btn-primary">추가</a></th>
 
-        </tr>
-        <tbody th:each="classPeriod : ${converterList}">
-        <tr>
-            <td scope="row" th:text="${classPeriodStat.count}">1</td>
-            <td><a href="#" th:text="${classPeriod.name()}" th:href="@{/admin/class-period/edit/{no} (no = ${classPeriod.id()})}">카메라</a></td>
-            <td><a th:href="@{/admin/class-period/delete/{classtimeId} (classtimeId = ${classPeriod.id()})}" type="button" class="btn btn-danger">삭제</a></td>
-        </tr>
-        </tbody>
-    </table>
+                </tr>
+                <tbody th:each="classPeriod : ${classPeriodPage.getContent()}">
+                <tr>
+                    <td scope="row" th:text="${classPeriodStat.count}">1</td>
+                    <td><a href="#" th:text="${classPeriod.getClassName()}"
+                           th:href="@{/admin/class-period/edit/{no} (no = ${classPeriod.getId()})}">카메라</a></td>
+                    <td><a th:href="@{/admin/class-period/delete/{classtimeId} (classtimeId = ${classPeriod.getId()})}"
+                           type="button" class="btn btn-danger">삭제</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <nav aria-label="Page navigation"
+             th:with="page=${classPeriodPage}, start=${(page.getNumber() / 10)*10 + 0},
+                last=(${start + 9 < page.getTotalPages() ? start + 9 : page.getTotalPages()}),
+                url = 'admin/class-period'">
+
+            <!--요일 값이 있을 경우-->
+            <ul class="pagination justify-content-center" th:if="${param.week != null}">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="${page.isFirst()} ? '#' : @{/{url}(url=${url}, page=${page.getNumber() - 1}, week=${param.week})}"
+                       aria-label="Previous">
+                        이전
+                    </a>
+                </li>
+                <li class="page-item"
+                    th:each="num : ${#numbers.sequence(start, last)}"
+                    th:classappend="${page.getNumber() == num} ? 'active' : ''"
+                >
+                    <a class="page-link"
+                       href="#"
+                       th:href="@{/{url}(url=${url}, page=${num}, week=${param.week})}"
+                       th:text="${num + 1}">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="${page.isLast()} ? '#' : @{/{url}(url=${url}, page=${page.getNumber() + 1}, week=${param.week})}"
+                       aria-label="Next">
+                        다음
+                    </a>
+                </li>
+            </ul>
+
+            <!-- 요일 값이 없을경우-->
+            <ul class="pagination justify-content-center" th:unless="${param.week != null}">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="${page.isFirst()} ? '#' : @{/{url}(page=${page.getNumber() - 1}, url=${url})}"
+                       aria-label="Previous">
+                        이전
+                    </a>
+                </li>
+                <li class="page-item"
+                    th:each="num : ${#numbers.sequence(start, last)}"
+                    th:classappend="${page.getNumber() == num} ? 'active' : ''"
+                >
+                    <a class="page-link"
+                       href="#"
+                       th:href="@{/{url}(page=${num}, url=${url})}"
+                       th:text="${num + 1}">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="${page.isLast()} ? '#' : @{/{url}(page=${page.getNumber() + 1}, url=${url})}"
+                       aria-label="Next">
+                        다음
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>
 </body>
 </html>
