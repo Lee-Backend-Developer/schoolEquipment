@@ -155,12 +155,11 @@
         }); // eventListener function close
     }       // for close
 
-    let dropdownToggleTag = document.getElementsByClassName("btn-link dropdown-toggle");
-    for (const dropdownToggleTagElement of dropdownToggleTag) {
+    let dropdownTag = document.getElementsByClassName("dropdown");
+    for (const dropdownToggleTagElement of dropdownTag) {
         dropdownToggleTagElement.addEventListener("mouseover", function (e) {
-            let dropdownToggleTagElementId = e.currentTarget.id;
-            console.log(dropdownToggleTagElementId)
-            
+            let childDropdownMenu = e.currentTarget.children[1];
+            childDropdownMenu.style.display = "block"
         }); // eventListener function close
     }       // for close
 
