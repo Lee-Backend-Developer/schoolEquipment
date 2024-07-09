@@ -7,12 +7,15 @@ import com.equipment.school_equipment.repository.PrimaryCategoryRepository;
 import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.request.admin.RentalAddRequest;
+import com.equipment.school_equipment.request.admin.RentalPageCondition;
 import com.equipment.school_equipment.response.thymeleaf.admin.RentalFindAllResponse;
 import com.equipment.school_equipment.service.PrimaryCategoryService;
 import com.equipment.school_equipment.service.RentalService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,10 +37,10 @@ public class AdminRentalController {
     private final ClassTimeRepository classTimeRepository;
 
     @GetMapping
-    public String find(Model model) {
-
-        List<RentalFindAllResponse> responses = rentalService.findByAll().stream().map(rental ->
-                RentalFindAllResponse.builder()
+    public String find(@ModelAttribute RentalPageCondition condition, Model model) {
+        Page<Rental> rentalPage = rentalService.findByAll(condition);
+        List<RentalFindAllResponse> content = rentalPage
+                .getContent().stream().map(rental -> RentalFindAllResponse.builder()
                         .id(rental.getId())
                         .week(rental.getClassPeriod().getDayOfWeek().getWeek())
                         .className(rental.getClassPeriod().getClassName())
@@ -47,7 +50,8 @@ public class AdminRentalController {
                         .build()
         ).toList();
 
-        model.addAttribute("rentals", responses);
+        model.addAttribute("page", rentalPage);
+        model.addAttribute("rentals", content);
 
         return "admin/rental/find-all";
     }

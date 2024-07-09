@@ -4,10 +4,17 @@ import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.custom.RentalRepositoryCustom;
+import com.equipment.school_equipment.request.admin.RentalPageCondition;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.equipment.school_equipment.domain.QClassPeriod.*;
@@ -57,10 +64,29 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
     }
 
     @Override
-    public List<Rental> findAllAndRentalChkTrue() {
-        return queryFactory.selectFrom(rental)
-                .where(rental.rentalChk.isTrue())
-                .fetch();
+    public Page<Rental> findAllAndRentalChkTrue(RentalPageCondition condition, Pageable pageable) {
+        JPAQuery<Rental> rentalJPAQuery;
+        long total;
+
+        // 요일이 없을 경우
+        if (Objects.isNull(condition.getWeek())) {
+            rentalJPAQuery = queryFactory.selectFrom(rental)
+                    .where(rental.rentalChk.isTrue())
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize());
+
+            total = totalAllCntRet(rental);
+        } else { // 요일이 있을경우
+            rentalJPAQuery = queryFactory.selectFrom(rental)
+                    .where(rental.rentalChk.isTrue().and(rental.classPeriod.dayOfWeek.eq(condition.getWeek())))
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize());
+
+            total = queryFactory.select(rental.count()).from(rental)
+                    .where(rental.rentalChk.isTrue().and(rental.classPeriod.dayOfWeek.eq(condition.getWeek()))).fetchOne();
+        }
+
+        return new PageImpl<>(rentalJPAQuery.fetch(), pageable, total);
     }
 
     @Override
@@ -70,5 +96,10 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
                 .fetchJoin()
                 .where(rental.classPeriod.dayOfWeek.eq(weekday))
                 .fetch();
+    }
+
+    private Long totalAllCntRet(EntityPathBase qClass) {
+        Long cnt = (Long) queryFactory.select(qClass.count()).from(qClass).fetchOne();
+        return cnt;
     }
 }

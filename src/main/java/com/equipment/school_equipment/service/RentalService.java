@@ -8,8 +8,12 @@ import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.RentalRepository;
 import com.equipment.school_equipment.request.admin.RentalAddRequest;
+import com.equipment.school_equipment.request.admin.RentalPageCondition;
 import com.equipment.school_equipment.request.rental.RentalCreate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,8 +85,9 @@ public class RentalService {
                 );
     }
 
-    public List<Rental> findByAll() {
-        return rentalRepository.findAllAndRentalChkTrue();
+    public Page<Rental> findByAll(RentalPageCondition condition) {
+        PageRequest pageRequest = PageRequest.of(condition.getPage(), 10);
+        return rentalRepository.findAllAndRentalChkTrue(condition, pageRequest);
     }
 
     public Equipment findByEquipment(String classname, String day) {
