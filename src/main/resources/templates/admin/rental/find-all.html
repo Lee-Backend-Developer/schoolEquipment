@@ -26,11 +26,22 @@
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <!-- 위쪽 요일창 -->
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item"
                                 th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
-                                <a class="nav-link" href="#" th:text="*{day.getWeek()}"
-                                   th:href="@{/admin/rental(week = *{day.getName(day.getWeek())})}"></a>
+                                <div class="dropdown">
+                                    <button class="btn btn-link dropdown-toggle"
+                                            type="button" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false"
+                                            th:text="*{day.getWeek()}" th:id="*{day.getWeek()}"
+                                            th:href="@{/admin/rental(week = *{day.getName(day.getWeek())})}">
+
+                                    </button>
+                                    <div class="dropdown-menu" th:aria-labelledby="${day.getWeek()}">
+                                        <a href="#" class="dropdown-item">테스트</a>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -141,9 +152,19 @@
             .split("/")[4]
         trElementId.addEventListener("click", function () {
             window.location.href = "/admin/rental/edit/" + trElementToAtag;
-        });
+        }); // eventListener function close
+    }       // for close
 
-    }
+    let dropdownToggleTag = document.getElementsByClassName("btn-link dropdown-toggle");
+    for (const dropdownToggleTagElement of dropdownToggleTag) {
+        dropdownToggleTagElement.addEventListener("mouseover", function (e) {
+            let dropdownToggleTagElementId = e.currentTarget.id;
+            console.log(dropdownToggleTagElementId)
+            
+        }); // eventListener function close
+    }       // for close
+
+
 </script>
 </body>
 </html>
