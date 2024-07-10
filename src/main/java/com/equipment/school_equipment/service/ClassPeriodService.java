@@ -43,6 +43,12 @@ public class ClassPeriodService {
         return classTimeRepository.save(classTime);
     }
 
+    public List<ClassPeriod> findByRentalWeek(String week) {
+        DayOfWeekEnum dayOfWeekEnum = DayOfWeekEnum.getName(week);
+        List<ClassPeriod> findByRental = classTimeRepository.findByDayOfWeekEquals(dayOfWeekEnum);
+        return findByRental;
+    }
+
     @Transactional
     public ClassPeriod updateClassTime(ClassTimeUpdate request) {
         ClassPeriod findClassName = classTimeRepository.findByClassName(request.oldClassname()).orElseThrow(() -> new RuntimeException("접근에러"));
