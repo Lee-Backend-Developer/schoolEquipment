@@ -42,7 +42,7 @@
 
                                     </button>
                                     <div class="dropdown-menu" th:aria-labelledby="${day.getWeek()}">
-                                        <a href="#" class="dropdown-item" th:text="${day.getWeek()}">메뉴</a>
+<!--                                        <a href="#" class="dropdown-item" th:text="${day.getWeek()}">메뉴</a>-->
                                     </div>
                                 </div>
                             </li>
@@ -161,17 +161,28 @@
     let dropdownTag = document.getElementsByClassName("dropdown");
     for (const dropdownToggleTagElement of dropdownTag) {
         dropdownToggleTagElement.addEventListener("mouseover", function (e) {
-            let childDropdownMenu = e.currentTarget.children[1];
-            childDropdownMenu.style.display = "block"
+            let eventTarget = e.currentTarget;
+            let childDropdownMenu = eventTarget.children[1];
+            let id = e.target.id
+
+            fetch("/api/admin/class-period?week=".concat(id))
+                .then(response => response.json())
+                .then(response => {
+                    for (let i = 0; i < response.obj.length; i++) {
+                        let aTagElement = document.createElement("a");
+                        aTagElement.text = response.obj[i].name;
+                        aTagElement.classList.add("dropdown-item");
+                        childDropdownMenu.appendChild(aTagElement);
+                    }
+                })
+            eventTarget.children[1].style.display = "block"
         }); // mouseover Listener function close
 
-        dropdownToggleTagElement.addEventListener("mouseout", function (e){
+        dropdownToggleTagElement.addEventListener("mouseout", function (e) {
             let childDropdownMenu = e.currentTarget.children[1];
             childDropdownMenu.style.display = "none"
         }) // blur Listener function close
     }       // for close
-
-
 </script>
 </body>
 </html>
