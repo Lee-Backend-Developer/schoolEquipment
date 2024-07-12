@@ -178,10 +178,10 @@
             eventTarget.children[1].style.display = "block"
         }); // mouseover Listener function close
 
-        dropdownToggleTagElement.addEventListener("mouseout", function (e) {
-            let childDropdownMenu = e.currentTarget.children[1];
-            childDropdownMenu.style.display = "none"
-        }) // blur Listener function close
+        dropdownToggleTagElement.addEventListener("mouseout", function () {
+            document.querySelectorAll(".dropdown-item").forEach(value => value.remove())
+            document.querySelectorAll(".dropdown-menu").forEach(value => value.style.display="none")
+        }) // mouseout Listener function close
     }       // for close
 </script>
 </body>
