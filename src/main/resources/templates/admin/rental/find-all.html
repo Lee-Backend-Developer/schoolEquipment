@@ -172,7 +172,7 @@
                         for (let i = 0; i < response.obj.length; i++) {
                             let aTagElement = document.createElement("a");
                             aTagElement.text = response.obj[i].name;
-                            aTagElement.href = "/admin/rental/?week="+id;
+                            aTagElement.href = "/admin/rental/?week="+id+"&category="+response.obj[i].name;
                             aTagElement.classList.add("dropdown-item");
                             value.lastElementChild.appendChild(aTagElement);
                         }
