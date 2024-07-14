@@ -38,7 +38,7 @@
                                             type="button" data-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false"
                                             th:text="*{day.getWeek()}" th:id="*{day.getWeek()}"
-                                            th:href="@{/admin/rental(week = *{day.getName(day.getWeek())})}">
+                                    >
 
                                     </button>
                                     <div class="dropdown-menu" th:aria-labelledby="${day.getWeek()}">
@@ -146,6 +146,7 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>
 <script>
+    // 요일 A태그 생성
     let elementsTrTag = document.getElementsByTagName("tr");
 
     for (let i = 0; i < elementsTrTag.length; i++) {
@@ -158,31 +159,29 @@
         }); // eventListener function close
     }       // for close
 
-    let dropdownTag = document.getElementsByClassName("dropdown");
-    for (const dropdownToggleTagElement of dropdownTag) {
-        dropdownToggleTagElement.addEventListener("mouseover", function (e) {
-            let eventTarget = e.currentTarget;
-            let childDropdownMenu = eventTarget.children[1];
-            let id = e.target.id
+    let navItemDropdownElement = document.querySelectorAll(".nav-item .dropdown");
+    navItemDropdownElement.forEach(value => {
+        value.firstElementChild.addEventListener("mouseover", function (e) {
+            let id = e.target.id;
 
-            fetch("/api/admin/class-period?week=".concat(id))
-                .then(response => response.json())
-                .then(response => {
-                    for (let i = 0; i < response.obj.length; i++) {
-                        let aTagElement = document.createElement("a");
-                        aTagElement.text = response.obj[i].name;
-                        aTagElement.classList.add("dropdown-item");
-                        childDropdownMenu.appendChild(aTagElement);
-                    }
-                })
-            eventTarget.children[1].style.display = "block"
-        }); // mouseover Listener function close
+            if(value.lastElementChild.getElementsByTagName("a").length === 0) {
+                fetch("/api/admin/class-period?week=" + id)
+                    .then(response => response.json())
+                    .then(response => {
+                        console.log(response)
+                        for (let i = 0; i < response.obj.length; i++) {
+                            let aTagElement = document.createElement("a");
+                            aTagElement.text = response.obj[i].name;
+                            aTagElement.href = "/admin/rental/?week="+id;
+                            aTagElement.classList.add("dropdown-item");
+                            value.lastElementChild.appendChild(aTagElement);
+                        }
+                    });
+            }
 
-        dropdownToggleTagElement.addEventListener("mouseout", function () {
-            document.querySelectorAll(".dropdown-item").forEach(value => value.remove())
-            document.querySelectorAll(".dropdown-menu").forEach(value => value.style.display="none")
-        }) // mouseout Listener function close
-    }       // for close
+        });
+    })
+
 </script>
 </body>
 </html>
