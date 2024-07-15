@@ -41,7 +41,7 @@
                                         <button class="btn btn-link dropdown-toggle"
                                                 type="button" data-toggle="dropdown"
                                                 aria-haspopup="true" aria-expanded="false"
-                                                th:text="*{day.getWeek()}" th:id="*{day.getWeek()}"
+                                                th:text="*{day.getWeek()}" th:id="*{day.getName(day.getWeek())}"
                                         >
 
                                         </button>
@@ -166,10 +166,11 @@
     let navItemDropdownElement = document.querySelectorAll(".nav-item .dropdown");
     navItemDropdownElement.forEach(value => {
         value.firstElementChild.addEventListener("mouseover", function (e) {
+            let textContent = e.target.textContent;
             let id = e.target.id;
 
             if(value.lastElementChild.getElementsByTagName("a").length === 0) {
-                fetch("/api/admin/class-period?week=" + id)
+                fetch("/api/admin/class-period?week=" + textContent)
                     .then(response => response.json())
                     .then(response => {
                         console.log(response)

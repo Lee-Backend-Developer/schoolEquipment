@@ -7,4 +7,5 @@ import lombok.Data;
 public class RentalPageCondition {
     private int page;
     private DayOfWeekEnum week;
+    private String category;
 }
