@@ -15,6 +15,7 @@ public interface RentalRepositoryCustom {
     List<Rental> findRentals(String equipmentName);
     List<Equipment> findByClassnameIdAndDayOfWeek(String classNameId, String dayOfWeek);
     Optional<Rental> findByClassIdAndEquipmentId(Long classId, Long equipmentId);
-    Page<Rental> findAllAndRentalChkTrue(RentalPageCondition condition, Pageable pageable);
+    Page<Rental> findAllAndRentalChkTruePage(RentalPageCondition condition, Pageable pageable);
+    Page<Rental> findAllAndRentalCategoryPage(RentalPageCondition condition, Pageable pageable);
     List<Rental> findByWeekday(DayOfWeekEnum weekday);
 }

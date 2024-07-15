@@ -64,7 +64,7 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
     }
 
     @Override
-    public Page<Rental> findAllAndRentalChkTrue(RentalPageCondition condition, Pageable pageable) {
+    public Page<Rental> findAllAndRentalChkTruePage(RentalPageCondition condition, Pageable pageable) {
         JPAQuery<Rental> rentalJPAQuery;
         long total;
 
@@ -101,5 +101,22 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
     private Long totalAllCntRet(EntityPathBase qClass) {
         Long cnt = (Long) queryFactory.select(qClass.count()).from(qClass).fetchOne();
         return cnt;
+    }
+
+    @Override
+    public Page<Rental> findAllAndRentalCategoryPage(RentalPageCondition condition, Pageable pageable) {
+        List<Rental> rentalList = queryFactory.selectFrom(rental)
+                .where(rental.classPeriod.className.eq(condition.getCategory()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        Long tatal = queryFactory.select(rental.count()).from(rental)
+                .where(rental.classPeriod.className.eq(condition.getCategory()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchOne();
+
+        return new PageImpl<>(rentalList, pageable, tatal);
     }
 }
