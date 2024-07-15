@@ -173,7 +173,6 @@
                 fetch("/api/admin/class-period?week=" + textContent)
                     .then(response => response.json())
                     .then(response => {
-                        console.log(response)
                         for (let i = 0; i < response.obj.length; i++) {
                             let aTagElement = document.createElement("a");
                             aTagElement.text = response.obj[i].name;
