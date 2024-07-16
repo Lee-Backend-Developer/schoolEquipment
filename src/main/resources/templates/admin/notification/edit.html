@@ -64,17 +64,44 @@
             <form id="notificationForm" class="d-none" th:method="put" th:object="${requestForm}" action="/api/admin/notification/content">
                 <input type="hidden" name="id" value="1"/>
                 <div class="form-group">
-                    <label for="notificationContent">내용</label>
-                    <textarea class="form-control-file" id="notificationContent" name="notificationContent" th:field="*{notificationContent}"></textarea>
+                    <label>내용</label>
+                    <div id="notificationContent" th:field="*{notificationContent}"></div>
                 </div>
                 <button type="submit" class="btn btn-primary">수정</button>
             </form>
         </div>
     </div>
 </div>
-
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script>
+
+
+    const editor = new toastui.Editor({
+        el: document.querySelector('#notificationContent'),
+        previewStyle: 'vertical',
+        height: 'auto',
+        initialEditType: 'wysiwyg',
+        language: 'ko',
+        isMarkdownMode: false
+    })
+
+    setInterval((handler) => {
+        console.log(editor.getHTML());
+    }, 1000);
+
+    let noticationForm = document.getElementById("notificationForm");
+    noticationForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let formData = new FormData();
+        formData.append("notificationContent", editor.getHTML());
+        fetch('/api/admin/notification/content', {
+            method: 'POST',
+            body: formData
+        });
+    });
+
     $(document).ready(function () {
+
         $("#imagesBtn").click(function () {
             $("#mainImgForm").toggleClass('d-none');
             $("#notificationForm").attr('class', 'd-none');
