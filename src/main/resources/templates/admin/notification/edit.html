@@ -75,7 +75,6 @@
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script>
 
-
     const editor = new toastui.Editor({
         el: document.querySelector('#notificationContent'),
         previewStyle: 'vertical',
@@ -85,17 +84,13 @@
         isMarkdownMode: false
     })
 
-    setInterval((handler) => {
-        console.log(editor.getHTML());
-    }, 1000);
-
     let noticationForm = document.getElementById("notificationForm");
     noticationForm.addEventListener("submit", (e) => {
         e.preventDefault();
         let formData = new FormData();
         formData.append("notificationContent", editor.getHTML());
         fetch('/api/admin/notification/content', {
-            method: 'POST',
+            method: 'PUT',
             body: formData
         });
     });
