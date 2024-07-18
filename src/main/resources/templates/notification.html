@@ -19,21 +19,10 @@
                             aria-label="Toggle navigation">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" id="imagesBtn">메인사진</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" id="notificationBtn">유의사항</a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </nav>
             <h2>공지사항</h2>
-            <p hidden th:text="${content}" id="contentText"></p>
+            <input type="hidden" th:value="${content}" id="contentText"/>
             <div id="viewer">
             </div>
         </div>
@@ -42,56 +31,14 @@
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
 <script>
-
-
-    let notificationBtnElement = document.getElementById("notificationBtn");
-    notificationBtnElement.addEventListener("click", function (){
+    window.onload = function () {
         let contentTextElement = document.getElementById("contentText");
-        const viewer = toastui.Editor.factory({
+        toastui.Editor.factory({
             el: document.querySelector('#viewer'),
             viewer: true,
-            initialValue: contentTextElement.innerText
+            initialValue: contentTextElement.value
         });
-    }); // eventListener method close
-
-    $(document).ready(function () {
-        $("#imagesBtn").click(function () {
-            $("#mainImgForm").toggleClass('d-none');
-            $("#notificationForm").attr('class', 'd-none');
-            $("#notificationContent").val('');
-
-            $.get('/api/admin/notification').done(function (response) {
-                for (const responseElement of response) {
-                    let createOption = $('<option></option>').text(responseElement.id).val(responseElement.id);
-                    $("#images").append(createOption);
-                }
-            }).fail(() => console.log("서버 접속 실패"));
-
-            $('#images').change(function (e) {
-                $.get('/api/admin/notification/' + e.target.value).done(function (response) {
-                    $("#img").attr("src", '/mainPage/' + response.img);
-                    $("#subject").val(response.subject);
-                    $("#imgContent").val(response.content);
-                }).fail(() => console.log("서버 접속 실패"));
-            }); //#images change end
-
-        }) // imagesBtn click end
-
-        // 메인사진, 유의사항 창 사라지게
-        $("#notificationBtn").click(function () {
-            $("#notificationForm").toggleClass('d-none');
-            $("#mainImgForm").attr('class', 'd-none');
-            $("#images").empty();
-            $("#img").attr("src", '');
-            $("#subject").val('');
-            $("#imgContent").val('');
-            $.get('/api/admin/notification/content')
-                .done(response => {
-                    $("#notificationContent").val(response.content)
-                }).fail(() => console.log("접속오류"));
-        }) // notification click end
-
-    }); // ready end
+    };
 </script>
 <script src="/js/popper.js"></script>
 <script src="/js/bootstrap.min.js"></script>
