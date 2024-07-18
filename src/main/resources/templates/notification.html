@@ -33,12 +33,27 @@
                 </div>
             </nav>
             <h2>공지사항</h2>
-            <p th:text="${content}"></p>
+            <p hidden th:text="${content}" id="contentText"></p>
+            <div id="viewer">
+            </div>
         </div>
     </div>
 </div>
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
 <script>
+
+
+    let notificationBtnElement = document.getElementById("notificationBtn");
+    notificationBtnElement.addEventListener("click", function (){
+        let contentTextElement = document.getElementById("contentText");
+        const viewer = toastui.Editor.factory({
+            el: document.querySelector('#viewer'),
+            viewer: true,
+            initialValue: contentTextElement.innerText
+        });
+    }); // eventListener method close
+
     $(document).ready(function () {
         $("#imagesBtn").click(function () {
             $("#mainImgForm").toggleClass('d-none');
