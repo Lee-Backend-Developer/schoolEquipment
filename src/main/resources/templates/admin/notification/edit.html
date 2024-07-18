@@ -62,10 +62,12 @@
             </form>
 
             <form id="notificationForm" class="d-none" th:method="put" th:object="${requestForm}" action="/api/admin/notification/content">
-                <input type="hidden" name="id" value="1"/>
+                <input type="hidden" name="id" th:value="*{id}" id="formInput"/>
+                <input type="hidden" id="notificationContentValue" th:value="*{content}"/>
                 <div class="form-group">
                     <label>내용</label>
-                    <div id="notificationContent" th:field="*{notificationContent}"></div>
+                    <div id="viewer">
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">수정</button>
             </form>
@@ -73,15 +75,23 @@
     </div>
 </div>
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-<script>
+<!-- Color Picker -->
+<script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
+<!-- Editor -->
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<!-- Editor's Plugin -->
+<script src="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.js"></script>
 
+<script>
+    const { colorSyntax } = toastui.Editor.plugin
     const editor = new toastui.Editor({
-        el: document.querySelector('#notificationContent'),
+        el: document.querySelector('#viewer'),
         previewStyle: 'vertical',
         height: 'auto',
         initialEditType: 'wysiwyg',
-        language: 'ko',
-        isMarkdownMode: false
+        isMarkdownMode: false,
+        initialValue: document.getElementById("notificationContentValue").value,
+        plugins: [colorSyntax]
     })
 
     let noticationForm = document.getElementById("notificationForm");
@@ -89,6 +99,7 @@
         e.preventDefault();
         let formData = new FormData();
         formData.append("notificationContent", editor.getHTML());
+        formData.append("id", document.getElementById("formInput").value)
         fetch('/api/admin/notification/content', {
             method: 'PUT',
             body: formData

@@ -1,5 +1,6 @@
 package com.equipment.school_equipment.controller.admin;
 
+import com.equipment.school_equipment.domain.NotificationContent;
 import com.equipment.school_equipment.request.notificationProduct.NotificationRequest;
 import com.equipment.school_equipment.service.NotificationContentService;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,12 @@ public class AdminNotificationController {
 
     @GetMapping
     public String getProduct(Model model){
-        Long id = notificationContentService.finds().getId();
-        NotificationRequest requestForm = NotificationRequest.builder().id(id).build();
+        NotificationContent finds = notificationContentService.finds();
+        NotificationRequest requestForm = NotificationRequest
+                .builder()
+                .id(finds.getId())
+                .content(finds.getContent())
+                .build();
         model.addAttribute("requestForm", requestForm);
         return "admin/notification/edit";
     }

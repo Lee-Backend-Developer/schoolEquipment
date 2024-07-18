@@ -6,10 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css" />
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css"/>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/style.css">
+
+    <link
+            rel="stylesheet"
+            href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.css"
+    />
+    <link
+            rel="stylesheet"
+            href="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.css"
+    />
     <!--    <script src="/js/jquery.min.js"></script>-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" type="text/javascript"></script>
 </head>
@@ -94,8 +103,8 @@
                     <br>
                     500
                     에러 페이지 출처 <i class="icon-heart" aria-hidden="true"></i> <a
-                            href="https://codepen.io/quinlo/pen/aajEyb"
-                            target="_blank">바로가기</a>
+                        href="https://codepen.io/quinlo/pen/aajEyb"
+                        target="_blank">바로가기</a>
                 </p>
             </div>
 
@@ -132,13 +141,17 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav ml-auto" th:if="${subject eq '대여'}">
-                        <li class="nav-item" th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
-                            <a class="nav-link" href="#" th:text="*{day.getWeek()}" th:href="@{/admin/rental(week = *{day.getName(day.getWeek())})}"></a>
+                        <li class="nav-item"
+                            th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
+                            <a class="nav-link" href="#" th:text="*{day.getWeek()}"
+                               th:href="@{/admin/rental(week = *{day.getName(day.getWeek())})}"></a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav ml-auto" th:if="${subject eq '수업 시간'}">
-                        <li class="nav-item" th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
-                            <a class="nav-link" href="#" th:text="*{day.getWeek()}" th:href="@{/admin/class-period(week = *{day.getName(day.getWeek())})}"></a>
+                        <li class="nav-item"
+                            th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
+                            <a class="nav-link" href="#" th:text="*{day.getWeek()}"
+                               th:href="@{/admin/class-period(week = *{day.getName(day.getWeek())})}"></a>
                         </li>
                     </ul>
 
