@@ -107,8 +107,8 @@ create table login_user_connect_log
     id           bigint auto_increment comment '접속자 고유번호',
     user_key     bigint comment '사용자 고유번호 참조키' not null,
     connect_date date comment '접속 날짜',
+    connect_ip varchar(30) comment '접속한 아이피',
 
     primary key (id),
-    foreign key (id) references login_user (id)
-)
-
+    foreign key (user_key) references login_user (id)
+);
