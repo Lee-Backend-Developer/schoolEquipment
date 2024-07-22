@@ -38,7 +38,6 @@ public class LoginUserConnectLog {
 
     // 비즈니스 로직
     public void addLoginUser(LoginUser loginUser) {
-        this.loginUserList.add(loginUser);
         getLoginUserList().add(loginUser);
     }
 
