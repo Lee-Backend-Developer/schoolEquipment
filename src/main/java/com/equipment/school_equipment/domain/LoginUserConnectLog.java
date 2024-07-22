@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +26,11 @@ public class LoginUserConnectLog {
     @OneToMany(mappedBy = "id")
     private List<LoginUser> loginUserList = new ArrayList<>();
 
-    private Date connectDate;
+    private Timestamp connectDate;
     private String connectIp;
 
     @Builder
-    public LoginUserConnectLog(Long id, Date connectDate, String connectIp) {
+    public LoginUserConnectLog(Long id, Timestamp connectDate, String connectIp) {
         this.id = id;
         this.connectDate = connectDate;
         this.connectIp = connectIp;
