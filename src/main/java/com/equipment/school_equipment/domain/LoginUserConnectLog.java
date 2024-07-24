@@ -1,17 +1,12 @@
 package com.equipment.school_equipment.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -23,23 +18,17 @@ public class LoginUserConnectLog {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "id")
-    private List<LoginUser> loginUserList = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private LoginUser userKey;
 
     private Timestamp connectDate;
     private String connectIp;
 
     @Builder
-    public LoginUserConnectLog(Long id, Timestamp connectDate, String connectIp) {
+    public LoginUserConnectLog(Long id, Timestamp connectDate, String connectIp, LoginUser userKey) {
         this.id = id;
         this.connectDate = connectDate;
         this.connectIp = connectIp;
+        this.userKey = userKey;
     }
-
-    // 비즈니스 로직
-    public void addLoginUser(LoginUser loginUser) {
-        getLoginUserList().add(loginUser);
-    }
-
-
 }
