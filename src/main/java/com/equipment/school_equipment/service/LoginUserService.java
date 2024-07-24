@@ -37,7 +37,7 @@ public class LoginUserService implements UserDetailsService {
 
     public LoginUser login(UserRequest request) throws AuthException {
         LoginUser loginUser = userRepository.findByUserIdAndUserPwd(request.id(), request.passwd())
-                .orElseThrow(AuthException::new);
+                .orElseThrow(() -> new AuthException("없는 사용자 입니다."));
 
         return loginUser;
     }
@@ -52,7 +52,7 @@ public class LoginUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        LoginUser loginUser = userRepository.findByUserId(username).orElseThrow();
+        LoginUser loginUser = userRepository.findByUserId(username).orElseThrow(() -> new UsernameNotFoundException("사용자가 없습니다."));
         UserDetails build = User.builder()
                 .username(loginUser.getUserId())
                 .password(loginUser.getUserPwd())
