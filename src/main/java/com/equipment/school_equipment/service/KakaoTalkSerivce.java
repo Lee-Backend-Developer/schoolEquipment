@@ -5,7 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 
 @Service
 @RequiredArgsConstructor
@@ -27,8 +28,12 @@ public class KakaoTalkSerivce implements KakaoUtill {
     }
 
     @Override
-    public Map<String, Object> getUserInfo(String accessToken) {
-        return null;
+    public String getUserInfo(String accessToken) {
+
+        String response = getUserId(accessToken);
+        log.info("response ID => {}", stringToObject(response).getId());
+
+        return response;
     }
 
 

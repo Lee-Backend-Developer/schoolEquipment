@@ -3,7 +3,6 @@ package com.equipment.school_equipment.util;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Map;
 
 
 public interface KakaoUtill extends JsonUtill {
@@ -15,20 +14,19 @@ public interface KakaoUtill extends JsonUtill {
 
     String getToken(String code);
 
-    Map<String, Object> getUserInfo(String accessToken);
+    String getUserInfo(String accessToken);
 
-    private HttpURLConnection getOpenConnection(String host) {
-        HttpURLConnection httpURLConnection = null;
+    default String getUserId(String accessToken) {
         try {
-            httpURLConnection = (HttpURLConnection) new URL(host).openConnection();
-            // host header add
-            httpURLConnection.setDoOutput(true);
-            httpURLConnection.setRequestMethod("POST");
-            httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        } catch(java.io.IOException |  NullPointerException nullPointerException) {
-            nullPointerException.fillInStackTrace();
+            HttpURLConnection openConnection = getOpenConnection(GET_USER_HOST);
+            openConnection.addRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+            openConnection.addRequestProperty("Authorization", "Bearer " + accessToken);
+
+            return getResponseBody(openConnection);
+        } catch (Exception e) {
+            e.fillInStackTrace();
+            return e.getMessage();
         }
-        return httpURLConnection;
     }
 
     default String postBodySend(String host, StringBuilder stringBuilder) {
@@ -47,6 +45,22 @@ public interface KakaoUtill extends JsonUtill {
             return e.getMessage();
         }
     }
+
+
+    private HttpURLConnection getOpenConnection(String host) {
+        HttpURLConnection httpURLConnection = null;
+        try {
+            httpURLConnection = (HttpURLConnection) new URL(host).openConnection();
+            // host header add
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        } catch(java.io.IOException |  NullPointerException nullPointerException) {
+            nullPointerException.fillInStackTrace();
+        }
+        return httpURLConnection;
+    }
+
 
     private String getResponseBody(HttpURLConnection openConnection) {
         try {

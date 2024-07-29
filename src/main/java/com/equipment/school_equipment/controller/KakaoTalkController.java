@@ -26,9 +26,10 @@ public class KakaoTalkController {
 
     @GetMapping("login")
     public String getCI(@RequestParam String code, Model model) throws IOException {
-        log.info("controller code => {}", code);
-        kakaoTalkSerivce.getToken(code);
+        String aceess = kakaoTalkSerivce.getToken(code);
         model.addAttribute("code", code);
+        String userInfo = kakaoTalkSerivce.getUserInfo(aceess);
+        log.info("userinfo {} ", userInfo);
 //        model.addAttribute("access_token", access_token);
 //        model.addAttribute("userInfo", userInfo);
 
