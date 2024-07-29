@@ -27,6 +27,8 @@ public class LoginUserService implements UserDetailsService {
         LoginUser createLoginUser = LoginUser.builder()
                 .userId(request.id())
                 .userPwd(request.passwd())
+                .name(request.name())
+                .email(request.email())
                 .build();
         userRepository.save(createLoginUser);
         return createLoginUser;

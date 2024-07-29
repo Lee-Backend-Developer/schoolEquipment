@@ -94,10 +94,12 @@ create table notification_content
 
 create table login_user
 (
-    id      bigint auto_increment comment '사용자 고유번호',
-    user_id  varchar(20) comment '사용자 ID',
-    user_pwd varchar(30) comment '사용자 PASSWD',
-    role    enum ('user','admin') default 'user',
+    id       bigint auto_increment comment '사용자 고유번호',
+    user_id  varchar(20) not null unique comment '사용자 ID',
+    user_pwd varchar(30) not null comment '사용자 PASSWD',
+    name     varchar(10) not null comment '사용자 이름',
+    email    varchar(50) not null comment '사용자 이메일',
+    role     enum ('user','admin') default 'user',
 
     primary key (id)
 );
@@ -105,9 +107,9 @@ create table login_user
 create table login_user_connect_log
 (
     id           bigint auto_increment comment '접속자 고유번호',
-    user_key_id     bigint comment '사용자 고유번호 참조키' not null,
+    user_key_id  bigint comment '사용자 고유번호 참조키' not null,
     connect_date timestamp comment '접속 날짜',
-    connect_ip varchar(30) comment '접속한 아이피',
+    connect_ip   varchar(30) comment '접속한 아이피',
 
     primary key (id),
     foreign key (user_key_id) references login_user (id)
