@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -28,6 +30,6 @@ public class LoginUser {
         this.id = id;
         this.userId = userId;
         this.userPwd = userPwd;
-        this.role = role;
+        if(Objects.isNull(role)) this.role = UserRole.user;
     }
 }

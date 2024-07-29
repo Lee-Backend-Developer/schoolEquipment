@@ -2,22 +2,16 @@ package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.LoginUser;
 import com.equipment.school_equipment.repository.UserRepository;
-import com.equipment.school_equipment.request.admin.UserRequest;
+import com.equipment.school_equipment.request.UserRequest;
+import com.sun.jdi.request.DuplicateRequestException;
 import jakarta.security.auth.message.AuthException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
-
-import javax.naming.AuthenticationException;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +21,9 @@ public class LoginUserService implements UserDetailsService {
 
     @Transactional
     public LoginUser create(UserRequest request) {
+        if(userRepository.findByUserId(request.id()).isPresent()){
+          throw new DuplicateRequestException("이미 사용중인 아이디 입니다.");
+        }
         LoginUser createLoginUser = LoginUser.builder()
                 .userId(request.id())
                 .userPwd(request.passwd())

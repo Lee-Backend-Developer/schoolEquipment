@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/main_fragment :: header(title='Login')}">
+<head th:replace="~{fragments/main_fragment :: header(title='계정')}">
     <meta charset="UTF-8">
     <title>Login</title>
 </head>
@@ -24,30 +24,38 @@
 
             </div>
         </nav>
-        <h2>로그인</h2>
-
         <!--컨텐츠-->
         <div class="content">
             <form action th:object="${userRequest}" method="post">
                 <div class="form-group">
-                    <label for="id">ID</label>
+                    <label for="id">아이디</label>
                     <input type="text" class="form-control" id="id" th:field="*{id}" placeholder="아이디 입력">
                     <p th:errors="*{id}"></p>
                 </div>
                 <div class="form-group">
-                    <label for="passwd">Password</label>
+                    <label for="passwd">비밀번호</label>
                     <input type="password" class="form-control" id="passwd" th:field="*{passwd}" placeholder="비밀번호 입력">
                     <p th:errors="*{passwd}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="chk_passwd">비밀번호 확인</label>
+                    <input type="password" class="form-control" id="chk_passwd" th:field="*{chkPasswd}" placeholder="비밀번호 재입력">
+                    <p th:errors="*{chkPasswd}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="name">이름</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}">
+                    <p th:errors="*{name}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input type="email" class="form-control" id="email" th:field="*{email}">
+                    <p th:errors="*{email}"></p>
                 </div>
                 <div class="form-group" th:if="${#fields.hasGlobalErrors()}">
                     <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="text-danger"></p>
                 </div>
-                <button type="submit" class="btn btn-primary">로그인</button>
-                <a href="/member/register" class="ml-2">회원가입</a>
-                <hr>
-                <a class="p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=4e8dd46c24af10ad81dd3cbeb6fa6ba9&redirect_uri=http://localhost/kakaotalk/login&response_type=code">
-                    <img src="/img/kakao_login_medium_narrow.png" style="height:60px"/>
-                </a>
+                <button type="submit" class="btn btn-primary">생성</button>
             </form>
         </div>
 

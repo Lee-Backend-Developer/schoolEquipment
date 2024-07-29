@@ -2,7 +2,7 @@ package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.LoginUser;
 import com.equipment.school_equipment.repository.UserRepository;
-import com.equipment.school_equipment.request.admin.UserRequest;
+import com.equipment.school_equipment.request.UserRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,17 +2,13 @@ package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.LoginUser;
 import com.equipment.school_equipment.repository.UserRepository;
-import com.equipment.school_equipment.request.admin.UserRequest;
+import com.equipment.school_equipment.request.UserRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
