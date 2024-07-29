@@ -25,15 +25,11 @@ public class KakaoTalkController {
     }
 
     @GetMapping("login")
-    public String getCI(@RequestParam String code, Model model) throws IOException {
+    public String getCI(@RequestParam String code) {
         String aceess = kakaoTalkSerivce.getToken(code);
-        model.addAttribute("code", code);
         String userInfo = kakaoTalkSerivce.getUserInfo(aceess);
         log.info("userinfo {} ", userInfo);
-//        model.addAttribute("access_token", access_token);
-//        model.addAttribute("userInfo", userInfo);
 
-        //ci는 비즈니스 전환후 검수신청 -> 허락받아야 수집 가능
         return "redirect:/";
     }
 
