@@ -49,6 +49,14 @@ public class LoginUserService implements UserDetailsService {
         userRepository.delete(loginUser);
     }
 
+    @Transactional
+    public void update(UserRequest request) {
+        LoginUser loginUser = userRepository.findByUserId(request.id())
+                .orElseThrow();
+
+        loginUser.updateUser(request.passwd(), request.name(), request.email());
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LoginUser loginUser = userRepository.findByUserId(username).orElseThrow(() -> new UsernameNotFoundException("사용자가 없습니다."));

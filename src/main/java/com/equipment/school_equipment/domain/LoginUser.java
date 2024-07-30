@@ -36,4 +36,11 @@ public class LoginUser {
         this.email = email;
         if(Objects.isNull(role)) this.role = UserRole.user;
     }
+
+    //비즈니스 로직
+    public void updateUser(String userPwd, String name, String email){
+        this.userPwd = userPwd;
+        this.name = name;
+        this.email = email;
+    }
 }

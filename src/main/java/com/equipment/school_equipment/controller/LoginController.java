@@ -53,12 +53,25 @@ public class LoginController {
 
     @GetMapping("account")
     public String getAccount(@AuthenticationPrincipal UserDetails userDetails, Model model){
-        if(Objects.isNull(userDetails)) return "redirect:/member/login";
+        UserRequest userRequest = userRepository.findByUserId(userDetails.getUsername())
+                .map(user -> UserRequest.builder().
+                        id(user.getUserId()).passwd(user.getUserPwd())
+                        .email(user.getEmail()).name(user.getName())
+                        .build())
+                .orElseThrow();
 
-        LoginUser loginUser = userRepository.findByUserId(userDetails.getUsername()).get();
-
-        model.addAttribute("userRequest", loginUser);
+        model.addAttribute("userRequest", userRequest);
 
         return "member/account";
+    }
+
+    @PutMapping("account")
+    public String putAccount(@AuthenticationPrincipal UserDetails userDetails, UserRequest userRequest) {
+        UserRequest request = UserRequest.builder()
+                .id(userDetails.getUsername()).passwd(userRequest.passwd())
+                .email(userRequest.email()).name(userRequest.name())
+                .build();
+        loginUserService.update(request);
+        return "redirect:/member/logout";
     }
 }

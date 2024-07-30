@@ -29,13 +29,13 @@
             <form action th:object="${userRequest}" th:method="put">
                 <div class="form-group">
                     <label for="id">아이디 (변경 불가능)</label>
-                    <input type="text" class="form-control" id="id" th:field="*{userId}" disabled>
-                    <p th:errors="*{userId}"></p>
+                    <input type="text" class="form-control" id="id" th:field="*{id}" disabled>
+                    <p th:errors="*{id}"></p>
                 </div>
                 <div class="form-group">
                     <label for="passwd">비밀번호</label>
-                    <input type="password" class="form-control" id="passwd" th:field="*{userPwd}" placeholder="비밀번호 입력">
-                    <p th:errors="*{userPwd}"></p>
+                    <input type="password" class="form-control" id="passwd" th:field="*{passwd}" placeholder="비밀번호 입력">
+                    <p th:errors="*{passwd}"></p>
                 </div>
                 <div class="form-group">
                     <label for="chk_passwd">비밀번호 확인</label>
@@ -44,13 +44,13 @@
                 </div>
                 <div class="form-group">
                     <label for="name">이름</label>
-                    <input type="text" class="form-control" id="name">
-<!--                    <p th:errors="*{name}"></p>-->
+                    <input type="text" class="form-control" id="name" th:field="*{name}">
+                    <p th:errors="*{name}"></p>
                 </div>
                 <div class="form-group">
                     <label for="email">이메일</label>
-                    <input type="email" class="form-control" id="email">
-<!--                    <p th:errors="*{name}"></p>-->
+                    <input type="email" class="form-control" id="email" th:field="*{email}">
+                    <p th:errors="*{name}"></p>
                 </div>
                 <div class="form-group" th:if="${#fields.hasGlobalErrors()}">
                     <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="text-danger"></p>

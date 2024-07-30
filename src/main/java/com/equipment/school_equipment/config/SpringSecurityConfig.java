@@ -30,6 +30,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
                                 .requestMatchers("/admin/**", "/api/admin/**").hasAnyRole("admin")
+                                .requestMatchers("/member/account").hasAnyRole("user", "admin")
                                 .requestMatchers("/**").permitAll()
                 )
                 .formLogin(form ->
