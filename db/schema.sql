@@ -100,6 +100,7 @@ create table login_user
     name     varchar(10) not null comment '사용자 이름',
     email    varchar(50) not null comment '사용자 이메일',
     role     enum ('user','admin') default 'user',
+    kakaotalk_id varchar(30) unique comment '카카오톡 고유ID',
 
     primary key (id)
 );

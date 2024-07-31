@@ -27,14 +27,17 @@ public class LoginUser {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    private String kakaotalkId;
+
     @Builder
-    public LoginUser(Long id, String userId, String userPwd, String name, String email, UserRole role) {
+    public LoginUser(Long id, String userId, String userPwd, String name, String email, UserRole role, String kakaotalkId) {
         this.id = id;
         this.userId = userId;
         this.userPwd = userPwd;
         this.name = name;
         this.email = email;
-        if(Objects.isNull(role)) this.role = UserRole.user;
+        this.role = role;
+        this.kakaotalkId = kakaotalkId;
     }
 
     //비즈니스 로직
