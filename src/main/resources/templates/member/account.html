@@ -48,14 +48,29 @@
                     <p th:errors="*{name}"></p>
                 </div>
                 <div class="form-group">
-                    <label for="email">이메일</label>
+                    <h6><label for="email">이메일</label></h6>
                     <input type="email" class="form-control" id="email" th:field="*{email}">
-                    <p th:errors="*{name}"></p>
+                    <p th:errors="*{email}"></p>
+                </div>
+                <h6>카카오톡 연동 여부</h6>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" th:field="*{kakaoTalk}" value="true">
+                    <label class="form-check-label" for="exampleRadios1">
+                        Y
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" th:field="*{kakaoTalk}" value="false">
+                    <label class="form-check-label" for="exampleRadios2">
+                        N
+                    </label>
                 </div>
                 <div class="form-group" th:if="${#fields.hasGlobalErrors()}">
                     <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="text-danger"></p>
                 </div>
-                <button type="submit" class="btn btn-primary">변경</button>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">변경</button>
+                </div>
             </form>
         </div>
 

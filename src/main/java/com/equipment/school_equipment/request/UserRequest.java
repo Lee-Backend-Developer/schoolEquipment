@@ -15,5 +15,6 @@ public record UserRequest(
         @NotEmpty
         String name,
         @NotEmpty @Email
-        String email
+        String email,
+        Boolean kakaoTalk
 ) { }
