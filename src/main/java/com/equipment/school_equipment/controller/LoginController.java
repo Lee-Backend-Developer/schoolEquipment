@@ -57,6 +57,7 @@ public class LoginController {
                 .map(user -> UserRequest.builder().
                         id(user.getUserId()).passwd(user.getUserPwd())
                         .email(user.getEmail()).name(user.getName())
+                        .kakaoTalk(user.getKakaotalkId().isEmpty())
                         .build())
                 .orElseThrow();
 
@@ -66,7 +67,10 @@ public class LoginController {
     }
 
     @PutMapping("account")
-    public String putAccount(@AuthenticationPrincipal UserDetails userDetails, UserRequest userRequest) {
+    public String putAccount(@AuthenticationPrincipal UserDetails userDetails, @Valid UserRequest userRequest, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "member/account";
+        }
         UserRequest request = UserRequest.builder()
                 .id(userDetails.getUsername()).passwd(userRequest.passwd())
                 .email(userRequest.email()).name(userRequest.name())
