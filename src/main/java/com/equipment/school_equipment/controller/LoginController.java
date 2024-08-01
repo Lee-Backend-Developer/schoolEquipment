@@ -68,18 +68,18 @@ public class LoginController {
 
     @PutMapping("account")
     public String putAccount(@AuthenticationPrincipal UserDetails userDetails, @Valid UserRequest userRequest, BindingResult bindingResult, Model model) {
-        if(bindingResult.hasErrors()) {
+        if(bindingResult.hasErrors() && userRequest.getId() != null) {
             UserRequest request = UserRequest.builder()
-                    .id(userDetails.getUsername()).passwd(userRequest.passwd())
-                    .email(userRequest.email()).name(userRequest.name())
-                    .kakaoTalk(userRequest.kakaoTalk())
+                    .id(userDetails.getUsername()).passwd(userRequest.getPasswd())
+                    .email(userRequest.getEmail()).name(userRequest.getName())
+                    .kakaoTalk(userRequest.getKakaoTalk())
                     .build();
             model.addAttribute("userRequest", request);
             return "member/account";
         }
         UserRequest request = UserRequest.builder()
-                .id(userDetails.getUsername()).passwd(userRequest.passwd())
-                .email(userRequest.email()).name(userRequest.name())
+                .id(userDetails.getUsername()).passwd(userRequest.getPasswd())
+                .email(userRequest.getEmail()).name(userRequest.getName())
                 .build();
         loginUserService.update(request);
         return "redirect:/member/logout";

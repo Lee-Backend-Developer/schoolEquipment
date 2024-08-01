@@ -3,18 +3,30 @@ package com.equipment.school_equipment.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
 
-@Builder
-public record UserRequest(
+@Data
+public class UserRequest{
         @NotEmpty
-        String id,
+        private String id;
         @NotEmpty
-        String passwd,
+        private String passwd;
         @NotEmpty
-        String chkPasswd,
+        private String chkPasswd;
         @NotEmpty
-        String name,
+        private String name;
         @NotEmpty @Email
-        String email,
-        Boolean kakaoTalk
-) { }
+        private String email;
+        private Boolean kakaoTalk;
+
+        @Builder
+        public UserRequest(String id, String passwd, String chkPasswd, String name, String email, Boolean kakaoTalk) {
+                this.id = id;
+                this.passwd = passwd;
+                this.chkPasswd = chkPasswd;
+                this.name = name;
+                this.email = email;
+                this.kakaoTalk = kakaoTalk;
+        }
+}

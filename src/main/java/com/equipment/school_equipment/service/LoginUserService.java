@@ -21,21 +21,21 @@ public class LoginUserService implements UserDetailsService {
 
     @Transactional
     public LoginUser create(UserRequest request) {
-        if(userRepository.findByUserId(request.id()).isPresent()){
+        if(userRepository.findByUserId(request.getId()).isPresent()){
           throw new DuplicateRequestException("이미 사용중인 아이디 입니다.");
         }
         LoginUser createLoginUser = LoginUser.builder()
-                .userId(request.id())
-                .userPwd(request.passwd())
-                .name(request.name())
-                .email(request.email())
+                .userId(request.getId())
+                .userPwd(request.getPasswd())
+                .name(request.getName())
+                .email(request.getEmail())
                 .build();
         userRepository.save(createLoginUser);
         return createLoginUser;
     }
 
     public LoginUser login(UserRequest request) throws AuthException {
-        LoginUser loginUser = userRepository.findByUserIdAndUserPwd(request.id(), request.passwd())
+        LoginUser loginUser = userRepository.findByUserIdAndUserPwd(request.getId(), request.getPasswd())
                 .orElseThrow(() -> new AuthException("없는 사용자 입니다."));
 
         return loginUser;
@@ -43,7 +43,7 @@ public class LoginUserService implements UserDetailsService {
 
     @Transactional
     public void leave(UserRequest request) {
-        LoginUser loginUser = userRepository.findByUserIdAndUserPwd(request.id(), request.passwd())
+        LoginUser loginUser = userRepository.findByUserIdAndUserPwd(request.getId(), request.getPasswd())
                 .orElseThrow(NullPointerException::new);
 
         userRepository.delete(loginUser);
@@ -51,10 +51,10 @@ public class LoginUserService implements UserDetailsService {
 
     @Transactional
     public void update(UserRequest request) {
-        LoginUser loginUser = userRepository.findByUserId(request.id())
+        LoginUser loginUser = userRepository.findByUserId(request.getId())
                 .orElseThrow();
 
-        loginUser.updateUser(request.passwd(), request.name(), request.email());
+        loginUser.updateUser(request.getPasswd(), request.getName(), request.getEmail());
     }
 
     @Override
