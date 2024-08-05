@@ -1,6 +1,7 @@
 package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.LoginUser;
+import com.equipment.school_equipment.domain.enumDomain.UserRole;
 import com.equipment.school_equipment.repository.UserRepository;
 import com.equipment.school_equipment.request.UserRequest;
 import com.sun.jdi.request.DuplicateRequestException;
@@ -29,6 +30,7 @@ public class LoginUserService implements UserDetailsService {
                 .userPwd(request.getPasswd())
                 .name(request.getName())
                 .email(request.getEmail())
+                .role(UserRole.user)
                 .build();
         userRepository.save(createLoginUser);
         return createLoginUser;

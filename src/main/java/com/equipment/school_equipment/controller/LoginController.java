@@ -36,7 +36,7 @@ public class LoginController {
         model.addAttribute("userRequest", UserRequest.builder().build());
         return "member/register";
     }
-
+    
     @PostMapping("register")
     public String postRegister(@Valid @ModelAttribute(binding = false) UserRequest userRequest, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
@@ -45,7 +45,7 @@ public class LoginController {
         try{
             loginUserService.create(userRequest);
         } catch (DuplicateRequestException e) {
-            bindingResult.addError(new ObjectError("error",e.getMessage()));
+            bindingResult.addError(new ObjectError("error", e.getMessage()));
             return "member/register";
         }
         return "redirect:/member/login";
