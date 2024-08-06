@@ -43,6 +43,13 @@ public class LoginUserService implements UserDetailsService {
         return loginUser;
     }
 
+    public LoginUser kakaoLogin(String kakaoId) throws AuthException {
+        LoginUser loginUser = userRepository.findByKakaotalkId(kakaoId)
+                .orElseThrow(() -> new AuthException("없는 사용자 입니다."));
+
+        return loginUser;
+    }
+
     @Transactional
     public void leave(UserRequest request) {
         LoginUser loginUser = userRepository.findByUserIdAndUserPwd(request.getId(), request.getPasswd())

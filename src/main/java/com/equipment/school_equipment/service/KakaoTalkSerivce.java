@@ -15,13 +15,13 @@ public class KakaoTalkSerivce implements KakaoUtill {
 
     @Override
     public String getToken(String code) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("grant_type=authorization_code");
-        stringBuilder.append("&client_id=" + CLIENT_ID);
-        stringBuilder.append("&redirect_uri=" + REDIRECT_URI);
-        stringBuilder.append("&code=" + code);
+        StringBuilder bodyParam = new StringBuilder();
+        bodyParam.append("grant_type=authorization_code");
+        bodyParam.append("&client_id=" + CLIENT_ID);
+        bodyParam.append("&redirect_uri=" + REDIRECT_URI);
+        bodyParam.append("&code=" + code);
 
-        String value = postBodySend(GET_TOKEN_HOST, stringBuilder);
+        String value = postBodySend(GET_TOKEN_HOST, bodyParam);
         log.info("response Message => {}", stringToObject(value).getAccess_token());
 
         return stringToObject(value).getAccess_token();
@@ -33,7 +33,7 @@ public class KakaoTalkSerivce implements KakaoUtill {
         String response = getUserId(accessToken);
         log.info("response ID => {}", stringToObject(response).getId());
 
-        return response;
+        return stringToObject(response).getId();
     }
 
 

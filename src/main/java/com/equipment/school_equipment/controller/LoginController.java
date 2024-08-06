@@ -36,7 +36,7 @@ public class LoginController {
         model.addAttribute("userRequest", UserRequest.builder().build());
         return "member/register";
     }
-    
+
     @PostMapping("register")
     public String postRegister(@Valid @ModelAttribute(binding = false) UserRequest userRequest, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
@@ -57,7 +57,7 @@ public class LoginController {
                 .map(user -> UserRequest.builder().
                         id(user.getUserId()).passwd(user.getUserPwd())
                         .email(user.getEmail()).name(user.getName())
-                        .kakaoTalk(!user.getKakaotalkId().isEmpty())
+                        .kakaoTalk(!Objects.isNull(user.getKakaotalkId()))
                         .build())
                 .orElseThrow();
 
