@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.cache.SpringCacheBasedUserCache;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -22,6 +25,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SpringSecurityConfig {
 
     private final AuthenticationSuccessHandler successHandler;
+    private final InMemoryClientRegistrationRepository inMemoryClientRegistrationRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -44,7 +48,10 @@ public class SpringSecurityConfig {
                         httpSecurityLogoutConfigurer
                                 .logoutRequestMatcher(AntPathRequestMatcher.antMatcher("/member/logout"))
                                 .logoutSuccessUrl("/")
-                                .invalidateHttpSession(true));
+                                .invalidateHttpSession(true))
+                .oauth2Login(httpSecurityOAuth2LoginConfigurer ->
+                                httpSecurityOAuth2LoginConfigurer
+                                        .defaultSuccessUrl("/"));
 
         return http.build();
     }

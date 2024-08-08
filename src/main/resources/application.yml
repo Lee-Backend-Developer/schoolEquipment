@@ -16,7 +16,19 @@ spring:
       ddl-auto: validate
   #autoconfigure:
     #exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
-
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 4e8dd46c24af10ad81dd3cbeb6fa6ba9
+            redirect-uri: http://localhost/kakaotalk/login
+            client-name: kakao
+            authorization-grant-type: authorization_code
+        provider:
+          kakao:
+            token-uri: https://kauth.kakao.com/oauth/token
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
 
   profiles:
     active: local
