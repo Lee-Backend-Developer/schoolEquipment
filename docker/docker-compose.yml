@@ -1,6 +1,6 @@
 services:
   db:
-    image: mysql:latest
+    image: mysql:8.4.2
     container_name: mysql_server
     restart: always
     ports:
@@ -10,6 +10,12 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: dima
+
+  spring-boot-app:
+    image: eotmd/spring:latest
+    container_name: spring-boot-container
+    ports:
+      - 80:80
 
 volumes:
   mysql-data:

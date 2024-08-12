@@ -1,0 +1,7 @@
+FROM openjdk:17
+
+EXPOSE 80
+CMD tail -f /dev/null
+ADD school_equipment-0.0.1-SNAPSHOT.jar /run
+WORKDIR /run
+CMD "java -jar school_equipment-0.0.1-SNAPSHOT.jar"
