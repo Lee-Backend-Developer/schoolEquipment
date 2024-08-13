@@ -1,5 +1,7 @@
 package com.equipment.school_equipment.config;
 
+import com.equipment.school_equipment.config.security.CustomAuthenticationFailureHandler;
+import com.equipment.school_equipment.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.support.NoOpCache;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.cache.SpringCacheBasedUserC
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,7 +28,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SpringSecurityConfig {
 
     private final AuthenticationSuccessHandler successHandler;
-    private final InMemoryClientRegistrationRepository inMemoryClientRegistrationRepository;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -44,14 +48,21 @@ public class SpringSecurityConfig {
                                 .passwordParameter("passwd")
                                 .successHandler(successHandler)
                 )
+                .oauth2Login(httpSecurityOAuth2LoginConfigurer ->
+                        httpSecurityOAuth2LoginConfigurer
+                                //로그인 성공 후 메인페이지 이동
+                                .defaultSuccessUrl("/")
+                                // 로그인 실패 이후 /member/login 이동
+                                .failureHandler(authenticationFailureHandler)
+                                // api 로그인 성공 이후 사용자 정보를 가져올 때의 설정
+                                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(customOAuth2UserService))
+
+                )
                 .logout(httpSecurityLogoutConfigurer ->
                         httpSecurityLogoutConfigurer
                                 .logoutRequestMatcher(AntPathRequestMatcher.antMatcher("/member/logout"))
                                 .logoutSuccessUrl("/")
-                                .invalidateHttpSession(true))
-                .oauth2Login(httpSecurityOAuth2LoginConfigurer ->
-                                httpSecurityOAuth2LoginConfigurer
-                                        .defaultSuccessUrl("/"));
+                                .invalidateHttpSession(true));
 
         return http.build();
     }
@@ -60,10 +71,4 @@ public class SpringSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
-
-    @Bean
-    public UserCache SpringCacheBasedUserCache() {
-        return new SpringCacheBasedUserCache(new NoOpCache("session"));
-    }
-
 }
