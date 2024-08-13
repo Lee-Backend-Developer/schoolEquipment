@@ -33,7 +33,7 @@ spring:
 
 
   profiles:
-    active: docker
+    active: local
 
 server:
   port: 80
