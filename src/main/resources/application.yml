@@ -19,19 +19,21 @@ spring:
   security:
     oauth2:
       client:
-        registration:
+        registration: # kakao, google, naver api 접속 키 등록
           kakao:
             client-id: 4e8dd46c24af10ad81dd3cbeb6fa6ba9
             redirect-uri: http://localhost/kakaotalk/login
             client-name: kakao
             authorization-grant-type: authorization_code
-        provider:
+        provider: # api 서버 연결
           kakao:
             token-uri: https://kauth.kakao.com/oauth/token
             authorization-uri: https://kauth.kakao.com/oauth/authorize
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+
 
   profiles:
-    active: local
+    active: docker
 
 server:
   port: 80
