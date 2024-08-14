@@ -1,5 +1,7 @@
 package com.equipment.school_equipment.controller;
 
+import com.equipment.school_equipment.config.security.CustomUserDetails;
+import com.equipment.school_equipment.config.security.UserAdapter;
 import com.equipment.school_equipment.domain.LoginUser;
 import com.equipment.school_equipment.repository.UserRepository;
 import com.equipment.school_equipment.request.UserRequest;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,8 +55,8 @@ public class LoginController {
     }
 
     @GetMapping("account")
-    public String getAccount(@AuthenticationPrincipal UserDetails userDetails, Model model){
-        UserRequest userRequest = userRepository.findByUserId(userDetails.getUsername())
+    public String getAccount(@AuthenticationPrincipal UserAdapter userDetails, Model model){
+        UserRequest userRequest = userRepository.findByUserId(userDetails.getName())
                 .map(user -> UserRequest.builder().
                         id(user.getUserId()).passwd(user.getUserPwd())
                         .email(user.getEmail()).name(user.getName())

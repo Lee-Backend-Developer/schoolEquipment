@@ -1,5 +1,6 @@
 package com.equipment.school_equipment.service;
 
+import com.equipment.school_equipment.config.security.UserAdapter;
 import com.equipment.school_equipment.domain.LoginUser;
 import com.equipment.school_equipment.domain.enumDomain.UserRole;
 import com.equipment.school_equipment.repository.UserRepository;
@@ -69,12 +70,6 @@ public class LoginUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LoginUser loginUser = userRepository.findByUserId(username).orElseThrow(() -> new UsernameNotFoundException("사용자가 없습니다."));
-        UserDetails build = User.builder()
-                .username(loginUser.getUserId())
-                .password(loginUser.getUserPwd())
-                .roles(loginUser.getRole().name())
-                .build();
-
-        return build;
+         return new UserAdapter(loginUser);
     }
 }
