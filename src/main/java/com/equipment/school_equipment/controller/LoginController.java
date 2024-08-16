@@ -56,7 +56,7 @@ public class LoginController {
 
     @GetMapping("account")
     public String getAccount(@AuthenticationPrincipal UserAdapter userDetails, Model model){
-        UserRequest userRequest = userRepository.findByUserId(userDetails.getName())
+        UserRequest userRequest = userRepository.findByUserId(userDetails.getLoginUser().getUserId())
                 .map(user -> UserRequest.builder().
                         id(user.getUserId()).passwd(user.getUserPwd())
                         .email(user.getEmail()).name(user.getName())
