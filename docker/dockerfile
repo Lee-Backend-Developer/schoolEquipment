@@ -1,5 +1,6 @@
-FROM openjdk:17
+FROM ubuntu:latest
+RUN apt-get update
+RUN apt-get install -y openjdk-17-jre
+WORKDIR /home/ec2-user/img/
 EXPOSE 80
-COPY school_equipment-0.0.1-SNAPSHOT.jar /run/school_equipment-0.0.1-SNAPSHOT.jar
-WORKDIR /run
-ENTRYPOINT ["java","-jar","school_equipment-0.0.1-SNAPSHOT.jar"]
+CMD tail -f /dev/null
