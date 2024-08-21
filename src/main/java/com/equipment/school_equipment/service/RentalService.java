@@ -7,6 +7,7 @@ import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.RentalRepository;
+import com.equipment.school_equipment.repository.TodayRentalRepository;
 import com.equipment.school_equipment.request.admin.RentalAddRequest;
 import com.equipment.school_equipment.request.admin.RentalPageCondition;
 import com.equipment.school_equipment.request.rental.RentalCreate;
@@ -27,6 +28,7 @@ public class RentalService {
     private final EquipmentRepository equipmentRepository;
     private final ClassTimeRepository classTimeRepository;
     private final RentalRepository rentalRepository;
+    private final TodayRentalRepository todayRentalRepository;
 
     /**
      * 현재 장비 남은 수량 확인
@@ -85,6 +87,11 @@ public class RentalService {
                 );
     }
 
+    /**
+     * 오늘 요일에 대여된 장비와 남은 장비 빼야됨
+     * @param condition
+     * @return
+     */
     public Page<Rental> findByAll(RentalPageCondition condition) {
         PageRequest pageRequest = PageRequest.of(condition.getPage(), 10);
         if(Objects.isNull(condition.getCategory())) return rentalRepository.findAllAndRentalChkTruePage(condition, pageRequest);

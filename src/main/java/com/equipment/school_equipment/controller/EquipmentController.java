@@ -49,7 +49,7 @@ public class EquipmentController {
                         .equipmentName(equipment.getName())
                         .content(equipment.getContent())
                         .img(PATH + equipment.getMainImg())
-                        .retCnt(rentalService.findByEquipmentCnt(equipment.getName()))
+                        .retCnt(equipment.getCount())
                         .leftCnt(equipment.getCount())
                         .build())
                 .toList();

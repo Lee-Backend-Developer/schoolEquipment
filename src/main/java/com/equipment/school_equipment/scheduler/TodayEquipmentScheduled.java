@@ -18,7 +18,8 @@ public class TodayEquipmentScheduled {
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("E");
 	private final TodayRentalService todayRentalService;
 
-	@Scheduled(fixedDelay = DelayTime.MINUTE, zone = "Asia/Seoul")
+	// 주말을 제외하고 1분마다 실행 (월요일~금요일)
+	@Scheduled(cron = "0 */1 * * * MON-FRI", zone = "Asia/Seoul")
 	public void reportCurrentTime() {
 		String currentWeekday = dateFormat.format(new Date()) + "요일";
 		DayOfWeekEnum weekday = DayOfWeekEnum.getName(currentWeekday);

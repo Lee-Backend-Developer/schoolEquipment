@@ -25,7 +25,7 @@ public class TodayRentalService {
         List<Rental> rentalList = rentalRepository.findByWeekday(weekday);
         if(rentalList.isEmpty()) throw new NullPointerException("대여된 장비가 없습니다");
         rentalList.forEach(rental -> todayRentalRepository.save(TodayRental.builder()
-                .rentalMinusCount(0)
+                .rentalMinusCount(rental.getRentalCnt())
                 .rental(rental)
                 .build()));
     }
