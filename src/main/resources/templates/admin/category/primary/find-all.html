@@ -34,7 +34,65 @@
             </tbody>
         </table>
     </div>
-        <nav th:replace="~{/fragments/page :: page(pages=${primaryCategoryPage}, url='admin/category')}"></nav>
+        <nav aria-label="Page navigation"  th:object="${primaryCategoryPage}"
+             th:with="start=${(primaryCategoryPage.getNumber()/10)*10 + 0},
+                last=(${start + 9 < primaryCategoryPage.getTotalPages() ? start + 9 : primaryCategoryPage.getTotalPages()}),
+                url = 'admin/category'">
+
+            <!--카테고리 값이 있을 경우-->
+            <ul class="pagination justify-content-center" th:if="${param.category != null}">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="${primaryCategoryPage.isFirst()} ? '#' : @{/{url}(url=${url}, page=${primaryCategoryPage.getNumber() - 1}, category=${param.category})}"
+                       aria-label="Previous">
+                        이전
+                    </a>
+                </li>
+                <li class="page-item"
+                    th:each="num : ${#numbers.sequence(start, last)}"
+                    th:classappend="${primaryCategoryPage.getNumber() == num} ? 'active' : ''"
+                >
+                    <a class="page-link"
+                       href="#"
+                       th:href="@{/{url}(url=${url}, page=${num}, category=${param.category})}"
+                       th:text="${num + 1}">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="${primaryCategoryPage.isLast()} ? '#' : @{/{url}(url=${url}, page=${primaryCategoryPage.getNumber() + 1}, category=${param.category})}"
+                       aria-label="Next">
+                        다음
+                    </a>
+                </li>
+            </ul>
+
+            <!-- 카테고리 값이 없을경우-->
+            <ul class="pagination justify-content-center" th:unless="${param.category != null}">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="${primaryCategoryPage.isFirst()} ? '#' : @{/{url}(page=${primaryCategoryPage.getNumber() - 1}, url=${url})}"
+                       aria-label="Previous">
+                        이전
+                    </a>
+                </li>
+                <li class="page-item"
+                    th:each="num : ${#numbers.sequence(start, last)}"
+                    th:classappend="${primaryCategoryPage.getNumber() == num} ? 'active' : ''"
+                >
+                    <a class="page-link"
+                       href="#"
+                       th:href="@{/{url}(page=${num}, url=${url})}"
+                       th:text="${num + 1}">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="${primaryCategoryPage.isLast()} ? '#' : @{/{url}(page=${primaryCategoryPage.getNumber() + 1}, url=${url})}"
+                       aria-label="Next">
+                        다음
+                    </a>
+                </li>
+            </ul>
+        </nav>
 </div>
 </div>
 </body>
