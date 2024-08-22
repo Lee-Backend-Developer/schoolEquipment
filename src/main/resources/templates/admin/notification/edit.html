@@ -61,7 +61,9 @@
                 <button type="submit" class="btn btn-primary" id="mainImgBtn">수정</button>
             </form>
 
-            <form id="notificationForm" class="d-none" th:method="put" th:object="${requestForm}" action="/api/admin/notification/content">
+            <form id="notificationForm"
+                  class="d-none" th:method="put"
+                  th:object="${requestForm}" th:action="@{/api/admin/notification/content}">
                 <input type="hidden" name="id" th:value="*{id}" id="formInput"/>
                 <input type="hidden" id="notificationContentValue" th:value="*{content}"/>
                 <div class="form-group">
