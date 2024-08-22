@@ -46,11 +46,14 @@ public class NotificationProductApiController {
         return ResponseEntity.ok(responseList);
     }
 
+    /**
+     * API -> 주소 리다이렉트 위해서 ModelAndView 객체사용
+     */
     @PutMapping
     public ModelAndView putNotification(@ModelAttribute NotificationRequest requestForm) {
         notificationProductService.edit(requestForm);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/admin/notification/product");
+        modelAndView.setViewName("redirect:/admin/notification");
         return modelAndView;
     }
 }
