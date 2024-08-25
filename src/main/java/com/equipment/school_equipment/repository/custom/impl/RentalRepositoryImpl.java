@@ -4,7 +4,9 @@ import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.custom.RentalRepositoryCustom;
+import com.equipment.school_equipment.repository.dto.TodayRentalSelect;
 import com.equipment.school_equipment.request.admin.RentalPageCondition;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.EntityPathBase;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -20,6 +22,7 @@ import java.util.Optional;
 import static com.equipment.school_equipment.domain.QClassPeriod.*;
 import static com.equipment.school_equipment.domain.QEquipment.equipment;
 import static com.equipment.school_equipment.domain.QRental.rental;
+import static com.equipment.school_equipment.domain.QTodayRental.*;
 
 @RequiredArgsConstructor
 public class RentalRepositoryImpl implements RentalRepositoryCustom {
@@ -119,4 +122,19 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
 
         return new PageImpl<>(rentalList, pageable, tatal);
     }
+
+    @Override
+    public List<TodayRentalSelect> findRentalJoinTodayRental() {
+        return queryFactory
+                .select(Projections.constructor(TodayRentalSelect.class,
+                        todayRental.id,
+                        todayRental.rental.equipment.name.as("name"),
+                        todayRental.rental.equipment.mainImg.as("main_img"),
+                        todayRental.rentalMinusCount.as("rental_cnt"),
+                        todayRental.rental.equipment.count.as("equipment_cnt")))
+                .from(todayRental).join(todayRental.rental).join(todayRental.rental.equipment)
+                .fetch();
+    }
+
+
 }
