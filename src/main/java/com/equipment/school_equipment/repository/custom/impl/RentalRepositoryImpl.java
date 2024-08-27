@@ -4,10 +4,12 @@ import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.custom.RentalRepositoryCustom;
-import com.equipment.school_equipment.repository.dto.TodayRentalSelect;
+import com.equipment.school_equipment.repository.dto.TodayRentalSelectDto;
 import com.equipment.school_equipment.request.admin.RentalPageCondition;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -124,16 +126,33 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
     }
 
     @Override
-    public List<TodayRentalSelect> findRentalJoinTodayRental() {
-        return queryFactory
-                .select(Projections.constructor(TodayRentalSelect.class,
-                        todayRental.id,
-                        todayRental.rental.equipment.name.as("name"),
-                        todayRental.rental.equipment.mainImg.as("main_img"),
-                        todayRental.rentalMinusCount.as("rental_cnt"),
-                        todayRental.rental.equipment.count.as("equipment_cnt")))
-                .from(todayRental).join(todayRental.rental).join(todayRental.rental.equipment)
+    public Page<TodayRentalSelectDto> findRentalJoinTodayRental(Pageable pageable) {
+
+        List<TodayRentalSelectDto> fetch = queryFactory
+                .select(Projections.constructor(TodayRentalSelectDto.class,
+                        equipment.id,
+                        equipment.name,
+                        equipment.mainImg,
+                        equipment.count,
+                        todayRental.rentalMinusCount))
+                .from(equipment)
+                .leftJoin(rental).on(equipment.eq(rental.equipment))
+                .leftJoin(todayRental).on(todayRental.rental.eq(rental))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+
+//        Long tatalCnt = queryFactory
+//                .select(equipment.id.count())
+//                .from(equipment)
+//                .leftJoin(rental).on(equipment.eq(rental.equipment))
+//                .leftJoin(todayRental).on(todayRental.rental.eq(rental))
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
+//                .fetchOne();
+
+
+        return new PageImpl<>(fetch, pageable, 100L);
     }
 
 

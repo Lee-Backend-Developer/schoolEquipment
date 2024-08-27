@@ -1,6 +1,7 @@
 package com.equipment.school_equipment.controller;
 
 import com.equipment.school_equipment.domain.Equipment;
+import com.equipment.school_equipment.repository.dto.TodayRentalSelectDto;
 import com.equipment.school_equipment.response.thymeleaf.EquipmentResponse;
 import com.equipment.school_equipment.service.EquipmentService;
 import com.equipment.school_equipment.service.PrimaryCategoryService;
@@ -39,22 +40,23 @@ public class EquipmentController {
                             @RequestParam(defaultValue = "0", required = false) int page,
                             @RequestParam(required = false) String category) {
 
-        Page<Equipment> equipmentPage = (isNull(category)) ?
+        /*Page<Equipment> equipmentPage = (isNull(category)) ?
                 equipmentService.findAll(page, 15) :
-                equipmentService.findByCategoryId(category, page);
+                equipmentService.findByCategoryId(category, page);*/
+
+        Page<TodayRentalSelectDto> byEquipmentJoinToday = rentalService.findByEquipmentJoinToday(page, 15);
 
 
-        List<EquipmentResponse> responses = equipmentPage.getContent()
+        List<EquipmentResponse> responses = byEquipmentJoinToday.getContent()
                 .stream().map(equipment -> EquipmentResponse.builder()
-                        .equipmentName(equipment.getName())
-                        .content(equipment.getContent())
-                        .img(PATH + equipment.getMainImg())
-                        .retCnt(equipment.getCount())
-                        .leftCnt(equipment.getCount())
+                        .equipmentName(equipment.name())
+                        .img(PATH + equipment.mainImg())
+                        .retCnt(isNull(equipment.rentalInt()) ? 0 : equipment.rentalInt())
+                        .leftCnt(equipment.equipmentCnt())
                         .build())
                 .toList();
 
-        model.addAttribute("pages", equipmentPage);
+        model.addAttribute("pages", byEquipmentJoinToday);
         model.addAttribute("equipmentList", responses);
         model.addAttribute("primaryCategories", primaryCategoryService.findAll());
         return "equipment";
