@@ -51,7 +51,9 @@ public class EquipmentController {
                 .stream().map(equipment -> EquipmentResponse.builder()
                         .equipmentName(equipment.name())
                         .img(PATH + equipment.mainImg())
-                        .retCnt(isNull(equipment.rentalInt()) ? 0 : equipment.rentalInt())
+                        .retCnt(
+                                equipment.equipmentCnt() - (isNull(equipment.rentalInt()) ? 0 : equipment.rentalInt())
+                        )
                         .leftCnt(equipment.equipmentCnt())
                         .build())
                 .toList();
