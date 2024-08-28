@@ -40,14 +40,15 @@ public class EquipmentController {
                             @RequestParam(defaultValue = "0", required = false) int page,
                             @RequestParam(required = false) String category) {
 
-        /*Page<Equipment> equipmentPage = (isNull(category)) ?
+/*        Page<Equipment> equipmentPage = (isNull(category)) ?
                 equipmentService.findAll(page, 15) :
                 equipmentService.findByCategoryId(category, page);*/
+        Page<TodayRentalSelectDto> equipmentPage = (isNull(category)) ?
+                rentalService.findByEquipmentJoinToday(page, 15) :
+                rentalService.findCategoryAndEquipment(category, page);
 
-        Page<TodayRentalSelectDto> byEquipmentJoinToday = rentalService.findByEquipmentJoinToday(page, 15);
 
-
-        List<EquipmentResponse> responses = byEquipmentJoinToday.getContent()
+        List<EquipmentResponse> responses = equipmentPage.getContent()
                 .stream().map(equipment -> EquipmentResponse.builder()
                         .equipmentName(equipment.name())
                         .img(PATH + equipment.mainImg())
@@ -58,7 +59,7 @@ public class EquipmentController {
                         .build())
                 .toList();
 
-        model.addAttribute("pages", byEquipmentJoinToday);
+        model.addAttribute("pages", equipmentPage);
         model.addAttribute("equipmentList", responses);
         model.addAttribute("primaryCategories", primaryCategoryService.findAll());
         return "equipment";

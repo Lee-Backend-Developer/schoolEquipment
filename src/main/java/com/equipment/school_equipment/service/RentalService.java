@@ -156,8 +156,15 @@ public class RentalService {
         findRental.updateRental(updateRental);
     }
 
-    public Page<TodayRentalSelectDto> findByEquipmentJoinToday(int page, int pageSize){
+    public Page<TodayRentalSelectDto> findByEquipmentJoinToday(int page, int pageSize) {
         PageRequest pageRequest = PageRequest.of(page, pageSize);
         return rentalRepository.findRentalJoinTodayRental(pageRequest);
     }
+
+    public Page<TodayRentalSelectDto> findCategoryAndEquipment(String category, int page){
+        PageRequest pageRequest = PageRequest.of(page, 15);
+        return rentalRepository.findCategoryAndEquipment(category, pageRequest);
+    }
+
+
 }

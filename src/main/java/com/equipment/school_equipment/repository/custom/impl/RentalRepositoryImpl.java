@@ -151,5 +151,29 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
         return new PageImpl<>(fetch, pageable, tatalCnt);
     }
 
+    @Override
+    public Page<TodayRentalSelectDto> findCategoryAndEquipment(String category, Pageable pageable) {
+        List<TodayRentalSelectDto> fetch = queryFactory
+                .select(Projections.constructor(TodayRentalSelectDto.class,
+                        equipment.id,
+                        equipment.name,
+                        equipment.mainImg,
+                        equipment.count,
+                        todayRental.rentalMinusCount))
+                .from(equipment)
+                .leftJoin(rental).on(equipment.eq(rental.equipment))
+                .leftJoin(todayRental).on(todayRental.rental.eq(rental))
+                .where(equipment.secondaryCategory.primaryCategory.categoryName.eq(category))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
+        Long tatalCnt = queryFactory
+                .select(equipment.count())
+                .from(equipment)
+                .where(equipment.secondaryCategory.primaryCategory.categoryName.eq(category))
+                .fetchOne();
+
+        return new PageImpl<>(fetch, pageable, tatalCnt);
+    }
 }
