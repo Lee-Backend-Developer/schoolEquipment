@@ -142,17 +142,13 @@ public class RentalRepositoryImpl implements RentalRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-//        Long tatalCnt = queryFactory
-//                .select(equipment.id.count())
-//                .from(equipment)
-//                .leftJoin(rental).on(equipment.eq(rental.equipment))
-//                .leftJoin(todayRental).on(todayRental.rental.eq(rental))
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetchOne();
+        Long tatalCnt = queryFactory
+                .select(equipment.count())
+                .from(equipment)
+                .fetchOne();
 
 
-        return new PageImpl<>(fetch, pageable, 100L);
+        return new PageImpl<>(fetch, pageable, tatalCnt);
     }
 
 

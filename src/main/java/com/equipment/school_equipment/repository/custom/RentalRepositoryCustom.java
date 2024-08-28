@@ -20,5 +20,11 @@ public interface RentalRepositoryCustom {
     Page<Rental> findAllAndRentalCategoryPage(RentalPageCondition condition, Pageable pageable);
     List<Rental> findByWeekday(DayOfWeekEnum weekday);
     // 대여 Join 오늘날 대여
+
+    /**
+     * 대여한 장비와 오늘 요일를 같이 조회하여 장비에 대한 데이터를 전달함
+     * @param pageable 페이징
+     * @return TodayRentalSelectDto
+     */
     Page<TodayRentalSelectDto> findRentalJoinTodayRental(Pageable pageable);
 }
