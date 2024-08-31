@@ -6,21 +6,9 @@
 <div class="wrapper d-flex align-items-stretch">
     <nav th:replace="~{fragments/main_fragment :: sidebar}"></nav>
 
-<div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::table}, '수업 장비 수업표')}">
+<div class="container-fluid" th:insert="~{fragments/main_fragment :: content(~{::table}, '수업 장비 시간표')}">
     <!--    컨텐츠-->
     <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">No</th>
-            <th scope="col">요일</th>
-        </tr>
-        <tbody th:each="day : ${dayOfWeekEnumList}">
-        <tr>
-            <td scope="row" th:text="${dayStat.count}">1</td>
-            <td><a href="#" th:text="${day.getWeek()}" th:href="@{/class-schedule/{schedule}(schedule = ${day.name()})}">요일</a>
-            </td>
-        </tr>
-        </tbody>
     </table>
 </div>
 </body>

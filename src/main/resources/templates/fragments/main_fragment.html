@@ -125,7 +125,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse show" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto" th:if="${subject eq '장비목록'}">
                         <li class="nav-item active">
                             <a class="nav-link" href="#" th:href="@{/admin/equipment(page=0)}">전체</a>
@@ -154,7 +154,13 @@
                                th:href="@{/admin/class-period(week = *{day.getName(day.getWeek())})}"></a>
                         </li>
                     </ul>
-
+                    <ul class="nav navbar-nav ml-auto" th:if="${subject eq '수업 장비 시간표'}">
+                        <li class="nav-item"
+                            th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
+                            <a class="nav-link" href="#" th:text="*{day.getWeek()}"
+                               th:href="@{/class-schedule/{week} (week = *{day.getName(day.getWeek())})}"></a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
