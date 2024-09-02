@@ -161,6 +161,13 @@
                                th:href="@{/class-schedule/{week} (week = *{day.getName(day.getWeek())})}"></a>
                         </li>
                     </ul>
+                    <ul class="nav navbar-nav ml-auto" th:if="${subject eq '수업반출시간표'}">
+                        <li class="nav-item"
+                            th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
+                            <a class="nav-link" href="#" th:text="*{day.getWeek()}"
+                               th:href="@{/class-schedule/{week} (week = *{day.getName(day.getWeek())})}"></a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
