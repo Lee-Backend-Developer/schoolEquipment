@@ -1,13 +1,10 @@
-package com.equipment.school_equipment.domain;
+package com.equipment.school_equipment.domain.loginUser;
 
-import com.equipment.school_equipment.domain.enumDomain.UserRole;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Objects;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 

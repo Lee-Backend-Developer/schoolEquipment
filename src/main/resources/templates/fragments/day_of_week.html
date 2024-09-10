@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- 태그 분리-->
+<!-- containsAll 해볼려고 했다 2번째 인수에 배열을 만들수 없어서 하드코딩을 하게되었음 -->
+<ul
+        class="nav navbar-nav ml-auto"
+        th:fragment="dayOfWeek (subject)"
+        th:if="${subject eq '대여' or
+        subject eq '수업 시간' or
+        subject eq '수업 장비 시간표' or
+        subject eq '수업반출시간표'}">
+    <li class="nav-item"
+        th:each="day : ${T(com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum).values()}">
+      <a class="nav-link" href="#" th:text="*{day.getWeek()}"
+         th:href="@{/admin/class-period(week = *{day.getName(day.getWeek())})}"></a>
+    </li>
+</ul>
+</body>
+</html>

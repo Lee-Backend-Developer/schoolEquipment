@@ -1,8 +1,6 @@
 package com.equipment.school_equipment.domain.enumDomain;
 
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 public enum DayOfWeekEnum{
     monday("월요일"),

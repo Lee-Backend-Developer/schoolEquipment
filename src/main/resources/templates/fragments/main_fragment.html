@@ -140,33 +140,7 @@
                             <a class="nav-link" href="#" th:href="@{/admin/equipment(category='음향')}">음향</a>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav ml-auto" th:if="${subject eq '대여'}">
-                        <li class="nav-item"
-                            th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
-                            <a class="nav-link" href="#" th:text="*{day.getWeek()}"
-                               th:href="@{/admin/rental(week = *{day.getName(day.getWeek())})}"></a>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav ml-auto" th:if="${subject eq '수업 시간'}">
-                        <li class="nav-item"
-                            th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
-                            <a class="nav-link" href="#" th:text="*{day.getWeek()}"
-                               th:href="@{/admin/class-period(week = *{day.getName(day.getWeek())})}"></a>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav ml-auto" th:if="${subject eq '수업 장비 시간표'}">
-                        <li class="nav-item"
-                            th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
-                            <a class="nav-link" href="#" th:text="*{day.getWeek()}"
-                               th:href="@{/class-schedule/{week} (week = *{day.getName(day.getWeek())})}"></a>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav ml-auto" th:if="${subject eq '수업반출시간표'}">
-                        <li class="nav-item"
-                            th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
-                            <a class="nav-link" href="#" th:text="*{day.getWeek()}"
-                               th:href="@{/class-schedule/{week} (week = *{day.getName(day.getWeek())})}"></a>
-                        </li>
+                    <ul class="nav navbar-nav ml-auto" th:replace="~{fragments/day_of_week :: dayOfWeek (subject=${subject})}">
                     </ul>
                 </div>
             </div>
