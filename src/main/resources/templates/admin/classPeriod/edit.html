@@ -24,7 +24,7 @@
             <select class="form-control" name="dayOfWeekEnum" th:field="*{dayOfWeekEnum}" id="dayOfWeekEnum">
                 <option value="">수업 요일 선택하세요.</option>
                 <option
-                        th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}"
+                        th:each="day : ${T(com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum).values()}"
                         th:text="${day.getWeek()}"
                         th:value="${day.name()}">금요일
                 </option>

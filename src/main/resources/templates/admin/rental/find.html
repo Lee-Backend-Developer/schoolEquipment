@@ -55,7 +55,7 @@
         </div>
         <div class="form-group">
             <h6>요일</h6>
-            <div class="form-check form-check-inline" th:each="day : ${T(com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum).values()}">
+            <div class="form-check form-check-inline" th:each="day : ${T(com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum).values()}">
                 <label class="form-check-label" th:for="${day}">
                     <input class="form-check-input"
                            type="radio"
