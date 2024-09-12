@@ -2,7 +2,7 @@ package com.equipment.school_equipment.repository.custom;
 
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
+import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.dto.TodayRentalSelectDto;
 import com.equipment.school_equipment.request.admin.RentalPageCondition;
 import org.springframework.data.domain.Page;

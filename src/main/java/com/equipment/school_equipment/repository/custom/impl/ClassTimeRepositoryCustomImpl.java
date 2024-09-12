@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.repository.custom.impl;
 
-import com.equipment.school_equipment.domain.ClassPeriod;
+import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
 import com.equipment.school_equipment.repository.custom.ClassTimeRepositoryCustom;
 import com.equipment.school_equipment.request.admin.ClassPeriodPageCondition;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Objects;
 
-import static com.equipment.school_equipment.domain.QClassPeriod.classPeriod;
+import static com.equipment.school_equipment.domain.classPeriod.QClassPeriod.classPeriod;
 
 @RequiredArgsConstructor
 public class ClassTimeRepositoryCustomImpl implements ClassTimeRepositoryCustom {

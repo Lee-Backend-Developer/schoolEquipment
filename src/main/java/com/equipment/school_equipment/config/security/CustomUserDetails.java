@@ -1,32 +1,29 @@
 package com.equipment.school_equipment.config.security;
 
-import com.equipment.school_equipment.domain.LoginUser;
+import com.equipment.school_equipment.domain.user.User;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 @Builder
 @Data
 public class CustomUserDetails implements UserDetails , OAuth2User {
-    private LoginUser loginUser;
+    private User loginUser;
     private Map<String, Object> attribute;
 
     // 일반 로그인 생성자
-    public CustomUserDetails(LoginUser loginUser) {
+    public CustomUserDetails(User loginUser) {
         this.loginUser = loginUser;
     }
 
     // OAuth2 로그인 생성자
-    public CustomUserDetails(LoginUser loginUser, Map<String, Object> attribute) {
+    public CustomUserDetails(User loginUser, Map<String, Object> attribute) {
         this.loginUser = loginUser;
         this.attribute = attribute;
     }

@@ -1,7 +1,7 @@
 package com.equipment.school_equipment.controller;
 
-import com.equipment.school_equipment.domain.ClassPeriod;
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
+import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
+import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
 import com.equipment.school_equipment.response.thymeleaf.ClasstimeResponse;
 import com.equipment.school_equipment.service.ClassPeriodService;
 import lombok.RequiredArgsConstructor;

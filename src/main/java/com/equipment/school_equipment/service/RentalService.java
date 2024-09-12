@@ -1,9 +1,9 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.ClassPeriod;
+import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
+import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassTimeRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.RentalRepository;
@@ -14,7 +14,6 @@ import com.equipment.school_equipment.request.rental.RentalCreate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

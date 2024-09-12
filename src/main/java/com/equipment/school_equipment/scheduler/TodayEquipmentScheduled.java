@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.scheduler;
 
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
+import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
 import com.equipment.school_equipment.service.TodayRentalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

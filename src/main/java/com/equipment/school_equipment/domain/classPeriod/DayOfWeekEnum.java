@@ -1,4 +1,4 @@
-package com.equipment.school_equipment.domain.enumDomain;
+package com.equipment.school_equipment.domain.classPeriod;
 
 import java.util.Arrays;
 

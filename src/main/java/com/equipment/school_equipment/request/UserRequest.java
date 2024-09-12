@@ -1,11 +1,10 @@
 package com.equipment.school_equipment.request;
 
-import com.equipment.school_equipment.domain.enumDomain.UserRole;
+import com.equipment.school_equipment.domain.user.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class UserRequest{

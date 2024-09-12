@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.repository.custom;
 
-import com.equipment.school_equipment.domain.ClassPeriod;
+import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
 import com.equipment.school_equipment.request.admin.ClassPeriodPageCondition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,9 +1,7 @@
 package com.equipment.school_equipment.request.classTime;
 
 
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
-
-import java.time.DayOfWeek;
+import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
 
 public record ClassTimeUpdate(
     String oldClassname,

@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.request.admin;
 
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
+import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
 import lombok.Builder;
 import lombok.Data;
 

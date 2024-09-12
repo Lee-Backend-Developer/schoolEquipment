@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.service;
 
-import com.equipment.school_equipment.domain.LoginUser;
+import com.equipment.school_equipment.domain.user.User;
 import com.equipment.school_equipment.domain.LoginUserConnectLog;
 import com.equipment.school_equipment.repository.LoginUserConnectLogRepository;
 import com.equipment.school_equipment.repository.UserRepository;
@@ -20,7 +20,7 @@ public class LoginUserConnectLogService {
 
     @Transactional
     public LoginUserConnectLog createLoginUserConnect(String ip, String id) {
-        LoginUser loginUser = userRepository.findByUserId(id).orElseThrow(NullPointerException::new);
+        User loginUser = userRepository.findByUserId(id).orElseThrow(NullPointerException::new);
         LoginUserConnectLog createLoginUserConnect = LoginUserConnectLog.builder()
                 .connectIp(ip)
                 .connectDate(new Timestamp(new Date().getTime()))

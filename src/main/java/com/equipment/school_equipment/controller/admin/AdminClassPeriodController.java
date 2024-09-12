@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.controller.admin;
 
-import com.equipment.school_equipment.domain.ClassPeriod;
+import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
 import com.equipment.school_equipment.request.admin.ClassPeriodPageCondition;
 import com.equipment.school_equipment.request.admin.ClassmateRequest;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/class-period")
-public class AdminClassesController {
+public class AdminClassPeriodController {
     private final ClassPeriodService classPeriodService;
 
     @GetMapping

@@ -2,9 +2,9 @@ package com.equipment.school_equipment.request.admin;
 
 import com.equipment.school_equipment.domain.PrimaryCategory;
 import com.equipment.school_equipment.domain.SecondaryCategory;
-import com.equipment.school_equipment.domain.ClassPeriod;
+import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
 import com.equipment.school_equipment.domain.Equipment;
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
+import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

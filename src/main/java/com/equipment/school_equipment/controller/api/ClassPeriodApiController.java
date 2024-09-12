@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.controller.api;
 
-import com.equipment.school_equipment.domain.ClassPeriod;
+import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
 import com.equipment.school_equipment.response.api.ClasstimeApiFindResponse;
 import com.equipment.school_equipment.service.ClassPeriodService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/class-period")
-public class ClassesApiController {
+public class ClassPeriodApiController {
     private final ClassPeriodService classPeriodService;
 
     @GetMapping("{weekday}")

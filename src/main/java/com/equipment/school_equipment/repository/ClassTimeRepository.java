@@ -1,9 +1,8 @@
 package com.equipment.school_equipment.repository;
 
-import com.equipment.school_equipment.domain.ClassPeriod;
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
+import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
+import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.custom.ClassTimeRepositoryCustom;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

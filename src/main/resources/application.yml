@@ -13,7 +13,7 @@ spring:
   jpa:
     generate-ddl: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
   #autoconfigure:
     #exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
   security:

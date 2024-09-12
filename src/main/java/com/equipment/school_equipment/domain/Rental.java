@@ -1,6 +1,7 @@
 package com.equipment.school_equipment.domain;
 
 
+import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,7 @@ public class Rental {
     private Long id;          //렌탈_아이디
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private ClassPeriod classPeriod = new ClassPeriod();
+    private ClassPeriod classPeriod;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Equipment equipment = new Equipment();

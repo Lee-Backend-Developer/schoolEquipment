@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.response.thymeleaf.admin;
 
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
+import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
 import lombok.Builder;
 
 @Builder

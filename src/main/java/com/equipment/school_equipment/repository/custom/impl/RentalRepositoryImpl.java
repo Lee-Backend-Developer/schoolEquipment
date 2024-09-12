@@ -2,14 +2,12 @@ package com.equipment.school_equipment.repository.custom.impl;
 
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
+import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.custom.RentalRepositoryCustom;
 import com.equipment.school_equipment.repository.dto.TodayRentalSelectDto;
 import com.equipment.school_equipment.request.admin.RentalPageCondition;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.EntityPathBase;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.equipment.school_equipment.domain.QClassPeriod.*;
+import static com.equipment.school_equipment.domain.classPeriod.QClassPeriod.classPeriod;
 import static com.equipment.school_equipment.domain.QEquipment.equipment;
 import static com.equipment.school_equipment.domain.QRental.rental;
 import static com.equipment.school_equipment.domain.QTodayRental.*;

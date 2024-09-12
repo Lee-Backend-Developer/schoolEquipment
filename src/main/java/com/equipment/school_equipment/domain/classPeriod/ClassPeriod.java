@@ -1,6 +1,5 @@
-package com.equipment.school_equipment.domain;
+package com.equipment.school_equipment.domain.classPeriod;
 
-import com.equipment.school_equipment.domain.enumDomain.DayOfWeekEnum;
 import jakarta.persistence.*;
 import lombok.*;
 

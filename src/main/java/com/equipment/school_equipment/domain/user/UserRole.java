@@ -1,4 +1,4 @@
-package com.equipment.school_equipment.domain.loginUser;
+package com.equipment.school_equipment.domain.user;
 
 import lombok.Getter;
 
