@@ -18,6 +18,12 @@ public class LoginUserConnectLogService {
     private final LoginUserConnectLogRepository loginUserConnectLogRepository;
     private final UserRepository userRepository;
 
+    /**
+     * 로그인 사용자 연결 로그 생성
+     * @param ip IP address
+     * @param id Member ID
+     * @return LoginUserConnectLog
+     */
     @Transactional
     public LoginUserConnectLog createLoginUserConnect(String ip, String id) {
         User loginUser = userRepository.findByUserId(id).orElseThrow(NullPointerException::new);

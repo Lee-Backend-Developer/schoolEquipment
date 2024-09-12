@@ -20,6 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class LoginUserService implements UserDetailsService {
     private final UserRepository userRepository;
 
+    /**
+     * 회원가입
+     * @param request UserRequest
+     * @return User
+     */
     @Transactional
     public User create(UserRequest request) {
         if(userRepository.findByUserId(request.getId()).isPresent()){
@@ -36,15 +41,14 @@ public class LoginUserService implements UserDetailsService {
         return createLoginUser;
     }
 
+    /**
+     * 로그인
+     * @param request UserRequest
+     * @return User
+     * @throws AuthException 사용자가 없을 때
+     */
     public User login(UserRequest request) throws AuthException {
         User loginUser = userRepository.findByUserIdAndUserPwd(request.getId(), request.getPasswd())
-                .orElseThrow(() -> new AuthException("없는 사용자 입니다."));
-
-        return loginUser;
-    }
-
-    public User kakaoLogin(String kakaoId) throws AuthException {
-        User loginUser = userRepository.findByKakaotalkId(kakaoId)
                 .orElseThrow(() -> new AuthException("없는 사용자 입니다."));
 
         return loginUser;
@@ -58,6 +62,10 @@ public class LoginUserService implements UserDetailsService {
         userRepository.delete(loginUser);
     }
 
+    /**
+     * 회원 정보 수정
+     * @param request UserRequest
+     */
     @Transactional
     public void update(UserRequest request) {
         User loginUser = userRepository.findByUserId(request.getId())

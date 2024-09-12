@@ -21,11 +21,15 @@ import org.springframework.stereotype.Service;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UserRepository userRepository;
-    private final LoginUserService loginUserService;
 
+    /**
+     * 사용자 User 가져옴
+     * @param userRequest OAuth2UserRequest
+     * @return OAuth2User
+     * @throws OAuth2AuthenticationException 사용자가 없을 때
+     */
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        log.info("CustomOAuth2UserService 실행");
         DefaultOAuth2UserService defaultOAuth2UserService = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = defaultOAuth2UserService.loadUser(userRequest);
 
@@ -37,6 +41,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // 세션 생성
         return new UserAdapter(loginUser, oAuth2User.getAttributes());
     }
+
     private User kakaoIdLogin(String kakaoId){
         User loginUser = userRepository.findByKakaotalkId(kakaoId)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자가 없습니다."));

@@ -13,6 +13,11 @@ import java.net.HttpURLConnection;
 @Slf4j
 public class KakaoTalkSerivce implements KakaoUtill {
 
+    /**
+     * 카카오톡 로그인 요청
+     * @param code 카카오톡 인증 코드
+     * @return token value
+     */
     @Override
     public String getToken(String code) {
         StringBuilder bodyParam = new StringBuilder();
@@ -27,11 +32,14 @@ public class KakaoTalkSerivce implements KakaoUtill {
         return stringToObject(value).getAccess_token();
     }
 
+    /**
+     * 카카오톡 유저 정보 요청
+     * @param accessToken token value
+     * @return 카카오톡 유저 고유 ID
+     */
     @Override
     public String getUserInfo(String accessToken) {
-
         String response = getUserId(accessToken);
-        log.info("response ID => {}", stringToObject(response).getId());
 
         return stringToObject(response).getId();
     }
