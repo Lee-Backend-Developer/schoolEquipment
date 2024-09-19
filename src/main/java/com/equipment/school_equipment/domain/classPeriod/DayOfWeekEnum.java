@@ -22,6 +22,11 @@ public enum DayOfWeekEnum{
         return week;
     }
 
+    /**
+     * 요일을 받아서 해당 요일을 반환
+     * @param week 요일
+     * @return DayOfWeekEnum
+     */
     public static DayOfWeekEnum getName(String week) {
         return Arrays.stream(DayOfWeekEnum.values())
                 .filter(values -> values.getWeek().equals(week))
