@@ -1,7 +1,7 @@
 package com.equipment.school_equipment.controller;
 
 import com.equipment.school_equipment.config.security.UserAdapter;
-import com.equipment.school_equipment.repository.UserRepository;
+import com.equipment.school_equipment.repository.MemberRepository;
 import com.equipment.school_equipment.request.UserRequest;
 import com.equipment.school_equipment.service.LoginUserService;
 import com.sun.jdi.request.DuplicateRequestException;
@@ -23,7 +23,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @RequestMapping("member")
 public class LoginController {
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final LoginUserService loginUserService;
 
     @GetMapping("login")
@@ -53,7 +53,7 @@ public class LoginController {
 
     @GetMapping("account")
     public String getAccount(@AuthenticationPrincipal UserAdapter userDetails, Model model){
-        UserRequest userRequest = userRepository.findByUserId(userDetails.getLoginUser().getUserId())
+        UserRequest userRequest = memberRepository.findByUserId(userDetails.getLoginMember().getUserId())
                 .map(user -> UserRequest.builder().
                         id(user.getUserId()).passwd(user.getUserPwd())
                         .email(user.getEmail()).name(user.getName())

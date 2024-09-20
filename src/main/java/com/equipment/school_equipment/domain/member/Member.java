@@ -1,4 +1,4 @@
-package com.equipment.school_equipment.domain.user;
+package com.equipment.school_equipment.domain.member;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +11,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class User {
+public class Member {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -22,12 +22,12 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private MemberRole role;
 
     private String kakaotalkId;
 
     @Builder
-    public User(Long id, String userId, String userPwd, String name, String email, UserRole role, String kakaotalkId) {
+    public Member(Long id, String userId, String userPwd, String name, String email, MemberRole role, String kakaotalkId) {
         this.id = id;
         this.userId = userId;
         this.userPwd = userPwd;

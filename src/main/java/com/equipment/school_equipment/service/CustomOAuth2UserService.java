@@ -1,8 +1,8 @@
 package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.config.security.UserAdapter;
-import com.equipment.school_equipment.domain.user.User;
-import com.equipment.school_equipment.repository.UserRepository;
+import com.equipment.school_equipment.domain.member.Member;
+import com.equipment.school_equipment.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 // api 로그인 성공 이후 사용자 정보를 가져올 때의 설정
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     /**
      * 사용자 User 가져옴
@@ -36,16 +36,16 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String kakaoId = oAuth2User.getName();
         // kakao 고유 아이디 가져오기
 
-        User loginUser = kakaoIdLogin(kakaoId);
+        Member loginMember = kakaoIdLogin(kakaoId);
 
         // 세션 생성
-        return new UserAdapter(loginUser, oAuth2User.getAttributes());
+        return new UserAdapter(loginMember, oAuth2User.getAttributes());
     }
 
-    private User kakaoIdLogin(String kakaoId){
-        User loginUser = userRepository.findByKakaotalkId(kakaoId)
+    private Member kakaoIdLogin(String kakaoId){
+        Member loginMember = memberRepository.findByKakaotalkId(kakaoId)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자가 없습니다."));
-        return loginUser;
+        return loginMember;
     }
 
 

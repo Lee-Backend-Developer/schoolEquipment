@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.config.security;
 
-import com.equipment.school_equipment.domain.user.User;
+import com.equipment.school_equipment.domain.member.Member;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,41 +14,41 @@ import java.util.Map;
 @Builder
 @Data
 public class CustomUserDetails implements UserDetails , OAuth2User {
-    private User loginUser;
+    private Member loginMember;
     private Map<String, Object> attribute;
 
     // 일반 로그인 생성자
-    public CustomUserDetails(User loginUser) {
-        this.loginUser = loginUser;
+    public CustomUserDetails(Member loginMember) {
+        this.loginMember = loginMember;
     }
 
     // OAuth2 로그인 생성자
-    public CustomUserDetails(User loginUser, Map<String, Object> attribute) {
-        this.loginUser = loginUser;
+    public CustomUserDetails(Member loginMember, Map<String, Object> attribute) {
+        this.loginMember = loginMember;
         this.attribute = attribute;
     }
 
     @Override
     public String getName() {
-        return loginUser.getName();
+        return loginMember.getName();
     }
 
     //권한
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> collect = new ArrayList<>();
-        collect.add((GrantedAuthority) () -> "ROLE_" + loginUser.getRole());
+        collect.add((GrantedAuthority) () -> "ROLE_" + loginMember.getRole());
         return collect;
     }
 
     @Override
     public String getPassword() {
-        return loginUser.getUserPwd();
+        return loginMember.getUserPwd();
     }
 
     @Override
     public String getUsername() {
-        return loginUser.getUserId();
+        return loginMember.getUserId();
     }
 
     @Override

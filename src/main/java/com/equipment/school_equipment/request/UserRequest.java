@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.request;
 
-import com.equipment.school_equipment.domain.user.UserRole;
+import com.equipment.school_equipment.domain.member.MemberRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
@@ -19,7 +19,7 @@ public class UserRequest{
         @NotEmpty @Email
         private String email;
         private Boolean kakaoTalk;
-        private UserRole userRole;
+        private MemberRole memberRole;
 
         @Builder
         public UserRequest(String id, String passwd, String chkPasswd, String name, String email, Boolean kakaoTalk) {
@@ -29,7 +29,7 @@ public class UserRequest{
                 this.name = name;
                 this.email = email;
                 this.kakaoTalk = kakaoTalk;
-                this.userRole = UserRole.user;
+                this.memberRole = MemberRole.user;
         }
 
 }

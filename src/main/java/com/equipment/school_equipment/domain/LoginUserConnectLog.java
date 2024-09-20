@@ -1,6 +1,6 @@
 package com.equipment.school_equipment.domain;
 
-import com.equipment.school_equipment.domain.user.User;
+import com.equipment.school_equipment.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,16 +20,16 @@ public class LoginUserConnectLog {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User userKey;
+    private Member memberKey;
 
     private Timestamp connectDate;
     private String connectIp;
 
     @Builder
-    public LoginUserConnectLog(Long id, Timestamp connectDate, String connectIp, User userKey) {
+    public LoginUserConnectLog(Long id, Timestamp connectDate, String connectIp, Member memberKey) {
         this.id = id;
         this.connectDate = connectDate;
         this.connectIp = connectIp;
-        this.userKey = userKey;
+        this.memberKey = memberKey;
     }
 }
