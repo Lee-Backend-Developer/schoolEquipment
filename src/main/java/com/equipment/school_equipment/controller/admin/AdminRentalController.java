@@ -1,8 +1,7 @@
 package com.equipment.school_equipment.controller.admin;
 
 import com.equipment.school_equipment.domain.Rental;
-import com.equipment.school_equipment.domain.SecondaryCategory;
-import com.equipment.school_equipment.repository.ClassTimeRepository;
+import com.equipment.school_equipment.repository.ClassPeriodRepository;
 import com.equipment.school_equipment.repository.PrimaryCategoryRepository;
 import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
@@ -15,7 +14,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,7 +32,7 @@ public class AdminRentalController {
     private final EquipmentRepository equipmentRepository;
     private final PrimaryCategoryService primaryCategoryService;
     private final PrimaryCategoryRepository primaryCategoryRepository;
-    private final ClassTimeRepository classTimeRepository;
+    private final ClassPeriodRepository classPeriodRepository;
 
     @GetMapping
     public String find(@ModelAttribute RentalPageCondition condition, Model model) {
@@ -93,7 +91,7 @@ public class AdminRentalController {
                                 .getSecondaryCategory().getId()))
                 .equipment(request.getEquipment())
                 .retCnt(request.getRentalCnt())
-                .classtimeList(classTimeRepository.findByDayOfWeekEquals(request.getClassPeriod().getDayOfWeek()))
+                .classtimeList(classPeriodRepository.findByDayOfWeekEquals(request.getClassPeriod().getDayOfWeek()))
                 .classPeriod(request.getClassPeriod())
                 .weekday(request.getClassPeriod().getDayOfWeek())
                 .build();

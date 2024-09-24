@@ -4,7 +4,7 @@ import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.Rental;
 import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
-import com.equipment.school_equipment.repository.ClassTimeRepository;
+import com.equipment.school_equipment.repository.ClassPeriodRepository;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.RentalRepository;
 import com.equipment.school_equipment.repository.dto.TodayRentalSelectDto;
@@ -26,7 +26,7 @@ import java.util.Objects;
 public class RentalService {
 
     private final EquipmentRepository equipmentRepository;
-    private final ClassTimeRepository classTimeRepository;
+    private final ClassPeriodRepository classPeriodRepository;
     private final RentalRepository rentalRepository;
 
     /**
@@ -39,7 +39,7 @@ public class RentalService {
     @Transactional
     public int rentalCreate(RentalCreate request) {
 
-        ClassPeriod classPeriod = classTimeRepository.findByClassName(request.className()).orElseThrow(IllegalArgumentException::new);
+        ClassPeriod classPeriod = classPeriodRepository.findByClassName(request.className()).orElseThrow(IllegalArgumentException::new);
         Equipment equipment = equipmentRepository.findByName(request.equipmentName());
 
         Rental rental = Rental.builder().classPeriod(classPeriod)
@@ -67,7 +67,7 @@ public class RentalService {
      */
     @Transactional
     public void rentalCreate(RentalAddRequest request) {
-        ClassPeriod classtime = classTimeRepository.findById(request.getClassroomId()).orElseThrow(IllegalArgumentException::new);
+        ClassPeriod classtime = classPeriodRepository.findById(request.getClassroomId()).orElseThrow(IllegalArgumentException::new);
         Equipment equipment = equipmentRepository.findById(request.getEquipmentId()).orElseThrow(IllegalArgumentException::new);
 
         // 보관하고 있는 장비 수량보다 대여 수량이 더 많으면 에러
@@ -98,7 +98,7 @@ public class RentalService {
     }
 
     public Equipment findByEquipment(String classname, String day) {
-        ClassPeriod classTime = classTimeRepository.findByClassNameEqualsAndDayOfWeek(classname, DayOfWeekEnum.valueOf(day))
+        ClassPeriod classTime = classPeriodRepository.findByClassNameEqualsAndDayOfWeek(classname, DayOfWeekEnum.valueOf(day))
                 .orElseThrow(() -> new RuntimeException("그런 수업은 없습니다."));
         Rental rental = rentalRepository.findByClassOfDay(classTime.getClassName(), day).orElseThrow(() -> new RuntimeException("수업 또는 요일이 잘못입력되었습니다"));
         return rental.getEquipment();

@@ -3,7 +3,7 @@ package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
 import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
-import com.equipment.school_equipment.repository.ClassTimeRepository;
+import com.equipment.school_equipment.repository.ClassPeriodRepository;
 import com.equipment.school_equipment.request.admin.ClassPeriodPageCondition;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
 import com.equipment.school_equipment.request.classTime.ClassTimeUpdate;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ClassPeriodService {
-    private final ClassTimeRepository classTimeRepository;
+    private final ClassPeriodRepository classPeriodRepository;
 
     /**
      * 수업 시간표 저장
@@ -45,7 +45,7 @@ public class ClassPeriodService {
                 .nineTime(request.nineTime())
                 .tenTime(request.tenTime())
                 .build();
-        return classTimeRepository.save(classTime);
+        return classPeriodRepository.save(classTime);
     }
 
     /**
@@ -55,7 +55,7 @@ public class ClassPeriodService {
      */
     public List<ClassPeriod> findByRentalWeek(String week) {
         DayOfWeekEnum dayOfWeekEnum = DayOfWeekEnum.getName(week);
-        List<ClassPeriod> findByRental = classTimeRepository.findByDayOfWeekEquals(dayOfWeekEnum);
+        List<ClassPeriod> findByRental = classPeriodRepository.findByDayOfWeekEquals(dayOfWeekEnum);
         return findByRental;
     }
 
@@ -66,7 +66,7 @@ public class ClassPeriodService {
      */
     @Transactional
     public ClassPeriod updateClassTime(ClassTimeUpdate request) {
-        ClassPeriod findClassName = classTimeRepository.findByClassName(request.oldClassname()).orElseThrow(() -> new RuntimeException("접근에러"));
+        ClassPeriod findClassName = classPeriodRepository.findByClassName(request.oldClassname()).orElseThrow(() -> new RuntimeException("접근에러"));
 
         findClassName.setUpdate(request.newClassname(), request.dayOfWeekEnum(), request.oneTime(), request.twoTime(), request.threeTime(), request.fourTime(), request.fiveTime(), request.sixTime(), request.sevenTime(), request.eightTime(), request.nineTime(), request.tenTime());
         return findClassName;
@@ -78,7 +78,7 @@ public class ClassPeriodService {
      */
     @Transactional
     public void delete(Long id) {
-        classTimeRepository.deleteById(id);
+        classPeriodRepository.deleteById(id);
     }
 
     /**
@@ -93,7 +93,7 @@ public class ClassPeriodService {
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("입력하신 요일은 없습니다.");
         }
-        return classTimeRepository.findByDayOfWeekEquals(DayOfWeekEnum.valueOf(week));
+        return classPeriodRepository.findByDayOfWeekEquals(DayOfWeekEnum.valueOf(week));
     }
 
     /**
@@ -101,7 +101,7 @@ public class ClassPeriodService {
      * @return List<ClassPeriod>
      */
     public List<ClassPeriod> findAll() {
-        return classTimeRepository.findAll();
+        return classPeriodRepository.findAll();
     }
 
     /**
@@ -110,7 +110,7 @@ public class ClassPeriodService {
      * @return Page<ClassPeriod>
      */
     public Page<ClassPeriod> findAllPage(ClassPeriodPageCondition page) {
-        return classTimeRepository.classPeriodPage(page, PageRequest.of(page.getPage(), 10));
+        return classPeriodRepository.classPeriodPage(page, PageRequest.of(page.getPage(), 10));
     }
 
     /**
@@ -119,7 +119,7 @@ public class ClassPeriodService {
      * @return ClassPeriod
      */
     public ClassPeriod findById(Long classnameId) {
-        ClassPeriod classPeriod = classTimeRepository.findById(classnameId).orElseThrow(() -> new RuntimeException("잘못된 접근입니다."));
+        ClassPeriod classPeriod = classPeriodRepository.findById(classnameId).orElseThrow(() -> new RuntimeException("잘못된 접근입니다."));
 
         return classPeriod;
     }
