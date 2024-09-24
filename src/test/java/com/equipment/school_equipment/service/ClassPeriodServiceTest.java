@@ -4,6 +4,7 @@ import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
 import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.ClassPeriodRepository;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
+import com.equipment.school_equipment.request.classTime.ClassTimeUpdate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +27,7 @@ class ClassPeriodServiceTest {
     public ClassPeriodService classPeriodService;
 
     /**
+     * <수업 시간표 저장>
      * 1. 수업 시간에 요일이 없을 경우 에러가 발생
      * 2. 수업 시간이 저장이 되어야함
      */
@@ -64,5 +66,44 @@ class ClassPeriodServiceTest {
         /* 수업이 저장이 되어야한다. */
         assertNotNull(saveClassPeriod);
 
+    }
+
+    /**
+     * <수업 시간표 수정>
+     * 1. DB에 조회했을 때 수업명이 없을 경우 예외처리가 되어야한다.
+     * 2. 수업 이름이 변경이 되어야한다.
+     */
+    @DisplayName("수업 시간표가 수정이 되어야한다.")
+    @Test
+    void edit() throws Exception {
+        //given 준비 과정
+        ClassPeriod classPeriodMonday = ClassPeriod.builder() // 가짜객체 생성
+                .dayOfWeek(DayOfWeekEnum.monday)
+                .className("월요일에 관련된 수업")
+                .oneTime(true).build();
+
+        given(classPeriodRepository.findByClassName("월요일에 관련된 수업")) // 저장소 조회시 가짜객체 리턴함
+                .willReturn(Optional.of(classPeriodMonday));
+
+        //when 실행
+        ClassTimeUpdate classTimeTuesdayRequest = ClassTimeUpdate.builder()
+                .updateClassname("월요일에 관련된 수업", "화요일에 관련된 수업")
+                .dayOfWeek(DayOfWeekEnum.tuesday)
+                .build();
+
+        ClassPeriod classPeriodTuesday = classPeriodService.updateClassTime(classTimeTuesdayRequest);
+
+        //then 검증
+
+        /* 1. 수업 이름이 존재하지 않을 경우 에러가 발생 */
+        ClassTimeUpdate classPeriodDto = ClassTimeUpdate.builder()
+                .updateClassname("변경 전 수업", "변경 후 수업")
+                .build();
+        assertThrows(RuntimeException.class, () -> {
+            classPeriodService.updateClassTime(classPeriodDto);
+        });
+
+        /* 2. 수업명이 "화요일에 관련된 수업" 변경이*/
+        assertEquals(classPeriodTuesday.getClassName(), "화요일에 관련된 수업");
     }
 }
