@@ -22,11 +22,11 @@ public class RentalController {
 
     @RequestMapping("/{dayOfWeek}/{classnameId}")
     public String day(@PathVariable(name = "dayOfWeek") String dayofweek, @PathVariable(name = "classnameId") String classname, Model model){
-        List<Equipment> equipments = rentalService.findByClassnameIdAndDayOfWeek(classname, dayofweek);
+        List<Equipment> equipments = rentalService.getClassnameIdAndDayOfWeek(classname, dayofweek);
         List<RentalEquipmentResponse> rentalEquipmentResponse = new ArrayList<>();
 
         for (Equipment equipment : equipments) {
-            int leftCnt = rentalService.findByEquipmentCnt(equipment.getName());
+            int leftCnt = rentalService.getEquipmentCnt(equipment.getName());
             RentalEquipmentResponse rentalEquipment = RentalEquipmentResponse.builder()
                     .name(equipment.getName())
                     .image(equipment.getMainImg())

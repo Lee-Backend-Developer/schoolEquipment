@@ -2,8 +2,10 @@ package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.member.Member;
 import com.equipment.school_equipment.domain.LoginUserConnectLog;
+import com.equipment.school_equipment.message.error.Message;
 import com.equipment.school_equipment.repository.LoginUserConnectLogRepository;
 import com.equipment.school_equipment.repository.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +29,9 @@ public class LoginUserConnectLogService {
      */
     @Transactional
     public LoginUserConnectLog createLoginUserConnect(String ip, String id) {
-        Member loginMember = memberRepository.findByUserId(id).orElseThrow(NullPointerException::new);
+        Member loginMember = memberRepository.findByUserId(id)
+                .orElseThrow(() -> new EntityNotFoundException(Message.MEMBER_FIND_ERROR));
+
         LoginUserConnectLog createLoginUserConnect = LoginUserConnectLog.builder()
                 .connectIp(ip)
                 .connectDate(new Timestamp(new Date().getTime()))

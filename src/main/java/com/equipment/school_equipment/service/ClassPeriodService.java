@@ -3,17 +3,22 @@ package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.classPeriod.ClassPeriod;
 import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
+import com.equipment.school_equipment.message.error.Message;
 import com.equipment.school_equipment.repository.ClassPeriodRepository;
 import com.equipment.school_equipment.request.admin.ClassPeriodPageCondition;
 import com.equipment.school_equipment.request.classTime.ClassTimeCreate;
 import com.equipment.school_equipment.request.classTime.ClassTimeUpdate;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.module.FindException;
 import java.util.List;
+
+import static com.equipment.school_equipment.message.error.Message.*;
 
 @Service
 @RequiredArgsConstructor
@@ -66,7 +71,8 @@ public class ClassPeriodService {
      */
     @Transactional
     public ClassPeriod updateClassTime(ClassTimeUpdate request) {
-        ClassPeriod findClassName = classPeriodRepository.findByClassName(request.oldClassname()).orElseThrow(() -> new RuntimeException("접근에러"));
+        ClassPeriod findClassName = classPeriodRepository.findByClassName(request.oldClassname())
+                .orElseThrow(() -> new EntityNotFoundException(CLASSPERIOD_FIND_CLASSROOM_ERROR));
 
         findClassName.setUpdate(request.newClassname(), request.dayOfWeekEnum(), request.oneTime(), request.twoTime(), request.threeTime(), request.fourTime(), request.fiveTime(), request.sixTime(), request.sevenTime(), request.eightTime(), request.nineTime(), request.tenTime());
         return findClassName;
@@ -89,9 +95,9 @@ public class ClassPeriodService {
      */
     public List<ClassPeriod> findByDay(String week) throws RuntimeException {
         try{
-            DayOfWeekEnum.valueOf(week); // 월요일
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("입력하신 요일은 없습니다.");
+            DayOfWeekEnum.valueOf(week); // 요일이 있는지 확인
+        } catch (IllegalArgumentException e) { // 요일이 없을 경우
+            throw new IllegalArgumentException(DayOfWeekEnum.DAYOFWEEK_ERROR);
         }
         return classPeriodRepository.findByDayOfWeekEquals(DayOfWeekEnum.valueOf(week));
     }
@@ -119,7 +125,8 @@ public class ClassPeriodService {
      * @return ClassPeriod
      */
     public ClassPeriod findById(Long classnameId) {
-        ClassPeriod classPeriod = classPeriodRepository.findById(classnameId).orElseThrow(() -> new RuntimeException("잘못된 접근입니다."));
+        ClassPeriod classPeriod = classPeriodRepository.findById(classnameId)
+                .orElseThrow(() -> new EntityNotFoundException(CLASSPERIOD_FIND_CLASSROOM_ERROR));
 
         return classPeriod;
     }

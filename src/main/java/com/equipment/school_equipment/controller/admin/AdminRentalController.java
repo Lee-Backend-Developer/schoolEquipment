@@ -72,14 +72,14 @@ public class AdminRentalController {
             model.addAttribute("rental", request);
             return "admin/rental/add";
         }
-        rentalService.rentalCreate(request);
+        rentalService.addRental(request);
         return "redirect:/admin/rental";
 
     }
 
     @GetMapping("/edit/{id}")
     public String getEditPage(@PathVariable Long id, Model model){
-        Rental request = rentalService.findById(id);
+        Rental request = rentalService.getRental(id);
 
         RentalAddRequest requestForm = RentalAddRequest.builder()
                 .primaryCategoryList(primaryCategoryRepository.findAll())
@@ -118,7 +118,7 @@ public class AdminRentalController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
-        rentalService.rentaldelete(id);
+        rentalService.rentalDelete(id);
         return "redirect:/admin/rental";
     }
 }

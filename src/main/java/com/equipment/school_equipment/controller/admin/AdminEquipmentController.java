@@ -56,7 +56,7 @@ public class AdminEquipmentController {
                         .id(equipment.getId())
                         .equipmentName(equipment.getName())
                         .leftCnt(equipment.getCount())
-                        .retCnt(rentalService.findByEquipmentCnt(equipment.getName()))
+                        .retCnt(rentalService.getEquipmentCnt(equipment.getName()))
                         .build())
                 .toList();
 
@@ -142,7 +142,7 @@ public class AdminEquipmentController {
                         .id(equipment.getId())
                         .equipmentName(equipment.getName())
                         .leftCnt(equipment.getCount())
-                        .retCnt(rentalService.findByEquipmentCnt(equipment.getName()))
+                        .retCnt(rentalService.getEquipmentCnt(equipment.getName()))
                         .build())
                 .toList();
 

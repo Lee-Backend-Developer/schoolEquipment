@@ -1,9 +1,11 @@
 package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.NotificationProduct;
+import com.equipment.school_equipment.message.error.Message;
 import com.equipment.school_equipment.repository.NotificationProductRepository;
 import com.equipment.school_equipment.request.notificationProduct.NotificationRequest;
 import com.equipment.school_equipment.util.FileSaveUtil;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -28,8 +31,7 @@ public class NotificationProductService {
     }
 
     public NotificationProduct findById(Long id){
-        return notificationProductRepository.findById(id)
-                .orElseThrow(NullPointerException::new);
+        return getNotificationProductRepositoryById(id);
     }
 
     @Transactional
@@ -49,7 +51,7 @@ public class NotificationProductService {
             fileName = FileSaveUtil.fileSave(editRequest.imageFile(), FileSaveUtil.PATH_MAINPAGE);
         }
 
-        NotificationProduct notificationProduct = notificationProductRepository.findById(editRequest.id()).orElseThrow(NullPointerException::new);
+        NotificationProduct notificationProduct = getNotificationProductRepositoryById(editRequest.id());
         notificationProduct.edit(
                 editRequest.subject(),
                 editRequest.content(),
@@ -59,7 +61,12 @@ public class NotificationProductService {
 
     @Transactional
     public void delete(Long id) {
-        NotificationProduct notificationProduct = notificationProductRepository.findById(id).orElseThrow(NullPointerException::new);
+        NotificationProduct notificationProduct = getNotificationProductRepositoryById(id);
         notificationProductRepository.delete(notificationProduct);
+    }
+
+    private NotificationProduct getNotificationProductRepositoryById(Long id) {
+        return notificationProductRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Message.NOTIFICATIONCONTENT_FIND_ERROR));
     }
 }

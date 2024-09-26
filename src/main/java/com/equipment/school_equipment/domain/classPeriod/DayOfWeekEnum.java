@@ -11,6 +11,8 @@ public enum DayOfWeekEnum{
     // week => monday
     // name => "월요일"
 
+    // error Message
+    public static final String DAYOFWEEK_ERROR = "요일이 선택되지 않음.";
 
     private final String week;
 

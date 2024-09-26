@@ -5,6 +5,7 @@ import com.equipment.school_equipment.domain.TodayRental;
 import com.equipment.school_equipment.domain.classPeriod.DayOfWeekEnum;
 import com.equipment.school_equipment.repository.RentalRepository;
 import com.equipment.school_equipment.repository.TodayRentalRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,13 +22,17 @@ public class TodayRentalService {
     private final TodayRentalRepository todayRentalRepository;
     private final RentalRepository rentalRepository;
 
+    /**
+     * <p> <스케줄러> </p>
+     * <p>오늘 대여된 장비를 추가합니다.</p>
+     */
     @Transactional
-    public void createRentalFromToday(DayOfWeekEnum weekday) {
+    public void addRentalFromToday(DayOfWeekEnum weekday) throws RuntimeException {
         todayRentalRepository.deleteAll();
         List<Rental> rentalList = rentalRepository.findByWeekday(weekday);
         try {
             if(rentalList.isEmpty())
-                throw new NullPointerException();
+                throw new EntityNotFoundException();
         } catch (NullPointerException e) {
             log.error("대여된 장비가 없습니다.");
         }

@@ -1,7 +1,9 @@
 package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.PrimaryCategory;
+import com.equipment.school_equipment.message.error.Message;
 import com.equipment.school_equipment.repository.PrimaryCategoryRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,17 +36,23 @@ public class PrimaryCategoryService {
 
     @Transactional
     public void deleteById(long primaryCategoryId) {
-        PrimaryCategory findPrimaryCategory = primaryCategoryRepository.findById(primaryCategoryId).orElseThrow(IllegalAccessError::new);
+        PrimaryCategory findPrimaryCategory = getPrimaryCategory(primaryCategoryId);
         primaryCategoryRepository.delete(findPrimaryCategory);
     }
 
+    private PrimaryCategory getPrimaryCategory(long primaryCategoryId) {
+        return primaryCategoryRepository
+                .findById(primaryCategoryId)
+                .orElseThrow(() -> new EntityNotFoundException(Message.CATEGORY_FIND_ERROR));
+    }
+
     public PrimaryCategory findById(long primaryCategoryId) {
-        return primaryCategoryRepository.findById(primaryCategoryId).orElseThrow(IllegalAccessError::new);
+        return getPrimaryCategory(primaryCategoryId);
     }
 
     @Transactional
     public void changeCategoryName(Long id, String changeNameClassname) {
-        PrimaryCategory findPrimaryCategory = primaryCategoryRepository.findById(id).orElseThrow(IllegalAccessError::new);
+        PrimaryCategory findPrimaryCategory = getPrimaryCategory(id);
         findPrimaryCategory.updateChangeName(changeNameClassname);
     }
 }

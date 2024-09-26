@@ -24,6 +24,6 @@ public class TodayEquipmentScheduled {
 		String currentWeekday = dateFormat.format(new Date()) + "요일";
 		DayOfWeekEnum weekday = DayOfWeekEnum.getName(currentWeekday);
 		log.info("The time is now {}", weekday);
-		todayRentalService.createRentalFromToday(weekday);
+		todayRentalService.addRentalFromToday(weekday);
 	}
 }

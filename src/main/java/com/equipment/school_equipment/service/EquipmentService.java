@@ -3,12 +3,14 @@ package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.SecondaryCategory;
+import com.equipment.school_equipment.message.error.Message;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import com.equipment.school_equipment.request.admin.EquipmentForm;
 import com.equipment.school_equipment.request.equipment.EquipmentCount;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import com.equipment.school_equipment.util.FileSaveUtil;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+
+import static com.equipment.school_equipment.message.error.Message.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +36,11 @@ public class EquipmentService {
      * @return Equipment
      */
     @Transactional
-    public Equipment save(EquipmentCreate request) {
-        SecondaryCategory findSecondaryCategory = secondaryCategoryRepository.findById(request.categoryId()).orElseThrow(IllegalArgumentException::new);
+    public Equipment save(EquipmentCreate request) throws RuntimeException {
+
+        // 기자재 등록을 위해 카테고리 조회
+        SecondaryCategory findSecondaryCategory = getSecondaryById(request.categoryId());
+
         Equipment saveEquipment = Equipment.builder()
                 .name(request.name())
                 .count(request.count())
@@ -43,12 +51,14 @@ public class EquipmentService {
         return equipmentRepository.save(saveEquipment);
     }
 
+
     /**
      * 기자재 삭제
      * @param id 기자재 id
      */
     @Transactional
     public void delete(Long id) {
+        Objects.requireNonNull(id, ID_VALUE_ERROR);
         equipmentRepository.deleteById(id);
     }
 
@@ -78,8 +88,9 @@ public class EquipmentService {
         return equipmentRepository.findByCategory(category, pageRequest);
     }
 
-    public Equipment findById(Long id) {
-        return equipmentRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+    public Equipment findById(Long id) throws RuntimeException {
+        return equipmentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(EQUIPMENT_FIND_ERROR));
     }
 
     /**
@@ -87,10 +98,8 @@ public class EquipmentService {
      * @param request EquipmentForm
      */
     @Transactional
-    public void updateEquipment(EquipmentForm request) {
-        SecondaryCategory secondaryCategory = secondaryCategoryRepository
-                .findById(request.getSecondaryCategory().getId())
-                .orElseThrow(IllegalArgumentException::new);
+    public void updateEquipment(EquipmentForm request) throws RuntimeException {
+        SecondaryCategory secondaryCategory = getSecondaryById(request.getSecondaryCategory().getId());
 
         Equipment equipment = equipmentRepository
                 .equipmentAndCategory(request.getEquipmentId());
@@ -113,7 +122,12 @@ public class EquipmentService {
         Objects.requireNonNull(primaryCategoryId);
         Objects.requireNonNull(secondaryCategoryId);
         List<Equipment> equipmentList = equipmentRepository.findByEquipmentAndPrimaryCategoryAndSecondaryCategory(primaryCategoryId, secondaryCategoryId);
-        if (equipmentList.isEmpty()) throw new NullPointerException("없습니다");
+        if (equipmentList.isEmpty()) throw new NullPointerException(EQUIPMENT_FIND_ERROR);
         return equipmentList;
+    }
+
+    private SecondaryCategory getSecondaryById(Long request) {
+        return secondaryCategoryRepository.findById(request)
+                .orElseThrow(() -> new EntityNotFoundException(CATEGORY_FIND_ERROR));
     }
 }
