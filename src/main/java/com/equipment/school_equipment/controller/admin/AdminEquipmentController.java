@@ -130,7 +130,7 @@ public class AdminEquipmentController {
                 .count(requestForm.getCount()).equimentContent(requestForm.getContent())
                 .categoryId(requestForm.getSecondaryCategory().getId())
                 .image(fileName).build();
-        equipmentService.save(requestCreate);
+        equipmentService.addEquipment(requestCreate);
         return "redirect:/admin/equipment";
     }
 

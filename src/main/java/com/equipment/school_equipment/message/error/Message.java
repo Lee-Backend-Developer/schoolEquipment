@@ -6,6 +6,7 @@ public interface Message {
 
     // Equipment
     String EQUIPMENT_FIND_ERROR = "기자재가 존재하지 않습니다.";
+    String EQUIPMENT_NAME_ERROR = "기자재 이름이 중복됩니다.";
 
     // Category
     String CATEGORY_FIND_ERROR = "카테고리가 존재하지 않습니다.";

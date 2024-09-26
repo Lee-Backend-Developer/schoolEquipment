@@ -3,13 +3,12 @@ package com.equipment.school_equipment.service;
 
 import com.equipment.school_equipment.domain.Equipment;
 import com.equipment.school_equipment.domain.SecondaryCategory;
-import com.equipment.school_equipment.message.error.Message;
 import com.equipment.school_equipment.repository.EquipmentRepository;
 import com.equipment.school_equipment.repository.SecondaryCategoryRepository;
 import com.equipment.school_equipment.request.admin.EquipmentForm;
-import com.equipment.school_equipment.request.equipment.EquipmentCount;
 import com.equipment.school_equipment.request.equipment.EquipmentCreate;
 import com.equipment.school_equipment.util.FileSaveUtil;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import static com.equipment.school_equipment.message.error.Message.*;
 
@@ -36,10 +34,15 @@ public class EquipmentService {
      * @return Equipment
      */
     @Transactional
-    public Equipment save(EquipmentCreate request) throws RuntimeException {
+    public Equipment addEquipment(EquipmentCreate request) throws RuntimeException {
 
         // 기자재 등록을 위해 카테고리 조회
         SecondaryCategory findSecondaryCategory = getSecondaryById(request.categoryId());
+
+        //기자재 이름이 겹칠 때
+        if (equipmentRepository.existsByName(request.name())) {
+            throw new EntityExistsException(EQUIPMENT_NAME_ERROR);
+        }
 
         Equipment saveEquipment = Equipment.builder()
                 .name(request.name())
