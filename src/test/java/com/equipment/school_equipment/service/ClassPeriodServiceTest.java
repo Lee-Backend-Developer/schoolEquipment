@@ -31,14 +31,11 @@ class ClassPeriodServiceTest {
      * 1. 수업 시간에 요일이 없을 경우 에러가 발생
      * 2. 수업 시간이 저장이 되어야함
      */
-    @DisplayName("요일저장 테스트 로직")
+    @DisplayName("요일저장이 되어야한다.")
     @Test
-    void save() throws Exception {
+    void save_throw() throws Exception {
         //given
-        ClassPeriod classPeriodMonday = ClassPeriod.builder()
-                .dayOfWeek(DayOfWeekEnum.monday)
-                .className("월요일에 관련된 수업")
-                .oneTime(true).build();
+        ClassPeriod classPeriodMonday = getMonday();
 
         given(classPeriodRepository.save(any(ClassPeriod.class)))
                 .willReturn(classPeriodMonday);
@@ -68,6 +65,7 @@ class ClassPeriodServiceTest {
 
     }
 
+
     /**
      * <수업 시간표 수정>
      * 1. DB에 조회했을 때 수업명이 없을 경우 예외처리가 되어야한다.
@@ -75,12 +73,9 @@ class ClassPeriodServiceTest {
      */
     @DisplayName("수업 시간표가 수정이 되어야한다.")
     @Test
-    void edit() throws Exception {
+    void edit_O() throws Exception {
         //given 준비 과정
-        ClassPeriod classPeriodMonday = ClassPeriod.builder() // 가짜객체 생성
-                .dayOfWeek(DayOfWeekEnum.monday)
-                .className("월요일에 관련된 수업")
-                .oneTime(true).build();
+        ClassPeriod classPeriodMonday = getMonday();
 
         given(classPeriodRepository.findByClassName("월요일에 관련된 수업")) // 저장소 조회시 가짜객체 리턴함
                 .willReturn(Optional.of(classPeriodMonday));
@@ -95,15 +90,32 @@ class ClassPeriodServiceTest {
 
         //then 검증
 
-        /* 1. 수업 이름이 존재하지 않을 경우 에러가 발생 */
+
+
+        /* 2. 수업명이 "화요일에 관련된 수업" 변경이*/
+        assertEquals(classPeriodTuesday.getClassName(), "화요일에 관련된 수업");
+    }
+
+    @DisplayName("")
+    @Test
+    void edit_throw() throws Exception {
+        //given 준비 과정
         ClassTimeUpdate classPeriodDto = ClassTimeUpdate.builder()
                 .updateClassname("변경 전 수업", "변경 후 수업")
                 .build();
+        //when 실행
+        /* 1. 수업 이름이 존재하지 않을 경우 에러가 발생 */
         assertThrows(RuntimeException.class, () -> {
             classPeriodService.updateClassTime(classPeriodDto);
         });
 
-        /* 2. 수업명이 "화요일에 관련된 수업" 변경이*/
-        assertEquals(classPeriodTuesday.getClassName(), "화요일에 관련된 수업");
+    }
+
+    private static ClassPeriod getMonday() {
+        ClassPeriod classPeriodMonday = ClassPeriod.builder()
+                .dayOfWeek(DayOfWeekEnum.monday)
+                .className("월요일에 관련된 수업")
+                .oneTime(true).build();
+        return classPeriodMonday;
     }
 }
